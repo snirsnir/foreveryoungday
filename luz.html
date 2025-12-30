@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לוחות זמנים - נשים מובילות מדע</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 250px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23f9d77e" fill-opacity="0.3" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,101.3C1248,85,1344,75,1392,69.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat top center;
+            background-size: cover;
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: #7B1E7A;
+            z-index: -2;
+            clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 20px;
+            background: white;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .logo-item {
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-item img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header {
+            text-align: center;
+            color: #7B1E7A;
+            margin-bottom: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+            color: #7B1E7A;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .group-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        select {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            min-width: 200px;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #7B1E7A;
+            box-shadow: 0 0 0 3px rgba(123, 30, 122, 0.1);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Heebo', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 30, 122, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(123, 30, 122, 0.4);
+        }
+        
+        .schedule-page {
+            background: white;
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto 30px auto;
+            padding: 20mm;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .schedule-page.active {
+            display: block;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #7B1E7A;
+            padding-bottom: 20px;
+        }
+
+        .page-header h2 {
+            font-size: 2rem;
+            color: #7B1E7A;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .page-header .group-name {
+            font-size: 1.5rem;
+            color: #7B1E7A;
+            font-weight: bold;
+        }
+        
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        
+        .schedule-table th {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .schedule-table th:first-child {
+            border-top-right-radius: 10px;
+        }
+        
+        .schedule-table th:last-child {
+            border-top-left-radius: 10px;
+        }
+        
+        .schedule-table td {
+            padding: 20px 15px;
+            text-align: center;
+            border: 2px solid #f0f0f0;
+            background: #fafafa;
+            font-weight: 500;
+            color: #333;
+            vertical-align: middle;
+        }
+        
+        .schedule-table tr:nth-child(even) td {
+            background: #f8f9ff;
+        }
+        
+        .schedule-table tr:hover td {
+            background: #e6ecff;
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+        
+        .time-slot {
+            font-weight: 700;
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A) !important;
+            color: white !important;
+            font-size: 18px;
+        }
+        
+        .activity {
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            body::before,
+            body::after {
+                display: none;
+            }
+
+            .container {
+                max-width: none;
+            }
+
+            .logos-container,
+            .header,
+            .controls {
+                display: none;
+            }
+            
+            .schedule-page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 15mm;
+                box-shadow: none;
+                border-radius: 0;
+                page-break-after: always;
+            }
+            
+            .schedule-page:last-child {
+                page-break-after: avoid;
+            }
+        }
+        
+        .print-all {
+            margin-right: 15px;
+        }
+        
+        @media screen {
+            .print-mode .schedule-page {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logos-container">
+            <div class="logo-item">
+                <img src="logot.png" alt="טכנולוג">
+            </div>
+            <div class="logo-item">
+                <img src="logoastra.png" alt="AstraZeneca">
+            </div>
+            <div class="logo-item">
+                <img src="logonashim.png" alt="נשים מובילות מדע">
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>📅 מערכת לוחות זמנים</h1>
+            <p>נשים מובילות מדע • Forever Young</p>
+        </div>
+        
+        <div class="controls">
+            <div class="group-selector">
+                <label for="groupSelect" style="font-weight: bold; color: #333;">בחר קבוצה:</label>
+                <select id="groupSelect">
+                    <option value="">-- בחר קבוצה --</option>
+                </select>
+                <button class="btn print-all" onclick="printAll()">🖨️ הדפס הכל</button>
+                <button class="btn" onclick="printCurrent()">🖨️ הדפס קבוצה נוכחית</button>
+            </div>
+        </div>
+        
+        <div id="schedules"></div>
+    </div>
+
+    <script>
+        const scheduleData = [
+            { group: "קבוצה לדוגמא", slot1: "פעילות 1 - מיקום 1", slot2: "פעילות 2 - מיקום 2", slot3: "פעילות 3 - מיקום 3" }
+        ];
+
+        function initializeApp() {
+            const select = document.getElementById('groupSelect');
+            const schedulesDiv = document.getElementById('schedules');
+            
+            // מילוי הרשימה הנפתחת
+            scheduleData.forEach((data, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = data.group;
+                select.appendChild(option);
+            });
+            
+            // יצירת כל הלוחות
+            scheduleData.forEach((data, index) => {
+                const schedulePage = createSchedulePage(data, index);
+                schedulesDiv.appendChild(schedulePage);
+            });
+            
+            // מאזין לשינוי בחירה
+            select.addEventListener('change', function() {
+                showSchedule(this.value);
+            });
+        }
+        
+        function createSchedulePage(data, index) {
+            const page = document.createElement('div');
+            page.className = 'schedule-page';
+            page.id = `schedule-${index}`;
+            
+            page.innerHTML = `
+                <div class="page-header">
+                    <h2>📚 לוח זמנים יומי</h2>
+                    <div class="group-name">${data.group}</div>
+                </div>
+                
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>שעות</th>
+                            <th>פעילויות</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="time-slot">10:00 - 11:30</td>
+                            <td class="activity">${data.slot1}</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">12:00 - 13:30</td>
+                            <td class="activity">${data.slot2}</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">14:00 - 15:30</td>
+                            <td class="activity">${data.slot3}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 40px; text-align: center; color: #666; font-size: 14px;">
+<p> לא מוצאים את המעבדה? חפשו את כפות הרגליים ברצפה, הן יעזרו לכם למצוא היעד 👣</p>
+                </div>
+            `;
+            
+            return page;
+        }
+        
+        function showSchedule(index) {
+            // הסתרת כל הלוחות
+            document.querySelectorAll('.schedule-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // הצגת הלוח הנבחר
+            if (index !== '') {
+                document.getElementById(`schedule-${index}`).classList.add('active');
+            }
+        }
+        
+        function printCurrent() {
+            const select = document.getElementById('groupSelect');
+            if (select.value === '') {
+                alert('אנא בחר קבוצה קודם');
+                return;
+            }
+            
+            const currentSchedule = document.getElementById(`schedule-${select.value}`);
+            if (currentSchedule) {
+                // הסתרת כל הלוחות
+                document.querySelectorAll('.schedule-page').forEach(page => {
+                    page.style.display = 'none';
+                });
+                
+                // הצגת הלוח הנוכחי בלבד
+                currentSchedule.style.display = 'block';
+                
+                window.print();
+                
+                // החזרת המצב הרגיל אחרי ההדפסה
+                setTimeout(() => {
+                    document.querySelectorAll('.schedule-page').forEach(page => {
+                        page.style.display = 'none';
+                    });
+                    currentSchedule.classList.add('active');
+                }, 500);
+            }
+        }
+        
+        function printAll() {
+            // הפיכת הגוף למצב הדפסה
+            document.body.classList.add('print-mode');
+            
+            // הצגת כל הלוחות
+            document.querySelectorAll('.schedule-page').forEach(page => {
+                page.style.display = 'block';
+            });
+            
+            window.print();
+            
+            // החזרת המצב הרגיל
+            setTimeout(() => {
+                document.body.classList.remove('print-mode');
+                document.querySelectorAll('.schedule-page').forEach(page => {
+                    page.style.display = 'none';
+                });
+                showSchedule(document.getElementById('groupSelect').value);
+            }, 500);
+        }
+        
+        // אתחול האפליקציה
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
+
+
