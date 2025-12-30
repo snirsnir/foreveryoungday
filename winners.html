@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לוח תוצאות - נשים מובילות מדע Forever Young</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #f5f0e8;
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background inspired by bg.png */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 15% 25%, rgba(249, 215, 126, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 85% 35%, rgba(123, 30, 122, 0.2) 0%, transparent 30%),
+                radial-gradient(circle at 50% 80%, rgba(249, 215, 126, 0.25) 0%, transparent 35%),
+                linear-gradient(180deg, #f5f0e8 0%, #fef9f0 50%, #f5f0e8 100%);
+            z-index: -2;
+        }
+
+        /* Dotted wave lines inspired by bg.png */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle, #f9d77e 1.5px, transparent 1.5px),
+                radial-gradient(circle, #7B1E7A 1px, transparent 1px);
+            background-size: 40px 40px, 60px 60px;
+            background-position: 0 0, 20px 20px;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Purple wave at bottom inspired by bg.png */
+        .purple-wave {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #7B1E7A 0%, #9B4D9A 100%);
+            clip-path: ellipse(120% 100% at 50% 100%);
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        /* Yellow decorative circles */
+        .decorative-circle {
+            position: fixed;
+            border: 3px dashed #f9d77e;
+            border-radius: 50%;
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .circle-1 {
+            width: 100px;
+            height: 100px;
+            top: 15%;
+            right: 10%;
+        }
+
+        .circle-2 {
+            width: 60px;
+            height: 60px;
+            top: 35%;
+            left: 15%;
+            border-color: #7B1E7A;
+        }
+
+        .circle-3 {
+            width: 80px;
+            height: 80px;
+            bottom: 25%;
+            right: 8%;
+        }
+
+        /* Logos container at the top */
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            height: 70px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.15));
+        }
+
+        .logo:hover {
+            transform: scale(1.08) rotate(1deg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #7B1E7A 0%, #B57FB4 50%, #f9d77e 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+            border-radius: 25px 25px 0 0;
+            box-shadow: 0 15px 40px rgba(123, 30, 122, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.08) 10px,
+                rgba(255,255,255,0.08) 20px
+            );
+            animation: shimmer 4s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-bar {
+            background: white;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #7B1E7A;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .leaderboard {
+            background: white;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #7B1E7A;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .team-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px 120px 120px;
+            gap: 15px;
+            padding: 20px 25px;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            animation: slideIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .team-row:hover {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            transform: translateX(-5px);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+        }
+
+        .team-row:nth-child(1) { animation-delay: 0.1s; }
+        .team-row:nth-child(2) { animation-delay: 0.2s; }
+        .team-row:nth-child(3) { animation-delay: 0.3s; }
+        .team-row:nth-child(4) { animation-delay: 0.4s; }
+        .team-row:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .rank {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 15px;
+            border-radius: 50%;
+            color: white;
+            position: relative;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rank.gold {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .rank.silver {
+            background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+            box-shadow: 0 6px 20px rgba(192, 192, 192, 0.4);
+        }
+
+        .rank.bronze {
+            background: linear-gradient(135deg, #cd7f32, #daa520);
+            box-shadow: 0 6px 20px rgba(205, 127, 50, 0.4);
+        }
+
+        .rank.regular {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            box-shadow: 0 4px 15px rgba(123, 30, 122, 0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .rank.gold::before {
+            content: '👑';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1.2rem;
+        }
+
+        .team-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .score-item {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .score-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .final-score {
+            background: linear-gradient(135deg, #28a745, #20c997) !important;
+            color: white !important;
+        }
+
+        .final-score .score-label {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        .judging-score {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24) !important;
+            color: white !important;
+        }
+
+        .judging-score .score-label {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        .lab-score {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A) !important;
+            color: white !important;
+        }
+
+        .lab-score .score-label {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .last-updated {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .refresh-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .refresh-dot {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        /* Small decorative stars */
+        .star-decoration {
+            position: fixed;
+            color: #f9d77e;
+            opacity: 0.6;
+            z-index: 1;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .star-1 { top: 12%; left: 20%; font-size: 20px; animation-delay: 0s; }
+        .star-2 { top: 28%; right: 25%; font-size: 16px; animation-delay: 1s; }
+        .star-3 { top: 45%; left: 12%; font-size: 18px; animation-delay: 2s; }
+        .star-4 { top: 60%; right: 18%; font-size: 14px; animation-delay: 1.5s; }
+
+        @media (max-width: 768px) {
+            .logos-container {
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .logo {
+                height: 50px;
+            }
+
+            .decorative-circle,
+            .star-decoration {
+                display: none;
+            }
+
+            .purple-wave {
+                height: 120px;
+            }
+
+            .container {
+                margin: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+                border-radius: 15px 15px 0 0;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .team-row {
+                grid-template-columns: 60px 1fr;
+                gap: 10px;
+                padding: 15px;
+            }
+            
+            .rank {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .score-item {
+                display: none;
+            }
+            
+            .team-row .final-score {
+                display: block !important;
+                grid-column: 2;
+                justify-self: end;
+                min-width: 80px;
+            }
+            
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                padding: 15px;
+            }
+        }
+
+        .trophy-animation {
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Purple wave background -->
+    <div class="purple-wave"></div>
+
+    <!-- Decorative circles -->
+    <div class="decorative-circle circle-1"></div>
+    <div class="decorative-circle circle-2"></div>
+    <div class="decorative-circle circle-3"></div>
+
+    <!-- Decorative stars -->
+    <div class="star-decoration star-1">✨</div>
+    <div class="star-decoration star-2">⭐</div>
+    <div class="star-decoration star-3">✨</div>
+    <div class="star-decoration star-4">⭐</div>
+
+    <!-- Logos -->
+    <div class="logos-container">
+        <img src="logot.png" alt="טכנולוג" class="logo">
+        <img src="logoastra.png" alt="AstraZeneca" class="logo">
+        <img src="logonashim.png" alt="נשים מובילות מדע" class="logo">
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">
+                <span class="trophy-animation">🏆</span>
+                לוח תוצאות
+                <span class="trophy-animation">🏆</span>
+            </h1>
+            <p class="subtitle">נשים מובילות מדע • Forever Young - תוצאות בזמן אמת</p>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number" id="totalTeams">-</div>
+                <div class="stat-label">קבוצות משתתפות</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="completedJudging">-</div>
+                <div class="stat-label">שופטו</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="avgScore">-</div>
+                <div class="stat-label">ממוצע ציון</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="topScore">-</div>
+                <div class="stat-label">ציון מוביל</div>
+            </div>
+        </div>
+
+        <div class="leaderboard">
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>טוען נתונים מהמערכת...</p>
+            </div>
+
+            <div id="leaderboardContent" style="display: none;">
+                <!-- Teams will be populated here -->
+            </div>
+
+            <div class="no-data" id="noData" style="display: none;">
+                <h3>🤔 אין נתונים זמינים</h3>
+                <p>נתונים יוצגו כאן ברגע שקבוצות יתחילו להשתתף במעבדות ובשיפוט</p>
+            </div>
+
+            <div class="last-updated">
+                <span class="refresh-indicator">
+                    <span class="refresh-dot"></span>
+                    עדכון אוטומטי
+                </span>
+                <span id="lastUpdate">טוען...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+        
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCe24QH6BXEWtF2zJWcP8WhV8qKj-3l-00",
+            authDomain: "gaash-2ea82.firebaseapp.com",
+            databaseURL: "https://gaash-2ea82-default-rtdb.firebaseio.com/",
+            projectId: "gaash-2ea82",
+            storageBucket: "gaash-2ea82.firebasestorage.app",
+            messagingSenderId: "1054252503536",
+            appId: "1:1054252503536:web:4b7c546bd737de696e4d35"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // DOM elements
+        const loading = document.getElementById('loading');
+        const leaderboardContent = document.getElementById('leaderboardContent');
+        const noData = document.getElementById('noData');
+        const lastUpdate = document.getElementById('lastUpdate');
+        const totalTeams = document.getElementById('totalTeams');
+        const completedJudging = document.getElementById('completedJudging');
+        const avgScore = document.getElementById('avgScore');
+        const topScore = document.getElementById('topScore');
+
+        let teamsData = [];
+
+        // Calculate average lab score for a team
+        function calculateLabScore(teamData) {
+            const workshops = Object.keys(teamData).filter(key => key !== 'finalGrade');
+            if (workshops.length === 0) return 0;
+
+            let totalScore = 0;
+            let workshopCount = 0;
+
+            workshops.forEach(workshop => {
+                const ratings = teamData[workshop]?.ratings;
+                if (ratings) {
+                    const ratingValues = Object.values(ratings).filter(val => typeof val === 'number');
+                    if (ratingValues.length > 0) {
+                        const avgRating = ratingValues.reduce((a, b) => a + b, 0) / ratingValues.length;
+                        totalScore += avgRating;
+                        workshopCount++;
+                    }
+                }
+            });
+
+            return workshopCount > 0 ? totalScore / workshopCount : 0;
+        }
+
+        // Get rank class for styling
+        function getRankClass(position) {
+            switch(position) {
+                case 1: return 'gold';
+                case 2: return 'silver';
+                case 3: return 'bronze';
+                default: return 'regular';
+            }
+        }
+
+        // Format score display
+        function formatScore(score) {
+            return score ? Math.round(score * 100) / 100 : '0.00';
+        }
+
+        // Render leaderboard
+        function renderLeaderboard(teams) {
+            if (teams.length === 0) {
+                loading.style.display = 'none';
+                noData.style.display = 'block';
+                leaderboardContent.style.display = 'none';
+                return;
+            }
+
+            // Sort teams by final score (descending)
+            teams.sort((a, b) => (b.finalScore || 0) - (a.finalScore || 0));
+
+            let html = '';
+            teams.forEach((team, index) => {
+                const position = index + 1;
+                const rankClass = getRankClass(position);
+                
+                html += `
+                    <div class="team-row" style="animation-delay: ${index * 0.1}s">
+                        <div class="rank ${rankClass}">${position}</div>
+                        <div class="team-name">${team.name}</div>
+                        <div class="score-item lab-score">
+                            <div class="score-value">${formatScore(team.labScore)}</div>
+                            <div class="score-label">מעבדות</div>
+                        </div>
+                        <div class="score-item judging-score">
+                            <div class="score-value">${formatScore(team.judgingScore)}</div>
+                            <div class="score-label">שיפוט</div>
+                        </div>
+                        <div class="score-item final-score">
+                            <div class="score-value">${formatScore(team.finalScore)}</div>
+                            <div class="score-label">ציון סופי</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            leaderboardContent.innerHTML = html;
+            loading.style.display = 'none';
+            leaderboardContent.style.display = 'block';
+            noData.style.display = 'none';
+
+            // Update statistics
+            updateStatistics(teams);
+        }
+
+        // Update statistics
+        function updateStatistics(teams) {
+            const total = teams.length;
+            const judged = teams.filter(team => team.finalScore > 0).length;
+            const scores = teams.map(team => team.finalScore || 0).filter(score => score > 0);
+            const average = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
+            const top = scores.length > 0 ? Math.max(...scores) : 0;
+
+            totalTeams.textContent = total;
+            completedJudging.textContent = judged;
+            avgScore.textContent = formatScore(average);
+            topScore.textContent = formatScore(top);
+        }
+
+        // Listen to Firebase data changes
+        function setupRealtimeListener() {
+            const groupsRef = ref(database, 'groupName');
+            
+            onValue(groupsRef, (snapshot) => {
+                teamsData = [];
+                
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    
+                    Object.keys(data).forEach(teamName => {
+                        const teamData = data[teamName];
+                        
+                        // Calculate lab score
+                        const labScore = calculateLabScore(teamData);
+                        
+                        // Get final grade data
+                        const finalGrade = teamData.finalGrade;
+                        const judgingScore = finalGrade?.calculations?.judgingScore || 0;
+                        const finalScore = finalGrade?.calculations?.finalScore || 0;
+                        
+                        teamsData.push({
+                            name: teamName,
+                            labScore: labScore,
+                            judgingScore: judgingScore,
+                            finalScore: finalScore,
+                            hasJudging: !!finalGrade
+                        });
+                    });
+                }
+                
+                // Render the leaderboard
+                renderLeaderboard(teamsData);
+                
+                // Update last updated time
+                lastUpdate.textContent = `עדכון אחרון: ${new Date().toLocaleTimeString('he-IL')}`;
+            }, (error) => {
+                console.error('Error listening to database:', error);
+                loading.style.display = 'none';
+                noData.style.display = 'block';
+                leaderboardContent.style.display = 'none';
+            });
+        }
+
+        // Initialize the leaderboard
+        setupRealtimeListener();
+
+        // Update the timestamp every minute
+        setInterval(() => {
+            lastUpdate.textContent = `עדכון אחרון: ${new Date().toLocaleTimeString('he-IL')}`;
+        }, 60000);
+    </script>
+</body>
+</html>

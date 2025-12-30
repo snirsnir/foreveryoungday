@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>נשים מובילות מדע - Forever Young</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap');
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #f5f0e8;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background inspired by bg.png */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 15% 25%, rgba(249, 215, 126, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 85% 35%, rgba(123, 30, 122, 0.2) 0%, transparent 30%),
+                radial-gradient(circle at 50% 80%, rgba(249, 215, 126, 0.25) 0%, transparent 35%),
+                linear-gradient(180deg, #f5f0e8 0%, #fef9f0 50%, #f5f0e8 100%);
+            z-index: -2;
+        }
+
+        /* Dotted wave lines inspired by bg.png */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle, #f9d77e 1.5px, transparent 1.5px),
+                radial-gradient(circle, #7B1E7A 1px, transparent 1px);
+            background-size: 40px 40px, 60px 60px;
+            background-position: 0 0, 20px 20px;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Purple wave at bottom inspired by bg.png */
+        .purple-wave {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #7B1E7A 0%, #9B4D9A 100%);
+            clip-path: ellipse(120% 100% at 50% 100%);
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        /* Yellow decorative circles */
+        .decorative-circle {
+            position: fixed;
+            border: 3px dashed #f9d77e;
+            border-radius: 50%;
+            opacity: 0.4;
+            z-index: 1;
+        }
+
+        .circle-1 {
+            width: 100px;
+            height: 100px;
+            top: 15%;
+            right: 10%;
+        }
+
+        .circle-2 {
+            width: 60px;
+            height: 60px;
+            top: 35%;
+            left: 15%;
+            border-color: #7B1E7A;
+        }
+
+        .circle-3 {
+            width: 80px;
+            height: 80px;
+            bottom: 25%;
+            right: 8%;
+        }
+
+        /* Small decorative stars */
+        .star-decoration {
+            position: fixed;
+            color: #f9d77e;
+            opacity: 0.6;
+            z-index: 1;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .star-1 { top: 12%; left: 20%; font-size: 20px; animation-delay: 0s; }
+        .star-2 { top: 28%; right: 25%; font-size: 16px; animation-delay: 1s; }
+        .star-3 { top: 45%; left: 12%; font-size: 18px; animation-delay: 2s; }
+        .star-4 { top: 60%; right: 18%; font-size: 14px; animation-delay: 1.5s; }
+
+        /* Logos container */
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            height: 70px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.15));
+        }
+
+        .logo:hover {
+            transform: scale(1.08) rotate(1deg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #7B1E7A 0%, #B57FB4 50%, #f9d77e 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(249, 215, 126, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 3em;
+            font-weight: 900;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            margin: 15px 0 0 0;
+            font-size: 1.3em;
+            font-weight: 600;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(123, 30, 122, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(123, 30, 122, 0.4);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .loading .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #7B1E7A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .projects-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .projects-table thead {
+            background: linear-gradient(135deg, #7B1E7A, #B57FB4);
+            color: white;
+        }
+
+        .projects-table th {
+            padding: 15px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .projects-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            text-align: right;
+        }
+
+        .projects-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .projects-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .project-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .project-date {
+            color: #666;
+        }
+
+        .project-size {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+        }
+
+        .btn-view:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(123, 30, 122, 0.5);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #f9d77e, #fce6a4);
+            color: #7B1E7A;
+            font-weight: 700;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(249, 215, 126, 0.5);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(253, 121, 168, 0.4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #7B1E7A, #B57FB4);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(123, 30, 122, 0.3);
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(123, 30, 122, 0.4);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .logos-container {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .logo {
+                height: 50px;
+            }
+
+            .decorative-circle,
+            .star-decoration {
+                display: none;
+            }
+
+            .purple-wave {
+                height: 120px;
+            }
+
+            .container {
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .projects-table {
+                font-size: 0.9em;
+            }
+
+            .projects-table th,
+            .projects-table td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Purple wave background -->
+    <div class="purple-wave"></div>
+
+    <!-- Decorative circles -->
+    <div class="decorative-circle circle-1"></div>
+    <div class="decorative-circle circle-2"></div>
+    <div class="decorative-circle circle-3"></div>
+
+    <!-- Decorative stars -->
+    <div class="star-decoration star-1">✨</div>
+    <div class="star-decoration star-2">⭐</div>
+    <div class="star-decoration star-3">✨</div>
+    <div class="star-decoration star-4">⭐</div>
+
+    <!-- Logos container -->
+    <div class="logos-container">
+        <img src="logot.png" alt="טכנולוג" class="logo">
+        <img src="logoastra.png" alt="AstraZeneca" class="logo">
+        <img src="logonashim.png" alt="נשים מובילות מדע" class="logo">
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>נשים מובילות מדע • Forever Young</h1>
+            <p>עבודות המשתתפות - פרויקטים מדעיים</p>
+        </div>
+
+        <div class="content">
+            <button class="refresh-btn" onclick="loadProjects()">🔄 רענן רשימה</button>
+            
+            <div class="stats hidden" id="statsSection">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalProjects">0</div>
+                    <div class="stat-label">פרויקטים</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalSize">0 MB</div>
+                    <div class="stat-label">נפח כולל</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="latestDate">-</div>
+                    <div class="stat-label">עדכון אחרון</div>
+                </div>
+            </div>
+
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <div>טוען עבודות התלמידים...</div>
+            </div>
+
+            <table class="projects-table hidden" id="projectsTable">
+                <thead>
+                    <tr>
+                        <th>שם הקבוצה</th>
+                        <th>תאריך העלאה</th>
+                        <th>גודל קובץ</th>
+                        <th>פעולות</th>
+                    </tr>
+                </thead>
+                <tbody id="projectsList">
+                </tbody>
+            </table>
+
+            <div class="empty-state hidden" id="emptyState">
+                <h3>📭 אין עבודות להצגה</h3>
+                <p>עדיין לא הועלו עבודות לתיקייה</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getStorage, ref, listAll, getDownloadURL, getMetadata, deleteObject } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-storage.js";
+        
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCe24QH6BXEWtF2zJWcP8WhV8qKj-3l-00",
+            authDomain: "gaash-2ea82.firebaseapp.com",
+            projectId: "gaash-2ea82",
+            storageBucket: "gaash-2ea82.firebasestorage.app",
+            messagingSenderId: "1054252503536",
+            appId: "1:1054252503536:web:4b7c546bd737de696e4d35"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+
+        // Global variables
+        let projects = [];
+
+        // Load projects from Firebase
+        async function loadProjects() {
+            try {
+                // Show loading
+                document.getElementById('loadingSection').classList.remove('hidden');
+                document.getElementById('projectsTable').classList.add('hidden');
+                document.getElementById('emptyState').classList.add('hidden');
+                document.getElementById('statsSection').classList.add('hidden');
+
+                // Clear existing projects
+                projects = [];
+                document.getElementById('projectsList').innerHTML = '';
+
+                // Get list of files
+                const listRef = ref(storage, 'foreveryoung/');
+                const result = await listAll(listRef);
+
+                if (result.items.length === 0) {
+                    // No projects found
+                    document.getElementById('loadingSection').classList.add('hidden');
+                    document.getElementById('emptyState').classList.remove('hidden');
+                    return;
+                }
+
+                // Process each file
+                for (const itemRef of result.items) {
+                    try {
+                        const metadata = await getMetadata(itemRef);
+                        const downloadURL = await getDownloadURL(itemRef);
+                        
+                        const projectData = {
+                            name: itemRef.name,
+                            displayName: itemRef.name.replace('.pdf', ''),
+                            size: metadata.size,
+                            created: new Date(metadata.timeCreated),
+                            downloadURL: downloadURL,
+                            ref: itemRef
+                        };
+
+                        projects.push(projectData);
+                    } catch (error) {
+                        console.error(`Error processing ${itemRef.name}:`, error);
+                    }
+                }
+
+                // Sort by creation date (newest first)
+                projects.sort((a, b) => b.created - a.created);
+
+                // Display projects
+                displayProjects();
+                updateStats();
+
+                // Hide loading, show table
+                document.getElementById('loadingSection').classList.add('hidden');
+                document.getElementById('projectsTable').classList.remove('hidden');
+                document.getElementById('statsSection').classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                document.getElementById('loadingSection').innerHTML = 
+                    '<div style="color: #e74c3c;">❌ שגיאה בטעינת העבודות</div>';
+            }
+        }
+
+        // Display projects in table
+        function displayProjects() {
+            const tbody = document.getElementById('projectsList');
+            tbody.innerHTML = '';
+
+            projects.forEach((project, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="project-name">${project.displayName}</td>
+                    <td class="project-date">${project.created.toLocaleDateString('he-IL')} ${project.created.toLocaleTimeString('he-IL', {hour: '2-digit', minute: '2-digit'})}</td>
+                    <td class="project-size">${formatFileSize(project.size)}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-view" onclick="viewPDF('${project.downloadURL}')">
+                                👁️ צפייה
+                            </button>
+                            <button class="btn btn-download" onclick="downloadPDF('${project.downloadURL}', '${project.name}')">
+                                📥 הורדה
+                            </button>
+                            <button class="btn btn-delete" onclick="deleteProject(${index})">
+                                🗑️ מחק
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalSize = projects.reduce((sum, project) => sum + project.size, 0);
+            const latestDate = projects.length > 0 ? projects[0].created : null;
+
+            document.getElementById('totalProjects').textContent = projects.length;
+            document.getElementById('totalSize').textContent = formatFileSize(totalSize);
+            document.getElementById('latestDate').textContent = latestDate ? 
+                latestDate.toLocaleDateString('he-IL') : '-';
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        // View PDF in new tab
+        function viewPDF(url) {
+            window.open(url, '_blank');
+        }
+
+        // Download PDF
+        function downloadPDF(url, fileName) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Delete project
+        async function deleteProject(index) {
+            const project = projects[index];
+            
+            if (!confirm(`האם אתה בטוח שברצונך למחוק את העבודה "${project.displayName}"?`)) {
+                return;
+            }
+
+            try {
+                await deleteObject(project.ref);
+                alert('העבודה נמחקה בהצלחה! 🗑️');
+                loadProjects(); // Reload the list
+            } catch (error) {
+                console.error('Error deleting project:', error);
+                alert('שגיאה במחיקת העבודה. נסה שוב.');
+            }
+        }
+
+        // Make functions global
+        window.loadProjects = loadProjects;
+        window.viewPDF = viewPDF;
+        window.downloadPDF = downloadPDF;
+        window.deleteProject = deleteProject;
+
+        // Load projects on page load
+        window.addEventListener('load', loadProjects);
+    </script>
+</body>
+</html>
