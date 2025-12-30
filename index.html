@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מרכז ניהול - נשים מובילות מדע Forever Young</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #f5f0e8;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background inspired by bg.png */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 15% 25%, rgba(249, 215, 126, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 85% 35%, rgba(123, 30, 122, 0.2) 0%, transparent 30%),
+                radial-gradient(circle at 50% 80%, rgba(249, 215, 126, 0.25) 0%, transparent 35%),
+                linear-gradient(180deg, #f5f0e8 0%, #fef9f0 50%, #f5f0e8 100%);
+            z-index: -2;
+        }
+
+        /* Dotted pattern */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle, #f9d77e 1.5px, transparent 1.5px),
+                radial-gradient(circle, #7B1E7A 1px, transparent 1px);
+            background-size: 40px 40px, 60px 60px;
+            background-position: 0 0, 20px 20px;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Purple wave at bottom */
+        .purple-wave {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #7B1E7A 0%, #9B4D9A 100%);
+            clip-path: ellipse(120% 100% at 50% 100%);
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        /* Decorative elements */
+        .decorative-circle {
+            position: fixed;
+            border: 3px dashed #f9d77e;
+            border-radius: 50%;
+            opacity: 0.4;
+            z-index: 1;
+        }
+
+        .circle-1 {
+            width: 100px;
+            height: 100px;
+            top: 15%;
+            right: 10%;
+        }
+
+        .circle-2 {
+            width: 60px;
+            height: 60px;
+            top: 35%;
+            left: 15%;
+            border-color: #7B1E7A;
+        }
+
+        .circle-3 {
+            width: 80px;
+            height: 80px;
+            bottom: 30%;
+            right: 8%;
+        }
+
+        .star-decoration {
+            position: fixed;
+            color: #f9d77e;
+            opacity: 0.6;
+            z-index: 1;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .star-1 { top: 12%; left: 20%; font-size: 20px; animation-delay: 0s; }
+        .star-2 { top: 28%; right: 25%; font-size: 16px; animation-delay: 1s; }
+        .star-3 { top: 45%; left: 12%; font-size: 18px; animation-delay: 2s; }
+        .star-4 { top: 60%; right: 18%; font-size: 14px; animation-delay: 1.5s; }
+
+        /* Logos container */
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            height: 80px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.15));
+        }
+
+        .logo:hover {
+            transform: scale(1.08) rotate(1deg);
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #7B1E7A 0%, #B57FB4 50%, #f9d77e 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(123, 30, 122, 0.3);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.08) 10px,
+                rgba(255,255,255,0.08) 20px
+            );
+            animation: shimmer 4s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        }
+
+        .header p {
+            font-size: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            opacity: 0.95;
+        }
+
+        /* Category sections */
+        .category-section {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .category-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .category-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #7B1E7A;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #f9d77e;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .category-title::before {
+            font-size: 2.5rem;
+        }
+
+        /* Cards grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* Card styles */
+        .feature-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(249,215,126,0.1));
+            border: 2px solid rgba(123, 30, 122, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(249, 215, 126, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(123, 30, 122, 0.6);
+            box-shadow: 0 12px 30px rgba(123, 30, 122, 0.25);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #7B1E7A;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .card-file {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .logos-container {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .logo {
+                height: 50px;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header p {
+                font-size: 1.2rem;
+            }
+
+            .category-title {
+                font-size: 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .decorative-circle,
+            .star-decoration {
+                display: none;
+            }
+
+            .purple-wave {
+                height: 120px;
+            }
+        }
+
+        /* Loading animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-section {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .category-section:nth-child(1) { animation-delay: 0.1s; }
+        .category-section:nth-child(2) { animation-delay: 0.2s; }
+        .category-section:nth-child(3) { animation-delay: 0.3s; }
+        .category-section:nth-child(4) { animation-delay: 0.4s; }
+        .category-section:nth-child(5) { animation-delay: 0.5s; }
+        .category-section:nth-child(6) { animation-delay: 0.6s; }
+        .category-section:nth-child(7) { animation-delay: 0.7s; }
+    </style>
+</head>
+<body>
+    <!-- Purple wave background -->
+    <div class="purple-wave"></div>
+
+    <!-- Decorative circles -->
+    <div class="decorative-circle circle-1"></div>
+    <div class="decorative-circle circle-2"></div>
+    <div class="decorative-circle circle-3"></div>
+
+    <!-- Decorative stars -->
+    <div class="star-decoration star-1">✨</div>
+    <div class="star-decoration star-2">⭐</div>
+    <div class="star-decoration star-3">✨</div>
+    <div class="star-decoration star-4">⭐</div>
+
+    <!-- Logos container -->
+    <div class="logos-container">
+        <img src="logot.png" alt="טכנולוג" class="logo">
+        <img src="logoastra.png" alt="AstraZeneca" class="logo">
+        <img src="logonashim.png" alt="נשים מובילות מדע" class="logo">
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎯 מרכז ניהול</h1>
+            <p>נשים מובילות מדע • Forever Young</p>
+        </div>
+
+        <!-- Marketing & Guides -->
+        <div class="category-section">
+            <h2 class="category-title">📚 מלווים ומידע</h2>
+            <div class="cards-grid">
+                <a href="ad.html" class="feature-card">
+                    <span class="card-icon">🎨</span>
+                    <div class="card-title">מלווה חלק שיווקי</div>
+                    <div class="card-description">מידע ותכנים שיווקיים לאירוע</div>
+                    <div class="card-file">ad.html</div>
+                </a>
+                <a href="book.html" class="feature-card">
+                    <span class="card-icon">📖</span>
+                    <div class="card-title">מלווה ספר פרויקט</div>
+                    <div class="card-description">הדרכה לכתיבת ספר הפרויקט</div>
+                    <div class="card-file">book.html</div>
+                </a>
+                <a href="breathGuard.html" class="feature-card">
+                    <span class="card-icon">🫁</span>
+                    <div class="card-title">דוגמא: BreathGuard</div>
+                    <div class="card-description">ספר פרויקט לדוגמא מוכן</div>
+                    <div class="card-file">breathGuard.html</div>
+                </a>
+                <a href="heartGuard.html" class="feature-card">
+                    <span class="card-icon">❤️</span>
+                    <div class="card-title">דוגמא: HeartGuard</div>
+                    <div class="card-description">ספר פרויקט לדוגמא מוכן</div>
+                    <div class="card-file">heartGuard.html</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Certificates & Cards -->
+        <div class="category-section">
+            <h2 class="category-title">🏆 תעודות וכרטיסים</h2>
+            <div class="cards-grid">
+                <a href="addKartis.html" class="feature-card">
+                    <span class="card-icon">🎫</span>
+                    <div class="card-title">מחולל כרטיסי שמיות</div>
+                    <div class="card-description">יצירת כרטיסים לתלמידים</div>
+                    <div class="card-file">addKartis.html</div>
+                </a>
+                <a href="addteuda.html" class="feature-card">
+                    <span class="card-icon">📜</span>
+                    <div class="card-title">מחולל תעודות</div>
+                    <div class="card-description">תעודות לתלמידים / מורים / זוכים</div>
+                    <div class="card-file">addteuda.html</div>
+                </a>
+                <a href="teuda.html" class="feature-card">
+                    <span class="card-icon">🎓</span>
+                    <div class="card-title">תעודות למשתתפים</div>
+                    <div class="card-description">הדפסת תעודות השתתפות לתלמידים</div>
+                    <div class="card-file">teuda.html</div>
+                </a>
+                <a href="teacher.html" class="feature-card">
+                    <span class="card-icon">👩‍🏫</span>
+                    <div class="card-title">תעודות למורים</div>
+                    <div class="card-description">תעודות השתתפות למורים</div>
+                    <div class="card-file">teacher.html</div>
+                </a>
+                <a href="winteuda.html" class="feature-card">
+                    <span class="card-icon">🥇</span>
+                    <div class="card-title">תעודות לזוכים</div>
+                    <div class="card-description">הדפסת תעודות זכייה</div>
+                    <div class="card-file">winteuda.html</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Attendance & Management -->
+        <div class="category-section">
+            <h2 class="category-title">✅ נוכחות וניהול</h2>
+            <div class="cards-grid">
+                <a href="admin.html" class="feature-card">
+                    <span class="card-icon">👨‍💼</span>
+                    <div class="card-title">מערכת ניהול</div>
+                    <div class="card-description">מערכת נוכחות - ממשק ניהול</div>
+                    <div class="card-file">admin.html</div>
+                </a>
+                <a href="control.html" class="feature-card">
+                    <span class="card-icon">✋</span>
+                    <div class="card-title">נוכחות למדריך</div>
+                    <div class="card-description">מערכת נוכחות למדריכים</div>
+                    <div class="card-file">control.html</div>
+                </a>
+                <a href="approvedTeams.html" class="feature-card">
+                    <span class="card-icon">✔️</span>
+                    <div class="card-title">אישורי השתתפות</div>
+                    <div class="card-description">אישורים לקבוצות (4 ימים לפני יום השיא)</div>
+                    <div class="card-file">approvedTeams.html</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Schedule & Organization -->
+        <div class="category-section">
+            <h2 class="category-title">📅 לוחות זמנים ושילוט</h2>
+            <div class="cards-grid">
+                <a href="luz.html" class="feature-card">
+                    <span class="card-icon">📋</span>
+                    <div class="card-title">לו"ז אישי</div>
+                    <div class="card-description">לוח זמנים אישי לכל קבוצה</div>
+                    <div class="card-file">luz.html</div>
+                </a>
+                <a href="luz4all.html" class="feature-card">
+                    <span class="card-icon">📊</span>
+                    <div class="card-title">לו"ז כללי</div>
+                    <div class="card-description">לוח זמנים כללי לכולם</div>
+                    <div class="card-file">luz4all.html</div>
+                </a>
+                <a href="ontable.html" class="feature-card">
+                    <span class="card-icon">🪧</span>
+                    <div class="card-title">שילוט קבוצות</div>
+                    <div class="card-description">שילוט למעבדות לקראת הצגה לשופטים</div>
+                    <div class="card-file">ontable.html</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Judging & Results -->
+        <div class="category-section">
+            <h2 class="category-title">⚖️ שיפוט ותוצאות</h2>
+            <div class="cards-grid">
+                <a href="ref.html" class="feature-card">
+                    <span class="card-icon">👨‍🔬</span>
+                    <div class="card-title">שיפוט למדריכים</div>
+                    <div class="card-description">מערכת שיפוט חכמה למדריכים</div>
+                    <div class="card-file">ref.html</div>
+                </a>
+                <a href="ref2.html" class="feature-card">
+                    <span class="card-icon">👨‍⚖️</span>
+                    <div class="card-title">שיפוט לשופטים</div>
+                    <div class="card-description">מערכת שיפוט חכמה לשופטים</div>
+                    <div class="card-file">ref2.html</div>
+                </a>
+                <a href="winners.html" class="feature-card">
+                    <span class="card-icon">🏅</span>
+                    <div class="card-title">מערכת הזוכים</div>
+                    <div class="card-description">חישוב והכרזה על הזוכים</div>
+                    <div class="card-file">winners.html</div>
+                </a>
+                <a href="viewBook.html" class="feature-card">
+                    <span class="card-icon">📤</span>
+                    <div class="card-title">שליחה להדפסה</div>
+                    <div class="card-description">מערכת שליחה לצורך הדפסה וכריכה של ספרי פרויקט</div>
+                    <div class="card-file">viewBook.html</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Displays & Screens -->
+        <div class="category-section">
+            <h2 class="category-title">📺 תצוגות ומסכים</h2>
+            <div class="cards-grid">
+                <a href="tv12.html" class="feature-card">
+                    <span class="card-icon">🟣</span>
+                    <div class="card-title">תצוגה מעבדות 1-2</div>
+                    <div class="card-description">עיצוב למסכים בקומה 1 מעל מעבדות 1 ו-2</div>
+                    <div class="card-file">tv12.html</div>
+                </a>
+                <a href="tv34.html" class="feature-card">
+                    <span class="card-icon">🟡</span>
+                    <div class="card-title">תצוגה מעבדות 3-4</div>
+                    <div class="card-description">עיצוב למסכים בקומה 1 מעל מעבדות 3 ו-4</div>
+                    <div class="card-file">tv34.html</div>
+                </a>
+                <a href="tv56.html" class="feature-card">
+                    <span class="card-icon">🎨</span>
+                    <div class="card-title">תצוגה מעבדות 5-6</div>
+                    <div class="card-description">עיצוב למסכים בקומה 1 מעל מעבדות 5 ו-6</div>
+                    <div class="card-file">tv56.html</div>
+                </a>
+                <a href="screen2.html" class="feature-card">
+                    <span class="card-icon">🎬</span>
+                    <div class="card-title">מסך מלבני</div>
+                    <div class="card-description">עיצוב למסך המלבני עם אנימציות</div>
+                    <div class="card-file">screen2.html</div>
+                </a>
+                <a href="screen.html" class="feature-card">
+                    <span class="card-icon">📍</span>
+                    <div class="card-title">מסך חיצוני</div>
+                    <div class="card-description">הקרנה על המסך החיצוני - איפה הקבוצות מתחילות</div>
+                    <div class="card-file">screen.html</div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Add entrance animations
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 50);
+            });
+        });
+
+        // Add click effect
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
