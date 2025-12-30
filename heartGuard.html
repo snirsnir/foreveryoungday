@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המצאפדיה - HeartGuard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .book-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .page {
+            padding: 40px;
+            min-height: 500px;
+            border-bottom: 3px solid #eee;
+            page-break-after: always;
+        }
+
+        .page:last-child {
+            border-bottom: none;
+        }
+
+        .cover-page {
+            background: linear-gradient(135deg, #7B1E7A 0%, #9B4D9A 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cover-page h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cover-page .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cover-page .info {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .chapter-title {
+            color: #7B1E7A;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #7B1E7A;
+            padding-bottom: 10px;
+        }
+
+        .content {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f9d77e, #fce6a4);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-right: 5px solid #7B1E7A;
+            font-weight: bold;
+        }
+
+        .parts-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .parts-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .parts-list li {
+            background: white;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border-right: 4px solid #7B1E7A;
+        }
+
+        .drawing-area {
+            background: #f8f9fa;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .simple-drawing {
+            width: 300px;
+            height: 200px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            font-size: 14px;
+            color: #666;
+            position: relative;
+        }
+
+        .heart-icon {
+            width: 60px;
+            height: 60px;
+            background: #e74c3c;
+            border-radius: 50%;
+            margin: 10px;
+            position: relative;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .sensor-icon {
+            width: 40px;
+            height: 40px;
+            background: #3498db;
+            border-radius: 5px;
+            margin: 5px;
+            position: relative;
+        }
+
+        .alert-icon {
+            width: 30px;
+            height: 30px;
+            background: #f39c12;
+            border-radius: 50%;
+            margin: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .future-box {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+            font-family: 'Heebo', sans-serif;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(123, 30, 122, 0.4);
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media print {
+            .navigation { display: none; }
+            .page { page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="book-container">
+        <!-- דף שער -->
+        <div class="page cover-page" id="page0">
+            <h1>המצאפדיה</h1>
+            <div class="subtitle">המדריך הסודי של כל ממציאה צעירה</div>
+            <div class="info">
+                <h2>HeartGuard - שומר הלב</h2>
+                <p><strong>שמות הממציאות:</strong> נועה כהן, תמר לוי, מיכל אברהם</p>
+                <p><strong>תאריך ההמצאה:</strong> 05.03.2026</p>
+                <p><strong>צמיד חכם למעקב אחר בריאות הלב בזמן אמת</strong></p>
+                <p>נשים מובילות מדע • Forever Young</p>
+            </div>
+        </div>
+
+        <!-- פרק 1 -->
+        <div class="page" id="page1">
+            <h2 class="chapter-title">פרק 1: מה ההמצאה שלנו?</h2>
+
+            <div class="highlight-box">
+                HeartGuard - צמיד חכם שעוקב אחרי הלב שלך 24/7 ומזהה בעיות לפני שהן הופכות למסוכנות!
+            </div>
+
+            <div class="content">
+                <h3>מה היא עושה?</h3>
+                <p>הצמיד שלנו הופך כל אחד למעבדה רפואית מהלכת! הוא מודד את הדופק, לחץ הדם, רמת החמצן בדם ודפוסי הנשימה. כשהוא מזהה משהו חריג - הוא מתריע מיד!</p>
+
+                <h3>איך זה עוזר לאנשים?</h3>
+                <p>במקום לגלות בעיה רק אחרי שכבר קרה משהו רע, HeartGuard מזהיר מראש. זה אומר:</p>
+                <ul>
+                    <li>זיהוי מוקדם של הפרעות קצב לב</li>
+                    <li>אזהרה על לחץ דם גבוה או נמוך מדי</li>
+                    <li>התראה אוטומטית למשפחה ולרופא במצב חירום</li>
+                    <li>הצלת חיים לפני שמאוחר מדי</li>
+                </ul>
+
+                <p><strong>בקיצור:</strong> זה כמו שיש לך רופא אישי שנמצא איתך כל הזמן ושומר עליך!</p>
+            </div>
+            <div class="page-number">עמוד 1</div>
+        </div>
+
+        <!-- פרק 2 -->
+        <div class="page" id="page2">
+            <h2 class="chapter-title">פרק 2: ממה ההמצאה בנויה?</h2>
+
+            <div class="parts-list">
+                <h3>החלקים העיקריים:</h3>
+                <ul>
+                    <li><strong>חיישן דופק אופטי:</strong> מודד את קצב הלב באמצעות אור</li>
+                    <li><strong>חיישן לחץ דם:</strong> מודד לחץ דם ללא צורך בלחיצה</li>
+                    <li><strong>חיישן חמצן:</strong> בודק רמת חמצן בדם (SpO2)</li>
+                    <li><strong>מעבד חכם:</strong> מנתח את כל הנתונים בזמן אמת</li>
+                    <li><strong>רשת תקשורת:</strong> מתחברת לאפליקציה בסמארטפון</li>
+                    <li><strong>סוללה נטענת:</strong> מחזיקה שבוע שלם!</li>
+                </ul>
+            </div>
+
+            <div class="content">
+                <h3>החומרים שנבחרו:</h3>
+                <p><strong>סיליקון רפואי:</strong> נעים למגע ובטוח לעור</p>
+                <p><strong>זכוכית ספיר:</strong> עבור המסך - עמידה לשריטות</p>
+                <p><strong>נירוסטה רפואית:</strong> לחיישנים המגעים עם העור</p>
+                <p><strong>לד ירוק מיוחד:</strong> למדידת דופק ללא קרינה מזיקה</p>
+
+                <h3>הרכיב הסודי שלנו:</h3>
+                <div class="highlight-box">
+                    אלגוריתם AI שלומד את הדפוסים האישיים של הלב שלך! אחרי שבוע הוא יודע מה "נורמלי" בשבילך ויכול לזהות סטיות מינוריות.
+                </div>
+            </div>
+            <div class="page-number">עמוד 2</div>
+        </div>
+
+        <!-- פרק 3 -->
+        <div class="page" id="page3">
+            <h2 class="chapter-title">פרק 3: איך הגענו לרעיון?</h2>
+
+            <div class="content">
+                <h3>הסיפור שהתחיל הכל:</h3>
+                <p>זה התחיל כשסבתא של תמר אושפזה בבית החולים. הרופאים אמרו שאם היו מגלים את הבעיה קודם, אפשר היה למנוע את זה.</p>
+
+                <p>אמא של תמר אמרה: "למה אין משהו שיודע להזהיר אותנו לפני שזה קורה?"</p>
+
+                <div class="highlight-box">
+                    ואז תמר חשבה: "רגע, אבל יש שעונים חכמים שמודדים צעדים... למה לא את הלב?"
+                </div>
+
+                <h3>איך המשכנו לחקור:</h3>
+                <p>חזרנו הביתה וחקרנו באינטרנט. גילינו שמכשירי מעקב קיימים מודדים דופק, אבל לא מספיק טוב כדי לזהות בעיות אמיתיות.</p>
+
+                <p>נועה שאלה את אמא שלה שעובדת כאחות, והיא אמרה שזה באמת בעיה. "אנשים מגיעים מאוחר מדי לבית החולים", היא הסבירה.</p>
+
+                <p>מיכל הוסיפה רעיון: "אם יש אפליקציות שעוקבות אחרי הכל, למה לא אחרי הלב?"</p>
+
+                <div class="highlight-box">
+                    ואז הגיע הרגע הקסום: "בואו ניצור צמיד שהוא בעצם רופא קטן ביד!"
+                </div>
+            </div>
+            <div class="page-number">עמוד 3</div>
+        </div>
+
+        <!-- פרק 4 -->
+        <div class="page" id="page4">
+            <h2 class="chapter-title">פרק 4: איך זה נראה?</h2>
+
+            <div class="drawing-area">
+                <h3>הצמיד החכם HeartGuard:</h3>
+                <div class="simple-drawing">
+                    <div style="display: flex; align-items: center; justify-content: space-around; width: 100%;">
+                        <!-- לב -->
+                        <div>
+                            <div class="heart-icon" style="position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px;">❤️</div>
+                            </div>
+                            <p style="margin: 5px 0; font-size: 12px;">ניטור לב</p>
+                        </div>
+
+                        <!-- חיישן -->
+                        <div style="text-align: center;">
+                            <div class="sensor-icon" style="display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">AI</div>
+                            <p style="margin: 5px 0; font-size: 12px;">מעבד חכם</p>
+                        </div>
+
+                        <!-- התראה -->
+                        <div>
+                            <div class="alert-icon" style="position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px;">⚠️</div>
+                            </div>
+                            <p style="margin: 5px 0; font-size: 12px;">התראה</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 15px; color: #666;">ציור מס' 1: HeartGuard עוקב, מנתח ומתריע</p>
+            </div>
+
+            <div class="content">
+                <h3>איך זה עובד בפועל:</h3>
+                <p><strong>שלב 1:</strong> החיישנים בודקים את הלב כל 10 שניות</p>
+                <p><strong>שלב 2:</strong> המעבד משווה את הנתונים לדפוסים תקינים</p>
+                <p><strong>שלב 3:</strong> אם יש סטייה - האפליקציה מתריעה</p>
+                <p><strong>שלב 4:</strong> במקרה חריג - שליחת הודעה לרופא ומשפחה</p>
+
+                <div class="highlight-box">
+                    דוגמא: אם הדופק קופץ פתאום ל-150 בזמן מנוחה, הצמיד ישלח התראה ויציע להתקשר למד"א
+                </div>
+            </div>
+            <div class="page-number">עמוד 4</div>
+        </div>
+
+        <!-- פרק 5 -->
+        <div class="page" id="page5">
+            <h2 class="chapter-title">פרק 5: מה מיוחד בהמצאה שלנו?</h2>
+
+            <div class="content">
+                <h3>מה שונה בזה מכל דבר אחר?</h3>
+
+                <div class="highlight-box">
+                    שעונים חכמים = מדידה בסיסית של דופק<br>
+                    HeartGuard = מעבדה רפואית שמזהה בעיות אמיתיות!
+                </div>
+
+                <h3>השוואה למה שקיים היום:</h3>
+                <p><strong>שעונים חכמים רגילים:</strong> מודדים דופק ספורטיבית, לא מספיק מדויק לזיהוי בעיות רפואיות.</p>
+
+                <p><strong>מכשירים רפואיים קיימים:</strong> מדויקים אבל גדולים, יקרים ולא נוחים לשימוש יומיומי.</p>
+
+                <p><strong>HeartGuard שלנו:</strong> משלב דיוק רפואי עם נוחות של צמיד יומיומי - הטוב משני העולמות!</p>
+
+                <h3>הדבר הכי מיוחד:</h3>
+                <div class="highlight-box">
+                    המערכת שלנו לומדת אותך! כל אדם שונה - מה שנורמלי לאחד לא בהכרח נורמלי לאחר. HeartGuard לומד מה נורמלי בשבילך!
+                </div>
+
+                <h3>למה זה מהפכני?</h3>
+                <ul>
+                    <li>זה הצמיד הראשון שמשלב 4 מדידות חיוניות במכשיר אחד</li>
+                    <li>הוא יכול להציל חיים על ידי זיהוי מוקדם</li>
+                    <li>הוא נוח לשימוש יומיומי - לא צריך לזכור למדוד</li>
+                    <li>הוא מחובר לרופא שלך - תיעוד רפואי אוטומטי</li>
+                </ul>
+            </div>
+            <div class="page-number">עמוד 5</div>
+        </div>
+
+        <!-- פרק 6 -->
+        <div class="page" id="page6">
+            <h2 class="chapter-title">פרק 6: מחשבות לעתיד</h2>
+
+            <div class="future-box">
+                <h3>החלומות שלנו - מה נוסיף אם הייתה לנו שנה נוספת ותקציב ענק:</h3>
+            </div>
+
+            <div class="content">
+                <h3>שדרוגים טכניים:</h3>
+                <ul>
+                    <li><strong>אק"ג מלא:</strong> מדידת חשמל הלב כמו בבית חולים</li>
+                    <li><strong>זיהוי סוכרת:</strong> מדידת רמת הסוכר בדם ללא דקירה</li>
+                    <li><strong>ניטור שינה מתקדם:</strong> זיהוי הפרעות נשימה בשינה</li>
+                    <li><strong>חיזוי התקפי לב:</strong> זיהוי סימנים 24 שעות מראש!</li>
+                </ul>
+
+                <h3>רשת של מכשירים חכמים:</h3>
+                <p>במקום צמיד בודד, מערכת בריאות ביתית שלמה! הצמיד יתקשר עם משקל חכם, מד לחץ דם ביתי ואפילו עם מקרר שיציע מזון בריא.</p>
+
+                <h3>אינטליגנציה מלאכותית מתקדמת:</h3>
+                <div class="highlight-box">
+                    מערכת שתוכל לחזות בעיות לפני שהן קורות! היא תדע שאם את לחוצה היום והלחץ שלך עולה - כדאי לקחת הפסקה.
+                </div>
+
+                <h3>הרחבה לעולם:</h3>
+                <p>אנחנו חולמות לראות את HeartGuard בכל בית! בישראל, בארה"ב, בהודו - בכל מקום שאנשים רוצים לשמור על הבריאות שלהם.</p>
+
+                <h3>המטרה הגדולה:</h3>
+                <div class="future-box">
+                    עולם שבו פחות אנשים נפטרים ממחלות לב! מקום שבו כולם יכולים לדעת מה קורה עם הגוף שלהם ולטפל בזמן. 💜❤️
+                </div>
+            </div>
+            <div class="page-number">עמוד 6</div>
+        </div>
+
+        <!-- עמוד אחרון -->
+        <div class="page" style="background: linear-gradient(135deg, #7B1E7A 0%, #9B4D9A 100%); color: white; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+            <h2 style="font-size: 2.5em; margin-bottom: 30px;">🎉 סיימנו! 🎉</h2>
+            <p style="font-size: 1.3em; margin-bottom: 20px;">זה הספר הראשון שלנו כממציאות!</p>
+            <p style="font-size: 1.1em; opacity: 0.9;">HeartGuard - לא רק צמיד, אלא שומר חיים אמיתי</p>
+            <div style="margin-top: 40px; font-size: 0.9em; opacity: 0.8;">
+                <p>נוצר במסגרת נשים מובילות מדע • Forever Young</p>
+                <p>בזכות הרבה דמיון, קצת מדע, והרבה תקווה לעולם בריא יותר</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="btn" onclick="window.print()">🖨️ הדפס דוגמא</button>
+        <button class="btn" onclick="alert('זוהי דוגמא מושלמת להראות לתלמידות!')">💡 טיפ למנחה</button>
+    </div>
+
+    <script>
+        // הוספת מספור עמודים אוטומטי
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('דוגמא לספר פרויקט מוכנה לשימוש - נשים מובילות מדע!');
+        });
+    </script>
+</body>
+</html>
