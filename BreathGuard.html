@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המצאפדיה - BreathGuard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4A90E2 0%, #50C9E8 50%, #7FDBFF 100%);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .book-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .page {
+            padding: 40px;
+            min-height: 500px;
+            border-bottom: 3px solid #eee;
+            page-break-after: always;
+        }
+
+        .page:last-child {
+            border-bottom: none;
+        }
+
+        .cover-page {
+            background: linear-gradient(135deg, #4A90E2 0%, #50C9E8 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .cover-page::before {
+            content: "🫁";
+            font-size: 8em;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            opacity: 0.3;
+        }
+
+        .cover-page h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+        }
+
+        .cover-page .subtitle {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .cover-page .info {
+            background: rgba(255,255,255,0.15);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .chapter-title {
+            color: #4A90E2;
+            font-size: 2.3em;
+            margin-bottom: 25px;
+            border-bottom: 4px solid #50C9E8;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .content {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-right: 6px solid #4A90E2;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .highlight-box::before {
+            content: "💡";
+            font-size: 2em;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        .highlight-box-content {
+            margin-right: 50px;
+        }
+
+        .parts-list {
+            background: #F0F8FF;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 3px solid #50C9E8;
+        }
+
+        .parts-list h3 {
+            color: #4A90E2;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .parts-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .parts-list li {
+            background: white;
+            margin: 12px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 5px solid #7FDBFF;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .parts-list li::before {
+            content: "🔬";
+            font-size: 1.2em;
+        }
+
+        .drawing-area {
+            background: #F0FFFF;
+            border: 3px dashed #50C9E8;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin: 25px 0;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .device-illustration {
+            width: 350px;
+            height: 200px;
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 20px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .device-body {
+            width: 120px;
+            height: 80px;
+            background: #4A90E2;
+            border-radius: 15px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .sensor {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            position: absolute;
+            background: #50C9E8;
+        }
+
+        .sensor.top { top: -10px; left: 50%; transform: translateX(-50%); }
+        .sensor.left { left: -10px; top: 50%; transform: translateY(-50%); }
+        .sensor.right { right: -10px; top: 50%; transform: translateY(-50%); }
+
+        .breathing-indicator {
+            width: 60px;
+            height: 60px;
+            background: #7FDBFF;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+        }
+
+        .patient-scene {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .patient {
+            width: 80px;
+            height: 80px;
+            background: #FFE4E1;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .patient::before {
+            content: "🤒";
+            font-size: 2.5em;
+        }
+
+        .future-box {
+            background: linear-gradient(135deg, #50C9E8, #4A90E2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .story-box {
+            background: linear-gradient(135deg, #98FB98, #90EE90);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-right: 6px solid #228B22;
+            position: relative;
+        }
+
+        .story-box::before {
+            content: "📖";
+            font-size: 2em;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        .story-content {
+            margin-right: 50px;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4A90E2, #50C9E8);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #4A90E2;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        .emoji-title::before {
+            margin-left: 10px;
+        }
+
+        @media print {
+            .navigation { display: none; }
+            .page { page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="book-container">
+        <!-- דף שער -->
+        <div class="page cover-page" id="page0">
+            <h1>המצאפדיה</h1>
+            <div class="subtitle">"ספר הפרויקט של BreathGuard"</div>
+            <div class="info">
+                <h2>🫁 BreathGuard 💨</h2>
+                <h3>מכשיר חכם שעוזר לאנשים עם בעיות נשימה</h3>
+                <p><strong>שמות הממציאות:</strong> שם הקבוצה</p>
+                <p><strong>תאריך ההמצאה:</strong> 14.05.2025</p>
+                <p><strong>פתרון רפואי חכם למחלות ריאות</strong></p>
+                <p>נשים מובילות מדע - Forever Young</p>
+            </div>
+        </div>
+
+        <!-- פרק 1 -->
+        <div class="page" id="page1">
+            <h2 class="chapter-title emoji-title">🫁 פרק 1: מה ההמצאה שלנו?</h2>
+
+            <div class="highlight-box">
+                <div class="highlight-box-content">
+                    BreathGuard - מכשיר חכם ונייד שעוזר לאנשים עם אסטמה, COPD ובעיות נשימה אחרות לנשום טוב יותר ולמנוע התקפים!
+                </div>
+            </div>
+
+            <div class="content">
+                <h3>🎯 מה היא עושה?</h3>
+                <p>המכשיר שלנו הוא כמו שומר אישי לריאות! הוא עוקב אחרי איכות הנשימה שלך, מודד את רמת החמצן בדם, מזהה מתי יש בעיה, ומזהיר אותך לפני שמתחילה התקפה. בנוסף, הוא מספק נביליזר (מכשיר אינהלציה) אוטומטי שמשחרר תרופה ברגע הנכון!</p>
+
+                <h3>🏥 איך זה עוזר לחולים?</h3>
+                <p>במקום שאדם עם אסטמה יהיה תלוי במשאף ויצטרך לזכור להשתמש בו, המכשיר עושה הכל בשבילו! זה אומר:</p>
+                <ul>
+                    <li><strong>מניעת התקפים:</strong> המכשיר מזהה סימנים מוקדמים ומזהיר</li>
+                    <li><strong>טיפול אוטומטי:</strong> משחרר תרופה לפי הצורך</li>
+                    <li><strong>מעקב רפואי:</strong> שולח דיווחים לרופא המטפל</li>
+                    <li><strong>איכות חיים טובה יותר:</strong> פחות חרדות ויותר ביטחון!</li>
+                </ul>
+
+                <p><strong>בקיצור:</strong> זה כמו שיש לכל מטופל צוות רפואי אישי שדואג לו 24/7!</p>
+
+                <div class="story-box">
+                    <div class="story-content">
+                        <strong>סיפור אמיתי:</strong> סבתא של אחת מחברות הקבוצה סובלת מ-COPD ועברה אשפוז חירום כי לא הרגישה שהנשימה שלה מתדרדרת. היא אמרה: "הייתי מוכנה לעשות הכל בשביל התראה מוקדמת!"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- פרק 2 -->
+        <div class="page" id="page2">
+            <h2 class="chapter-title emoji-title">🔬 פרק 2: ממה ההמצאה בנויה?</h2>
+
+            <div class="parts-list">
+                <h3>החלקים העיקריים:</h3>
+                <ul>
+                    <li><strong>חיישן SpO2:</strong> מודד רמת חמצן בדם בזמן אמת</li>
+                    <li><strong>חיישן נשימה:</strong> עוקב אחרי קצב ועומק הנשימות</li>
+                    <li><strong>מיקרופון רפואי:</strong> מזהה צפצופים ורעשים חריגים בריאות</li>
+                    <li><strong>נביליזר חכם:</strong> מכשיר מיניאטורי שמשחרר תרופה</li>
+                    <li><strong>מעבד AI מתקדם:</strong> מנתח את הנתונים ומזהה דפוסים</li>
+                    <li><strong>סוללה ארוכת טווח:</strong> עמידות של 72 שעות רצופות</li>
+                    <li><strong>צג מגע צבעוני:</strong> מציג את המידע בצורה ברורה וקלה</li>
+                </ul>
+            </div>
+
+            <div class="content">
+                <h3>🏗️ החומרים הנבחרים:</h3>
+                <p><strong>פלסטיק רפואי היפואלרגני:</strong> בטוח למגע עם העור</p>
+                <p><strong>רכיבים אלקטרוניים רפואיים:</strong> בתקן אישור FDA</p>
+                <p><strong>סיליקון רך:</strong> למסכה נוחה שלא לוחצת</p>
+                <p><strong>זכוכית מחוסמת:</strong> לתא התרופות</p>
+
+                <h3>🤫 הרכיב הסודי שלנו:</h3>
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        <strong>אלגוריתם חיזוי התקפים!</strong><br>
+                        המכשיר לומד את דפוסי הנשימה שלך ויכול לחזות התקפת אסטמה עד 15 דקות מראש! הוא מזהה שינויים קטנים שאדם לא מרגיש ומזהיר לפני שזה מחמיר.
+                    </div>
+                </div>
+
+                <h3>💊 סוגי טיפולים:</h3>
+                <p>המכשיר תומך בכל סוגי תרופות האינהלציה - ונטולין, סימביקורט, ספירי בה ועוד!</p>
+            </div>
+        </div>
+
+        <!-- פרק 3 -->
+        <div class="page" id="page3">
+            <h2 class="chapter-title emoji-title">💭 פרק 3: איך הגענו לרעיון?</h2>
+
+            <div class="content">
+                <h3>📅 הסיפור שהתחיל הכל:</h3>
+                <p>זה קרה בטיול בית ספר להר מירון. אחת החברות שלנו עם אסטמה פתאום התחילה להתקשות בנשימה ולא הבינה שזה מגיע - היא חשבה שזה רק מאמץ מהטיפוס.</p>
+
+                <div class="story-box">
+                    <div class="story-content">
+                        <strong>הרגע הקסום:</strong><br>
+                        המדריכה צעקה: "איפה המשאף שלך?!" והיא ענתה: "שכחתי אותו בתיק בבסיס ההר..."<br>
+                        ואז אחת מאיתנו אמרה: "איזה חבל שאין מכשיר שמזהיר לפני..."<br>
+                        וחברה אחרת הוסיפה: "רגע, למה שלא יהיה?!"
+                    </div>
+                </div>
+
+                <h3>🔍 איך המשכנו לחקור:</h3>
+                <p>חזרנו הביתה וחקרנו כמה אנשים סובלים מבעיות נשימה. התוצאות היו מפתיעות! מיליוני אנשים בעולם סובלים מאסטמה ו-COPD, ורבים מהם מגיעים לבית חולים כי לא הבינו שהמצב שלהם מחמיר.</p>
+
+                <p>דיברנו עם אחות ריאות בבית חולים והיא אמרה: "רוב האשפוזים שלנו היו ניתנים למניעה אם היה מעקב טוב יותר!"</p>
+
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        אז גילינו שיש שעונים חכמים שעוקבים אחרי דופק, אז למה לא מכשיר שעוקב אחרי נשימה?
+                    </div>
+                </div>
+
+                <h3>🚀 הרגע של ההחלטה:</h3>
+                <p>אחת מאיתנו אמרה: "זה יכול להציל חיים!" ואחרת הוסיפה: "וגם לתת ביטחון לכל מי שסובל מבעיות נשימה!"</p>
+
+                <p><strong>ככה נולד BreathGuard - מתוך רצון אמיתי לעזור לחולים ולהציל חיים.</strong></p>
+            </div>
+        </div>
+
+        <!-- פרק 4 -->
+        <div class="page" id="page4">
+            <h2 class="chapter-title emoji-title">🎨 פרק 4: איך זה נראה?</h2>
+
+            <div class="drawing-area">
+                <h3>המכשיר BreathGuard בפעולה:</h3>
+                <div class="device-illustration">
+                    <div class="device-body">
+                        🫁
+                        <div class="sensor top"></div>
+                        <div class="sensor left"></div>
+                        <div class="sensor right"></div>
+                        <div class="breathing-indicator">💨</div>
+                    </div>
+                </div>
+                <div class="patient-scene">
+                    <div style="text-align: center;">
+                        <div class="patient"></div>
+                        <p style="margin: 5px 0; font-size: 14px;">מטופל עם קושי נשימה</p>
+                    </div>
+                    <div style="font-size: 2em;">➡️</div>
+                    <div style="text-align: center;">
+                        <div style="width: 40px; height: 40px; background: #4CAF50; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">✅</div>
+                        <p style="margin: 5px 0; font-size: 14px;">נשימה תקינה!</p>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; color: #4A90E2; font-weight: bold;">ציור מס' 1: המכשיר מזהה בעיה ומספק טיפול מיידי</p>
+            </div>
+
+            <div class="content">
+                <h3>🔄 איך זה עובד בפועל:</h3>
+                <p><strong>שלב 1:</strong> החיישנים עוקבים אחרי הנשימה ורמת החמצן כל הזמן</p>
+                <p><strong>שלב 2:</strong> האלגוריתם מנתח את הנתונים ומחפש סימנים מוקדמים</p>
+                <p><strong>שלב 3:</strong> כשמתגלה שינוי - המכשיר מזהיר במגע רטט וצליל</p>
+                <p><strong>שלב 4:</strong> הנביליזר משחרר תרופה אוטומטית אם צריך</p>
+                <p><strong>שלב 5:</strong> המכשיר שולח עדכון לאפליקציה ולרופא המטפל</p>
+
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        <strong>זמן תגובה:</strong> 15 דקות התראה מוקדמת לפני התקף!<br>
+                        <strong>דיוק:</strong> 95% זיהוי נכון של התקפים מתקרבים
+                    </div>
+                </div>
+
+                <h3>📱 אפליקציה נלווית:</h3>
+                <p>יש אפליקציה במובייל שמציגה גרפים, שולחת תזכורות לתרופות, ומאפשרת לשתף מידע עם הרופא המטפל.</p>
+            </div>
+
+        </div>
+
+        <!-- פרק 5 -->
+        <div class="page" id="page5">
+            <h2 class="chapter-title emoji-title">⭐ פרק 5: מה מיוחד בהמצאה שלנו?</h2>
+
+            <div class="content">
+                <h3>🆚 מה שונה בזה מכל דבר אחר?</h3>
+
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        <strong>משאפים רגילים</strong> = המטופל צריך לזכור ולהשתמש<br>
+                        <strong>BreathGuard שלנו</strong> = מזהה אוטומטית ומספק טיפול!
+                    </div>
+                </div>
+
+                <h3>📊 השוואה למה שקיים היום:</h3>
+                <p><strong>פיק פלומטר מסורתי:</strong> רק מודד, לא מזהיר או מטפל</p>
+
+                <p><strong>שעונים חכמים עם SpO2:</strong> מודדים חמצן אבל לא מבינים נשימה ולא מספקים תרופה</p>
+
+                <p><strong>BreathGuard שלנו:</strong> משלב מדידה, זיהוי מוקדם, התראה וטיפול במכשיר אחד!</p>
+
+                <h3>🎯 הדבר הכי מיוחד:</h3>
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        <strong>אלגוריתם למידת מכונה אישי!</strong><br>
+                        המכשיר לומד את הדפוסים הייחודיים שלך - מתי אתה בסיכון, מה הטריגרים שלך, ואיך הגוף שלך מגיב. ככל שהוא בשימוש יותר זמן, הוא נהיה יותר מדויק!
+                    </div>
+                </div>
+
+                <h3>🌟 למה זה מהפכני?</h3>
+                <ul>
+                    <li><strong>מציל חיים:</strong> מונע התקפים קשים ואשפוזים</li>
+                    <li><strong>עצמאות למטופלים:</strong> פחות תלות במשאפים ובזיכרון</li>
+                    <li><strong>מעקב רפואי חכם:</strong> הרופא מקבל דיווחים ויכול להתאים טיפול</li>
+                    <li><strong>נוח לשימוש:</strong> קל, נייד וקל להפעלה</li>
+                    <li><strong>חיסכון כלכלי:</strong> פחות אשפוזים = פחות עלויות</li>
+                </ul>
+
+                <div class="story-box">
+                    <div class="story-content">
+                        <strong>חלום גדול:</strong> לראות BreathGuard בידי כל אדם עם בעיות נשימה, שומר על הבריאות ומאפשר חיים מלאים!
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- פרק 6 -->
+        <div class="page" id="page6">
+            <h2 class="chapter-title emoji-title">🚀 פרק 6: מחשבות לעתיד</h2>
+
+            <div class="future-box">
+                <h3>החלומות שלנו - מה נוסיף עם תקציב ענק ושנה נוספת:</h3>
+            </div>
+
+            <div class="content">
+                <h3>🔬 שדרוגים רפואיים:</h3>
+                <ul>
+                    <li><strong>זיהוי אלרגנים:</strong> חיישן שמזהה אבק, אבקת פרחים ומזהיר מראש</li>
+                    <li><strong>מדידת תפקודי ריאות:</strong> בדיקת FEV1 ביתית מדויקת</li>
+                    <li><strong>טיפול בקול:</strong> המכשיר ידריך בקול איך לנשום נכון בהתקף</li>
+                    <li><strong>חיבור לענן רפואי:</strong> שיתוף מידע אוטומטי עם המערכת הרפואית</li>
+                    <li><strong>מצב ילדים:</strong> התאמה מיוחדת לילדים עם אסטמה</li>
+                </ul>
+
+                <h3>🌐 רשת רפואית של BreathGuard:</h3>
+                <p>מערכת שמחברת בין כל המשתמשים למאגר מידע גדול - כך ניתן לזהות התפרצויות של אלרגיות אזוריות ולהזהיר את כל המטופלים באזור!</p>
+
+                <h3>🤖 בינה מלאכותית רפואית:</h3>
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        BreathGuard שילמד מנתוני אלפי משתמשים ויהיה חכם יותר! הוא ידע לזהות דפוסים נדירים ולחזות סיבוכים לפני שהם קורים.
+                    </div>
+                </div>
+
+                <h3>💊 הרחבת טיפולים:</h3>
+                <ul>
+                    <li>תמיכה בטיפולים ביולוגיים חדשניים</li>
+                    <li>פיזיותרפיה נשימתית מודרכת</li>
+                    <li>תרגילי נשימה מותאמים אישית</li>
+                    <li>מדיטציה ורגיעה לשיפור תפקודי ריאות</li>
+                </ul>
+
+                <h3>🌍 הרחבה לעולם:</h3>
+                <p>החלום הגדול שלנו: לראות BreathGuard בידי מיליוני מטופלים ברחבי העולם! בכל מדינה, בכל בית חולים, ובכל בית - לתת ביטחון ובריאות לכל מי שסובל מבעיות נשימה.</p>
+
+                <h3>🏥 שותפויות רפואיות:</h3>
+                <div class="future-box">
+                    <strong>עם בתי חולים:</strong> שילוב המכשיר במעקב אחר מטופלים כרוניים<br>
+                    <strong>עם קופות חולים:</strong> סבסוד המכשיר למטופלים בסיכון גבוה<br>
+                    <strong>עם חברות תרופות:</strong> פיתוח תרופות חדשות מותאמות למכשיר
+                </div>
+
+                <h3>🎯 המטרה הסופית:</h3>
+                <div class="highlight-box">
+                    <div class="highlight-box-content">
+                        <strong>אפס אשפוזים ממחלות ריאות ניתנות למניעה!</strong><br>
+                        עולם שבו כל אדם עם בעיות נשימה יכול לחיות חיים מלאים, בטוחים ובריאים.
+                    </div>
+                </div>
+
+                <p><strong>זה לא רק מכשיר רפואי - זה שומר מלאך לכל מי שנושם! 👼🫁</strong></p>
+            </div>
+
+        </div>
+
+        <!-- עמוד אחרון -->
+        <div class="page" style="background: linear-gradient(135deg, #4A90E2 0%, #50C9E8 100%); color: white; text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative;">
+            <div style="font-size: 10em; opacity: 0.1; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">🫁</div>
+            <h2 style="font-size: 3em; margin-bottom: 30px; position: relative; z-index: 2;">🎉 BreathGuard מוכן לשימוש! 💨</h2>
+            <p style="font-size: 1.4em; margin-bottom: 20px; position: relative; z-index: 2;">הספר הראשון שלנו כממציאות מוכן!</p>
+            <p style="font-size: 1.2em; opacity: 0.9; position: relative; z-index: 2;">מרעיון פשוט במטייל למהפכה רפואית שתציל חיים</p>
+
+            <div style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 15px; position: relative; z-index: 2;">
+                <h3 style="margin-bottom: 15px;">📊 הסטטיסטיקה שתשכנע אתכם:</h3>
+                <p>✅ 90% הפחתה באשפוזי חירום</p>
+                <p>✅ 95% דיוק בזיהוי התקפים</p>
+                <p>✅ 100% שקט נפשי למטופלים</p>
+                <p>✅ 15 דקות התראה מוקדמת</p>
+            </div>
+
+            <div style="margin-top: 30px; font-size: 0.9em; opacity: 0.8; position: relative; z-index: 2;">
+                <p>נוצר במסגרת נשים מובילות מדע - Forever Young 2025</p>
+                <p>💝 בזכות אהבה לרפואה, דאגה לחולים, והרבה דמיון</p>
+                <p><strong>"לפעמים הרעיונות הכי פשוטים הם הכי גאוניים"</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="btn" onclick="window.print()">🖨️ הדפס דוגמא</button>
+        <button class="btn" onclick="alert('דוגמא מושלמת לספר פרויקט על BreathGuard!')">🫁 טיפ למדריך</button>
+    </div>
+
+    <script>
+        // אנימציה פשוטה לעמוד השער
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('BreathGuard - המצאפדיה מוכנה לשימוש!');
+
+            // הוספת אפקט הובר לכפתורים
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.05)';
+                });
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
