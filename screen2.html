@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>נשים מובילות מדע - Forever Young</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            direction: rtl;
+            width: 319px;
+            height: 636px;
+            overflow: hidden;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            background: #7B1E7A;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            animation: colorChange 25s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        @keyframes colorChange {
+            0% {
+                background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            }
+            25% {
+                background: linear-gradient(135deg, #9B4D9A, #BB6DBA);
+            }
+            50% {
+                background: linear-gradient(135deg, #7B1E7A 30%, #f9d77e 100%);
+            }
+            75% {
+                background: linear-gradient(135deg, #9B4D9A, #7B1E7A);
+            }
+            100% {
+                background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            }
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+            padding-bottom: 80px;
+            position: relative;
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 20px;
+            backdrop-filter: blur(25px);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: titleShine 4s infinite;
+        }
+
+        @keyframes titleShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .main-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #f9d77e, #fce6a4, #f9d77e, #ffe8b3);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGradient 3s ease-in-out infinite;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes textGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .year {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.3);
+            filter: drop-shadow(0 0 10px rgba(249, 215, 126, 0.6));
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-grid {
+            flex: 1;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 5px;
+        }
+
+        .welcome-section {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 18px;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .welcome-text {
+            color: white;
+            font-size: 16px;
+            line-height: 1.6;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7), 0 0 10px rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .team-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            min-height: 60px;
+        }
+
+        .team-name {
+            color: #ffd700;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            text-align: right;
+            animation: teamGlow 2s ease-in-out infinite;
+            transition: opacity 0.3s ease-in-out;
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .team-info {
+            text-align: right;
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+        }
+
+        .participants-names {
+            color: black;
+            font-size: 12px;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            line-height: 1.3;
+            transition: opacity 0.3s ease-in-out;
+            text-align: right;
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex: 1;
+        }
+
+        @keyframes teamGlow {
+            0%, 100% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6), 0 0 10px rgba(255, 215, 0, 0.3); }
+            50% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.8); }
+        }
+
+        .icons-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .innovation-icon {
+            font-size: 32px;
+            animation: iconFloat 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .innovation-icon:nth-child(1) { animation-delay: 0s; }
+        .innovation-icon:nth-child(2) { animation-delay: 0.5s; }
+        .innovation-icon:nth-child(3) { animation-delay: 1s; }
+        .innovation-icon:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-15px) scale(1.1); }
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: white;
+            margin-top: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .logos-container {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            gap: 5px;
+        }
+
+        .logo-wrapper {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-wrapper img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: brightness(1.3) saturate(1.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="title-section">
+            <h1 class="main-title">נשים מובילות מדע</h1>
+            <div class="year">Forever Young</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="welcome-section">
+                <div class="welcome-text">
+                    הקבוצות שמובילות את העתיד!
+                </div>
+                <div class="team-display">
+                    <div class="participants-names" id="participantsNames">שון יוסופוב, אדל פרטוק, יאיר רקח, מעוז דסטה</div>
+                    <div class="team-info">
+                        <div class="team-name" id="teamName">הייטקיסטים</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="icons-section">
+                <span class="innovation-icon">🚀</span>
+                <span class="innovation-icon">💡</span>
+                <span class="innovation-icon">🔬</span>
+                <span class="innovation-icon">⚡</span>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">48</div>
+                    <div class="stat-label">קבוצות משתתפות</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">מעבדות</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">מסלולי פעילות</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">אפשרויות יצירה</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="logos-container">
+        <div class="logo-wrapper">
+            <img src="logot.png" alt="טכנולוג" onerror="this.style.display='none'">
+        </div>
+        <div class="logo-wrapper">
+            <img src="logoastra.png" alt="AstraZeneca" onerror="this.style.display='none'">
+        </div>
+        <div class="logo-wrapper">
+            <img src="logonashim.png" alt="נשים מובילות מדע" onerror="this.style.display='none'">
+        </div>
+    </div>
+
+    <script>
+        // נתוני הקבוצות
+        const teamsData = [
+            {
+                teamName: "אור לטף",
+                students: ["ינאי לביא בצרי", "אריאל חן", "עמרי פישר", "איתי שטיבי"]
+            },
+            {
+                teamName: "ו׳1 ארלוזורוב האלופים",
+                students: ["אגם סימן טוב", "יאיר בני", "איתי דהן", "מאור לוי"]
+            },
+            {
+                teamName: "ו׳3 ארלוזורוב",
+                students: ["איתן שגב", "שני שטנגל", "מאור גבאי", "שחר ברדוגו"]
+            },
+            {
+                teamName: "ו׳2 ארלוזורוב",
+                students: ["עילאי יהב", "אלה לביא", "אביגיל שביט", "יקיר דונביץ"]
+            },
+            {
+                teamName: "קבוצה א נבון",
+                students: ["אורי קינן", "אלון לוין", "אור בדש", "איתי שגיב"]
+            },
+            {
+                teamName: "קבוצה ב יצחק נבון",
+                students: ["שקד יקיר", "גאיה קישילב", "אגם רותם", "רומי בלינטשטיין", "עילי בן שיטרית"]
+            },
+            {
+                teamName: "בירב",
+                students: ["נועם צרור", "אליאב מלכה", "אודל בוחניק", "רום אללו"]
+            },
+            {
+                teamName: "בירב ד",
+                students: ["אריאל זיסמן", "הראל מלול", "עילאי ביטון", "הדר"]
+            },
+            {
+                teamName: "בירב ו",
+                students: ["מוריה", "נועה", "הראל יתאח", "אוראל שועאי"]
+            },
+            {
+                teamName: "נפתלי",
+                students: ["פלג טימסית", "תמר לנץ", "ליאור גרובר", "נעם ליפו"]
+            },
+            {
+                teamName: "הייטקיסטים",
+                students: ["שון יוסופוב", "אדל פרטוק", "יאיר רקח", "מעוז דסטה"]
+            },
+            {
+                teamName: "D.N.A-E",
+                students: ["ארז דסטה", "אריאל קיומוב", "אנסטסיה קציף", "דיאנה קיסליצין"]
+            },
+            {
+                teamName: "מנצחים בדרך",
+                students: ["שחר אבי טל", "אנה נחום", "יובל גרשוב", "עידו לוין"]
+            },
+            {
+                teamName: "המעופפות בדרך",
+                students: ["שחר אוחיון", "אוריין תייר", "נופר כהן", "חושן בראונשטיין"]
+            },
+            {
+                teamName: "הווינרים בדרך",
+                students: ["גיא יופה", "גיא שפירא ציפורי", "איתי קפלן", "יוגב ענתבי", "אורי נגרין"]
+            },
+            {
+                teamName: "האיינשטנים",
+                students: ["אור חיים לייבוביץ", "הוד שטרן", "אוריה זיו", "אדל יוסף"]
+            },
+            {
+                teamName: "הגאונים מהנדיב",
+                students: ["אבישג לדני", "איילה קופל", "נויה פארן", "דרור מקובר"]
+            },
+            {
+                teamName: "החיטה פותרים בעיה",
+                students: ["יותם שמעון", "לביא ליפשיץ", "גיל צורי", "שילה פידלמן"]
+            },
+            {
+                teamName: "הניוטונים מישורון",
+                students: ["אושר אליהו ביטון", "הדר כהן", "זוהר אסתר חן", "הדר אהרן"]
+            },
+            {
+                teamName: "הדרדסונים",
+                students: ["נועם ימיני", "אליה אנקווא", "עדיאל גבאי", "ליאם פרץ"]
+            },
+            {
+                teamName: "המדענים של תמרי",
+                students: ["מאיה יז'וב", "לאון נפתלייב", "יבסניה קלימוביץ", "טאיה גולדשטיין"]
+            },
+            {
+                teamName: "ממציאי המחר",
+                students: ["אורי אלקובי", "אמה חיימוב", "לינוי שמאילוב", "עמית גרשמן"]
+            },
+            {
+                teamName: "ממציאות צעירות",
+                students: ["ליאל בגים", "דניאל מיכאלי", "אדל שלמה", "אדלינא חנוכוב"]
+            },
+            {
+                teamName: "הבנות של חופית",
+                students: ["לוטם חוסטילוב", "סיון בן חורין", "בר עבו", "אלינוי אליגוייב"]
+            },
+            {
+                teamName: "קבוצת ביוטי",
+                students: ["אמי סבייב", "לורן וזיף", "אגם בקשייב", "מאי אברמוב"]
+            },
+            {
+                teamName: "הנסיכות",
+                students: ["מאיה שמחה אוחיון", "אופיר ארביב", "אדווה כהן", "יהלי נתנוב"]
+            },
+            {
+                teamName: "קבוצה 1",
+                students: ["גיא פאר", "עילי אסיף", "איתן אוסדון", "הראל בונוביצקי"]
+            },
+            {
+                teamName: "קבוצה 2",
+                students: ["יאיר חקשורי", "אליעם אנקווה", "עידו ששי", "עומר דולגין"]
+            },
+            {
+                teamName: "קבוצה 3",
+                students: ["לוטם שוורצמן", "אוריה אטיאס", "שחר בן יוסף"]
+            },
+            {
+                teamName: "עמק יזרעאל",
+                students: ["איתי חץ", "מתן גרינולד", "ליהי אופק", "יערה קלנר"]
+            },
+            {
+                teamName: "עמק יזרעאל 2",
+                students: ["מור זפרן", "עמרי פינקלשטיין", "גיא יחיאלי", "אריאל כנות"]
+            },
+            {
+                teamName: "בית ספר קדם",
+                students: ["יהלי הספל", "ראם ברוידא", "בארי לוי", "מיכאל בן ארי"]
+            },
+            {
+                teamName: "כיתה ה קדם",
+                students: ["יהונתן ביהילה", "עידו בורבה", "יהב בן", "עמית אוחנה"]
+            },
+            {
+                teamName: "קמפוס",
+                students: ["צונסטקובסקי אידו", "עמרי נועה", "שירה שטרן", "סטררליץ עופרי", "ויצמן מיכאל"]
+            },
+            {
+                teamName: "קבוצה 1 שדות",
+                students: ["הילה האובן", "אלעד תורגמן", "שקד קוגוקרו", "נוגה אלמוג"]
+            },
+            {
+                teamName: "קבוצה 2 שדות",
+                students: ["אלון רובינסון", "ענבר שטרית", "אייל לבנה", "זיו גזית"]
+            },
+            {
+                teamName: "קבוצה 4 שדות",
+                students: ["עידו מושקוביץ", "מאור שפירא", "תומר לביא", "אלון עמר"]
+            },
+            {
+                teamName: "שדות טכנודע",
+                students: ["ענבר לביד", "אורי יקירה", "דניאל רן", "יובל פינסקי"]
+            },
+            {
+                teamName: "שרת פתרון אתגרים",
+                students: ["נהטי אליהו", "נועה גרינברג", "נועם זיו", "נדב רבקין"]
+            },
+            {
+                teamName: "ממציאים פתרונות",
+                students: ["אלמה בראון", "אליה טמין", "סמיון קורגרוב", "מיכאל סעדיה"]
+            },
+            {
+                teamName: "מצוינות 1",
+                students: ["יערה כהנא", "מאיה טלמון", "נוגה בורשטיין", "מאיה גאווי"]
+            },
+            {
+                teamName: "מצוינות 2",
+                students: ["רעי אסף לוי", "יאיר חפץ", "עמית חי", "יואב אפלשטיין"]
+            },
+            {
+                teamName: "מצוינות 4",
+                students: ["בקי פרידמן", "הדס חממי", "נועה חממי", "רון סאסי", "מיכאלה מוגרבי"]
+            },
+            {
+                teamName: "כוכבי הלכת",
+                students: ["מיכל חסון", "תמר ברקן", "שקד", "אדם פלג"]
+            },
+            {
+                teamName: "תלמי רון 1",
+                students: ["נועם איינאו", "שגיא דניאל כהן", "איתמר סולר", "שלו ארביב"]
+            },
+            {
+                teamName: "תלמי רון 2",
+                students: ["מיה חיונידי", "ליה טפסאי", "רגינה מורוז", "ירדן כהן"]
+            },
+            {
+                teamName: "תלמי רון 3",
+                students: ["שחף אמסלם", "שחר סולומון", "כפיר דב אלמז", "איתי עוזרי"]
+            },
+            {
+                teamName: "תלמי רון 4",
+                students: ["נעם מליאנקר", "אורי עייש", "יואב אלון פישר", "אייל שרון"]
+            },
+            {
+                teamName: "תלמי רון 5",
+                students: ["גלי מצרי", "מיה רוזנטול", "מילאנה קיסליוב", "אדם וישניצקי"]
+            },
+            {
+                teamName: "תלמי רון 6",
+                students: ["איתן בן סימון", "רותם ויינשטיין", "איתי ששון", "יונתן דניאלוב"]
+            }
+        ];
+
+        let currentTeamIndex = 0;
+
+        function updateTeamDisplay() {
+            const teamNameElement = document.getElementById('teamName');
+            const participantsElement = document.getElementById('participantsNames');
+            
+            const currentTeam = teamsData[currentTeamIndex];
+            
+            // אפקט fade out
+            teamNameElement.style.opacity = '0';
+            participantsElement.style.opacity = '0';
+            
+            setTimeout(() => {
+                teamNameElement.textContent = currentTeam.teamName;
+                participantsElement.textContent = currentTeam.students.join(', ');
+                
+                // אפקט fade in
+                teamNameElement.style.opacity = '1';
+                participantsElement.style.opacity = '1';
+            }, 300);
+            
+            currentTeamIndex = (currentTeamIndex + 1) % teamsData.length;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // התחלת החלפת הקבוצות כל 3 שניות
+            updateTeamDisplay();
+            setInterval(updateTeamDisplay, 3000);
+            
+            // אפקטים דינמיים לכרטיסי סטטיסטיקה
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((card, index) => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.background = 'rgba(255, 255, 255, 0.4)';
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.background = 'rgba(255, 255, 255, 0.25)';
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                });
+
+                // אנימציה מתחילה עם דיליי
+                setTimeout(() => {
+                    card.style.animation = `cardEntrance 0.8s ease-out forwards`;
+                }, index * 200);
+            });
+
+            // אפקט נוסף לכותרת
+            const title = document.querySelector('.main-title');
+            let colorIndex = 0;
+            const colors = ['#f9d77e', '#fce6a4', '#ffe8b3', '#f9d77e'];
+
+            setInterval(() => {
+                title.style.filter = `drop-shadow(0 0 20px ${colors[colorIndex]})`;
+                colorIndex = (colorIndex + 1) % colors.length;
+            }, 1500);
+        });
+
+        // CSS נוסף לאנימציית כניסה
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes cardEntrance {
+                0% { 
+                    opacity: 0; 
+                    transform: translateY(20px) scale(0.8); 
+                }
+                100% { 
+                    opacity: 1; 
+                    transform: translateY(0) scale(1); 
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
