@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מחולל כרטיסיות שם - נשים מובילות מדע</title>
+    <title>מחולל תעודות - נשים מובילות מדע</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
         
@@ -96,6 +96,18 @@
         .header p {
             font-size: 18px;
             color: #666;
+        }
+
+        .certificate-title {
+            font-size: 48px !important;
+            font-weight: 800 !important;
+            background: linear-gradient(135deg, #7B1E7A 0%, #B8428D 50%, #7B1E7A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2 !important;
+            margin: 0 !important;
+            text-align: center !important;
         }
 
         .form-container {
@@ -289,17 +301,33 @@
             min-height: 6cm;
             max-width: 9cm;
             max-height: 6cm;
+            background: white;
         }
 
         .geometric-pattern {
             position: absolute;
             width: 100%;
             height: 100%;
-            opacity: 0.3;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2" fill="%23f9d77e" opacity="0.4"/><circle cx="25" cy="15" r="1.5" fill="%23ff6b9d" opacity="0.3"/><circle cx="15" cy="25" r="1" fill="%234ecdc4" opacity="0.3"/></pattern></defs><rect width="100%25" height="100%25" fill="url(%23dots)"/><path d="M0,120 Q100,100 200,120 T400,120 L400,0 L0,0 Z" fill="%23f9d77e" opacity="0.15"/><path d="M0,300 Q100,270 200,280 T400,300 L400,180 Q300,200 200,180 T0,200 Z" fill="%237B1E7A" opacity="0.1"/></svg>');
-            background-size: cover;
-            background-position: center;
+            opacity: 1;
+            background: white;
+            z-index: 0;
         }
+
+        .wave-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(180deg, #A12D85 0%, #7B1E7A 100%);
+            clip-path: path('M 0,0 L 0,35 Q 75,25 150,35 Q 225,45 300,35 Q 375,25 450,35 L 450,0 Z');
+            z-index: 1;
+        }
+
+        .wave-bottom {
+            display: none;
+        }
+
 
         .name-tag::before {
             content: '';
@@ -327,7 +355,7 @@
 
         .header-section {
             text-align: center;
-            padding: 8px 15px 0;
+            padding: 3px 15px 0;
             position: relative;
             z-index: 2;
         }
@@ -335,17 +363,68 @@
         .event-title {
             font-size: 14px;
             font-weight: 700;
-            color: #7B1E7A;
+            color: white;
             margin-bottom: 2px;
-            text-shadow: none;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
         .organizer {
-            font-size: 10px;
-            color: #f9d77e;
-            font-weight: 600;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700, #FFA500);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+            filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.8));
         }
+
+        @keyframes shine {
+            0% {
+                background-position: 0% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .qr-section {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            text-align: center;
+            z-index: 10;
+            background: white;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .qr-code {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 3px;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .qr-text {
+            font-size: 7px;
+            color: #7B1E7A;
+            font-weight: 700;
+            line-height: 1.2;
+            max-width: 60px;
+        }
+
 
         .content {
             display: flex;
@@ -356,6 +435,7 @@
             padding: 6px 12px;
             position: relative;
             z-index: 2;
+            margin-top: 62px;
         }
 
         .name-section {
@@ -364,11 +444,11 @@
         }
 
         .name-label {
-            font-size: 14px;
+            display: block;
+            font-size: 12px;
             color: #7B1E7A;
             font-weight: 600;
             margin-bottom: 2px;
-            text-shadow: none;
         }
 
         .name-value {
@@ -438,53 +518,49 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        .footer-logos {
+        .logo-tech {
             position: absolute;
-            top: 45px;
-            left: 5px;
-            right: 5px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 2;
-            gap: 5px;
-        }
-
-        .logo {
-            height: 50px;
-            max-width: 75px;
+            bottom: 85px;
+            left: 10px;
+            height: 45px;
+            max-width: 70px;
             object-fit: contain;
-            opacity: 0.9;
-            filter: brightness(1.1) drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
 
-        /* צבעי בתי ספר - עדינים יותר בהתאם לטמפלייט */
-        .school-0 { background: linear-gradient(135deg, #ffe5e5, #fff0f0); }
-        .school-1 { background: linear-gradient(135deg, #e0f7f5, #f0fbfa); }
-        .school-2 { background: linear-gradient(135deg, #dff4f9, #eff9fc); }
-        .school-3 { background: linear-gradient(135deg, #e8f5ef, #f4faf7); }
-        .school-4 { background: linear-gradient(135deg, #fff9e6, #fffcf0); }
-        .school-5 { background: linear-gradient(135deg, #ffe5f9, #fff2fc); }
-        .school-6 { background: linear-gradient(135deg, #e5f2ff, #f2f8ff); }
-        .school-7 { background: linear-gradient(135deg, #f3e5f5, #f9f2fa); }
-        .school-8 { background: linear-gradient(135deg, #e0f9f9, #f0fcfc); }
-        .school-9 { background: linear-gradient(135deg, #fff0e5, #fff7f0); }
-        .school-10 { background: linear-gradient(135deg, #ffe8ec, #fff4f6); }
-        .school-11 { background: linear-gradient(135deg, #e5f8fb, #f2fcfd); }
-        .school-12 { background: linear-gradient(135deg, #e5f7f2, #f2fbf8); }
-        .school-13 { background: linear-gradient(135deg, #ffebf3, #fff5f9); }
-        .school-14 { background: linear-gradient(135deg, #fffaeb, #fffcf5); }
-        .school-15 { background: linear-gradient(135deg, #ede8fc, #f6f4fe); }
-        .school-16 { background: linear-gradient(135deg, #f0eefe, #f7f6ff); }
-        .school-17 { background: linear-gradient(135deg, #ffebf3, #fff5f9); }
-        .school-18 { background: linear-gradient(135deg, #e5f7f3, #f2fbf9); }
-        .school-19 { background: linear-gradient(135deg, #fceee9, #fef7f4); }
-        .school-20 { background: linear-gradient(135deg, #effbfb, #f7fdfd); }
-        .school-21 { background: linear-gradient(135deg, #fff2ee, #fff9f7); }
-        .school-22 { background: linear-gradient(135deg, #eef6ff, #f7fbff); }
-        .school-23 { background: linear-gradient(135deg, #eaf4ff, #f5f9ff); }
-        .school-24 { background: linear-gradient(135deg, #ffebf3, #fff5f9); }
-        .school-25 { background: linear-gradient(135deg, #fffaeb, #fffcf5); }
+        .logo-astra {
+            position: absolute;
+            bottom: 120px;
+            right: 10px;
+            height: 50px;
+            max-width: 100px;
+            object-fit: contain;
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .logo-nashim {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+            height: 85px;
+            max-width: 80px;
+            object-fit: contain;
+            z-index: 10;
+            filter: drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            -webkit-filter: drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        /* צבעי רקע לתעודות */
+        .school-0, .school-1, .school-2, .school-3, .school-4,
+        .school-5, .school-6, .school-7, .school-8, .school-9,
+        .school-10, .school-11, .school-12, .school-13, .school-14,
+        .school-15, .school-16, .school-17, .school-18, .school-19,
+        .school-20, .school-21, .school-22, .school-23, .school-24,
+        .school-25 {
+            background: white;
+        }
 
         .preview-actions {
             text-align: center;
@@ -496,41 +572,91 @@
 
         /* הגדרות הדפסה */
         @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
             body {
-                background: white;
+                background: white !important;
                 padding: 0;
                 margin: 0;
             }
 
+            html {
+                background: white !important;
+            }
+
+            body > *:not(.container) {
+                display: none !important;
+            }
+
+            .container {
+                padding: 0;
+                margin: 0;
+                max-width: none;
+                background: white;
+            }
+
+            .container > *:not(.preview-container) {
+                display: none !important;
+            }
+
+            .logos-section,
+            .logo-item,
             .header,
             .form-container,
             .preview-actions,
-            .success-message {
-                display: none;
+            .success-message,
+            .btn,
+            button,
+            h1, h2, p,
+            form,
+            input,
+            label {
+                display: none !important;
+                visibility: hidden !important;
             }
 
             .preview-container {
                 display: block !important;
                 margin: 0;
+                padding: 0;
+                background: white;
+                box-shadow: none;
+                border-radius: 0;
             }
 
             .name-tags-preview {
+                display: grid !important;
                 grid-template-columns: repeat(2, 9cm);
                 gap: 5mm;
                 justify-content: center;
                 margin: 0;
+                padding: 0;
             }
 
             .name-tag {
                 margin: 0;
                 box-shadow: none;
-                border: 1px solid #ddd;
+                border: 2px solid #ddd;
+                border-radius: 15px;
                 width: 9cm !important;
                 height: 6cm !important;
                 min-width: 9cm !important;
                 min-height: 6cm !important;
                 max-width: 9cm !important;
                 max-height: 6cm !important;
+            }
+
+            .name-tag::before,
+            .name-tag::after {
+                display: none !important;
+            }
+
+            .logo-nashim {
+                filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white) drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important;
+                -webkit-filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white) drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important;
             }
 
             @page {
@@ -615,12 +741,12 @@
         </div>
 
         <div class="header">
-            <h1>🏷️ מחולל כרטיסיות שם</h1>
+            <h1>📜 מחולל תעודות</h1>
             <p>נשים מובילות מדע • Forever Young</p>
         </div>
 
         <div class="form-container">
-            <h2 class="form-title">📝 יצירת כרטיסייה חדשה</h2>
+            <h2 class="form-title">📝 יצירת תעודה חדשה</h2>
             
             <form id="nameTagForm">
                 <div class="form-group">
@@ -638,16 +764,9 @@
                     <input type="text" id="teamName" name="teamName" placeholder="הכנס/י את שם הקבוצה" required>
                 </div>
 
-                <div class="form-group">
-                    <label>בחר/י צבע לכרטיסייה:</label>
-                    <div class="color-selector" id="colorSelector">
-                        <!-- הצבעים ייווצרו דינמית -->
-                    </div>
-                </div>
-
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
-                        ✨ צור כרטיסייה
+                        ✨ צור תעודה
                     </button>
                     <button type="button" class="btn btn-secondary" onclick="clearForm()">
                         🗑️ נקה טופס
@@ -658,19 +777,19 @@
 
         <div class="preview-container" id="previewContainer">
             <div class="success-message" id="successMessage">
-                ✅ הכרטיסייה נוצרה בהצלחה! ניתן להדפיס עכשיו
+                ✅ התעודה נוצרה בהצלחה! ניתן להדפיס עכשיו
             </div>
-            
+
             <div class="name-tags-preview" id="nameTagsPreview">
-                <!-- הכרטיסיות יופיעו כאן -->
+                <!-- התעודות יופיעו כאן -->
             </div>
 
             <div class="preview-actions">
                 <button class="btn btn-success" onclick="printNameTags()">
-                    🖨️ הדפס כרטיסיות
+                    🖨️ הדפס תעודות
                 </button>
                 <button class="btn btn-primary" onclick="addAnother()">
-                    ➕ הוסף כרטיסייה נוספת
+                    ➕ הוסף תעודה נוספת
                 </button>
                 <button class="btn btn-secondary" onclick="createNew()">
                     📝 התחל מחדש
@@ -680,66 +799,21 @@
     </div>
 
     <script>
-        // רשימת הצבעים עם שמות בעברית
-        const colors = [
-            { name: 'אדום כתום', value: 0, gradient: 'linear-gradient(135deg, #ff6b6b, #ff8e8e)' },
-            { name: 'טורקיז', value: 1, gradient: 'linear-gradient(135deg, #4ecdc4, #7dd3d8)' },
-            { name: 'כחול בהיר', value: 2, gradient: 'linear-gradient(135deg, #45b7d1, #74c5dc)' },
-            { name: 'ירוק מנטה', value: 3, gradient: 'linear-gradient(135deg, #96ceb4, #b8dcc5)' },
-            { name: 'צהוב זהב', value: 4, gradient: 'linear-gradient(135deg, #feca57, #fed976)' },
-            { name: 'ורוד בהיר', value: 5, gradient: 'linear-gradient(135deg, #ff9ff3, #fbb6ff)' },
-            { name: 'כחול רויאל', value: 6, gradient: 'linear-gradient(135deg, #54a0ff, #7fb3ff)' },
-            { name: 'סגול כהה', value: 7, gradient: 'linear-gradient(135deg, #5f27cd, #7c4ddb)' },
-            { name: 'ציאן', value: 8, gradient: 'linear-gradient(135deg, #00d2d3, #26dedf)' },
-            { name: 'כתום', value: 9, gradient: 'linear-gradient(135deg, #ff9f43, #ffb366)' },
-            { name: 'ורוד אדמדם', value: 10, gradient: 'linear-gradient(135deg, #ee5a6f, #f07788)' },
-            { name: 'כחול בריכה', value: 11, gradient: 'linear-gradient(135deg, #0abde3, #2ed5f7)' },
-            { name: 'ירוק יער', value: 12, gradient: 'linear-gradient(135deg, #10ac84, #2ed5a5)' },
-            { name: 'ורוד פוקסיה', value: 13, gradient: 'linear-gradient(135deg, #fd79a8, #fe9bc2)' },
-            { name: 'צהוב חמניות', value: 14, gradient: 'linear-gradient(135deg, #fdcb6e, #fed788)' },
-            { name: 'סגול בינוני', value: 15, gradient: 'linear-gradient(135deg, #6c5ce7, #8b7ced)' },
-            { name: 'לבנדר', value: 16, gradient: 'linear-gradient(135deg, #a29bfe, #b8b5ff)' },
-            { name: 'ירוק ים', value: 18, gradient: 'linear-gradient(135deg, #00b894, #26d0b0)' },
-            { name: 'כתום אדמה', value: 19, gradient: 'linear-gradient(135deg, #e17055, #e88e77)' },
-            { name: 'תכלת בהיר', value: 20, gradient: 'linear-gradient(135deg, #81ecec, #a7f0f0)' },
-            { name: 'אפרסק', value: 21, gradient: 'linear-gradient(135deg, #fab1a0, #fdc4b6)' },
-            { name: 'כחול שמיים', value: 22, gradient: 'linear-gradient(135deg, #74b9ff, #92c5ff)' },
-            { name: 'כחול עמוק', value: 23, gradient: 'linear-gradient(135deg, #55a3ff, #7bb8ff)' }
-        ];
-
         let createdTags = [];
 
         // אתחול הטופס
         function initForm() {
-            createColorSelector();
             document.getElementById('nameTagForm').addEventListener('submit', handleSubmit);
             document.getElementById('personName').focus();
-        }
-
-        // יצירת בורר הצבעים
-        function createColorSelector() {
-            const colorSelector = document.getElementById('colorSelector');
-            
-            colors.forEach((color, index) => {
-                const colorOption = document.createElement('label');
-                colorOption.className = 'color-option';
-                colorOption.innerHTML = `
-                    <input type="radio" name="colorChoice" value="${color.value}" ${index === 0 ? 'checked' : ''}>
-                    <div class="color-preview" style="background: ${color.gradient}"></div>
-                    <div class="color-option-content">${color.name}</div>
-                `;
-                colorSelector.appendChild(colorOption);
-            });
         }
 
         // טיפול בשליחת הטופס
         function handleSubmit(e) {
             e.preventDefault();
-            
+
             const personName = document.getElementById('personName').value.trim();
             const schoolName = document.getElementById('schoolName').value.trim();
             const teamName = document.getElementById('teamName').value.trim();
-            const selectedColor = document.querySelector('input[name="colorChoice"]:checked').value;
 
             if (!personName || !schoolName || !teamName) {
                 alert('אנא מלא את כל השדות');
@@ -750,28 +824,28 @@
                 name: personName,
                 school: schoolName,
                 team: teamName,
-                color: selectedColor
+                color: 0
             };
 
             addNameTag(tagData);
         }
 
-        // הוספת כרטיסייה חדשה
+        // הוספת תעודה חדשה
         function addNameTag(tagData) {
             createdTags.push(tagData);
             updatePreview();
-            
+
             // הצגת התצוגה המקדימה
             document.getElementById('previewContainer').style.display = 'block';
-            
+
             // עדכון הודעת הצלחה
             const count = createdTags.length;
             const successMessage = document.getElementById('successMessage');
-            successMessage.textContent = `✅ ${count === 1 ? 'כרטיסייה נוצרה' : `${count} כרטיסיות נוצרו`} בהצלחה! ניתן להדפיס עכשיו`;
-            
+            successMessage.textContent = `✅ ${count === 1 ? 'תעודה נוצרה' : `${count} תעודות נוצרו`} בהצלחה! ניתן להדפיס עכשיו`;
+
             // גלילה לתצוגה המקדימה
-            document.getElementById('previewContainer').scrollIntoView({ 
-                behavior: 'smooth' 
+            document.getElementById('previewContainer').scrollIntoView({
+                behavior: 'smooth'
             });
         }
 
@@ -785,10 +859,21 @@
                 nameTag.className = `name-tag school-${tag.color}`;
                 nameTag.innerHTML = `
                     <div class="geometric-pattern"></div>
+                    <div class="wave-top"></div>
+                    <div class="wave-bottom"></div>
+
+                    <div class="qr-section">
+                        <div class="qr-code">
+                            <img src="qr.png" alt="QR Code">
+                        </div>
+                        <div class="qr-text">סרקו לצפייה<br>בלוח הזמנים</div>
+                    </div>
+
                     <div class="header-section">
                         <div class="event-title">נשים מובילות מדע</div>
                         <div class="organizer">Forever Young</div>
                     </div>
+
                     <div class="content">
                         <div class="name-section">
                             <div class="name-label">שם:</div>
@@ -803,34 +888,34 @@
                             <div class="team-value">${tag.team}</div>
                         </div>
                     </div>
-                    <div class="footer-logos">
-                        <img src="logot.png" alt="טכנולוג" class="logo">
-                        <img src="logoastra.png" alt="AstraZeneca" class="logo">
-                        <img src="logonashim.png" alt="נשים מובילות מדע" class="logo">
-                    </div>
+
+                    <img src="logot.png" alt="טכנולוג" class="logo-tech">
+                    <img src="logoastra.png" alt="AstraZeneca" class="logo-astra">
+                    <img src="logonashim.png" alt="נשים מובילות מדע" class="logo-nashim">
                 `;
-                
+
                 previewContainer.appendChild(nameTag);
             });
         }
 
-        // הדפסת הכרטיסיות
+        // הדפסת התעודות
         function printNameTags() {
-            window.print();}
+            window.print();
+        }
 
-        // הוספת כרטיסייה נוספת
+        // הוספת תעודה נוספת
         function addAnother() {
-            // ניקוי רק השדות, לא הצבעים
+            // ניקוי השדות
             document.getElementById('personName').value = '';
             document.getElementById('schoolName').value = '';
             document.getElementById('teamName').value = '';
-            
+
             // פוקוס על השדה הראשון
             document.getElementById('personName').focus();
-            
+
             // גלילה חזרה לטופס
-            document.querySelector('.form-container').scrollIntoView({ 
-                behavior: 'smooth' 
+            document.querySelector('.form-container').scrollIntoView({
+                behavior: 'smooth'
             });
         }
 
@@ -839,13 +924,6 @@
             document.getElementById('nameTagForm').reset();
             document.getElementById('previewContainer').style.display = 'none';
             createdTags = [];
-            
-            // בחירת הצבע הראשון כברירת מחדל
-            const firstColorOption = document.querySelector('input[name="colorChoice"]');
-            if (firstColorOption) {
-                firstColorOption.checked = true;
-            }
-            
             document.getElementById('personName').focus();
         }
 
@@ -873,7 +951,7 @@
                 }
             }
 
-            // Ctrl/Cmd + N להוספת כרטיסייה נוספת
+            // Ctrl/Cmd + N להוספת תעודה נוספת
             if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
                 if (createdTags.length > 0) {
                     e.preventDefault();
@@ -887,23 +965,11 @@
             initForm();
         });
 
-        // פונקציות עזר נוספות
-        function getColorGradient(colorValue) {
-            const color = colors.find(c => c.value == colorValue);
-            return color ? color.gradient : colors[0].gradient;
-        }
-
-        function getColorName(colorValue) {
-            const color = colors.find(c => c.value == colorValue);
-            return color ? color.name : colors[0].name;
-        }
-
-        // שמירה אוטומטית בזיכרון (ללא localStorage)
+        // שמירה אוטומטית בזיכרון
         let tempData = {
             personName: '',
             schoolName: '',
-            teamName: '',
-            selectedColor: '0'
+            teamName: ''
         };
 
         // עדכון נתונים בזמן הקלדה
@@ -920,28 +986,28 @@
             });
         });
 
-        // פונקציה לייצוא נתונים (אופציונלי)
+        // פונקציה לייצוא נתונים
         function exportTags() {
             if (createdTags.length === 0) {
-                alert('אין כרטיסיות ליצוא');
+                alert('אין תעודות ליצוא');
                 return;
             }
 
             const dataStr = JSON.stringify(createdTags, null, 2);
             const dataBlob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(dataBlob);
-            
+
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'name_tags_' + new Date().toISOString().split('T')[0] + '.json';
+            link.download = 'certificates_' + new Date().toISOString().split('T')[0] + '.json';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
+
             URL.revokeObjectURL(url);
         }
 
-        // פונקציה לייבוא נתונים (אופציונלי)
+        // פונקציה לייבוא נתונים
         function importTags(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -954,10 +1020,10 @@
                         createdTags = importedTags;
                         updatePreview();
                         document.getElementById('previewContainer').style.display = 'block';
-                        
+
                         const count = createdTags.length;
                         const successMessage = document.getElementById('successMessage');
-                        successMessage.textContent = `✅ ${count} כרטיסיות יובאו בהצלחה!`;
+                        successMessage.textContent = `✅ ${count} תעודות יובאו בהצלחה!`;
                     }
                 } catch (error) {
                     alert('שגיאה בקריאת הקובץ: ' + error.message);
@@ -966,102 +1032,23 @@
             reader.readAsText(file);
         }
 
-        // הוספת אפשרות מחיקת כרטיסייה בודדת (אופציונלי)
+        // הוספת אפשרות מחיקת תעודה בודדת
         function removeTag(index) {
-            if (confirm('האם אתה בטוח שברצונך למחוק כרטיסייה זו?')) {
+            if (confirm('האם אתה בטוח שברצונך למחוק תעודה זו?')) {
                 createdTags.splice(index, 1);
-                
+
                 if (createdTags.length === 0) {
                     document.getElementById('previewContainer').style.display = 'none';
                 } else {
                     updatePreview();
-                    
+
                     const count = createdTags.length;
                     const successMessage = document.getElementById('successMessage');
-                    successMessage.textContent = `✅ ${count} כרטיסיות נוצרו בהצלחה! ניתן להדפיס עכשיו`;
+                    successMessage.textContent = `✅ ${count} תעודות נוצרו בהצלחה! ניתן להדפיס עכשיו`;
                 }
             }
         }
 
-        // הוספת כפתור מחיקה לכל כרטיסייה (במצב לא להדפסה)
-        function updatePreviewWithDeleteButtons() {
-            const previewContainer = document.getElementById('nameTagsPreview');
-            previewContainer.innerHTML = '';
-
-            createdTags.forEach((tag, index) => {
-                const tagWrapper = document.createElement('div');
-                tagWrapper.style.position = 'relative';
-                
-                const nameTag = document.createElement('div');
-                nameTag.className = `name-tag school-${tag.color}`;
-                nameTag.innerHTML = `
-                    <div class="geometric-pattern"></div>
-                    <div class="header-section">
-                        <div class="event-title">נשים מובילות מדע</div>
-                        <div class="organizer">Forever Young</div>
-                    </div>
-                    <div class="content">
-                        <div class="name-section">
-                            <div class="name-label">שם:</div>
-                            <div class="name-value">${tag.name}</div>
-                        </div>
-                        <div class="school-section">
-                            <div class="school-label">מבית הספר:</div>
-                            <div class="school-value">${tag.school}</div>
-                        </div>
-                        <div class="team-section">
-                            <div class="team-label">שם הקבוצה:</div>
-                            <div class="team-value">${tag.team}</div>
-                        </div>
-                    </div>
-                    <div class="footer-logos">
-                        <img src="logot.png" alt="טכנולוג" class="logo">
-                        <img src="logoastra.png" alt="AstraZeneca" class="logo">
-                        <img src="logonashim.png" alt="נשים מובילות מדע" class="logo">
-                    </div>
-                `;
-
-                // כפתור מחיקה (רק במסך, לא בהדפסה)
-                const deleteButton = document.createElement('button');
-                deleteButton.innerHTML = '❌';
-                deleteButton.style.cssText = `
-                    position: absolute;
-                    top: -10px;
-                    right: -10px;
-                    background: #ff4757;
-                    color: white;
-                    border: none;
-                    border-radius: 50%;
-                    width: 30px;
-                    height: 30px;
-                    cursor: pointer;
-                    font-size: 14px;
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-                    z-index: 1000;
-                `;
-                deleteButton.onclick = () => removeTag(index);
-                deleteButton.style.display = 'block';
-                
-                // הסתרה בהדפסה
-                const style = document.createElement('style');
-                style.textContent = `
-                    @media print {
-                        .delete-btn { display: none !important; }
-                    }
-                `;
-                deleteButton.className = 'delete-btn';
-                document.head.appendChild(style);
-
-                tagWrapper.appendChild(nameTag);
-                tagWrapper.appendChild(deleteButton);
-                previewContainer.appendChild(tagWrapper);
-            });
-        }
-
-        // עדכון פונקציית updatePreview להשתמש בגרסה עם כפתורי מחיקה
-        function updatePreview() {
-            updatePreviewWithDeleteButtons();
-        }
     </script>
 </body>
 </html>
