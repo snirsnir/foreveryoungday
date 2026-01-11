@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>תעודות האקתון הממציא הצעיר 2025</title>
+    <title>תעודות נשים מובילות מדע - Forever Young</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
         
@@ -72,18 +72,17 @@
         }
 
         .certificate {
-            width: 21cm;
-            height: 29.7cm;
-            background-image: url('bg.png');
+            width: 297mm;
+            height: 210mm;
+            background: url('tempTeuda.png') no-repeat center center;
             background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
             position: relative;
             page-break-after: always;
             break-after: page;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             border-radius: 5px;
-            overflow: hidden;
+            overflow: visible;
+            margin: 0 auto;
         }
 
         .certificate:last-child {
@@ -91,47 +90,85 @@
             break-after: avoid;
         }
 
-        .student-name {
+        /* לוגואים עליונים */
+        .top-logos {
             position: absolute;
-            top: 39%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 48px;
-            font-weight: 800;
-            color: #2C1810;
+            top: 3mm;
+            left: 15mm;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 15mm;
+            z-index: 5;
+        }
+
+        .top-logo {
+            height: 20mm;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* שם המשתתף */
+        .certificate-name {
+            position: absolute;
+            top: 35mm;
+            left: 72mm;
             text-align: center;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
-            z-index: 10;
-            width: 80%;
-            line-height: 1.2;
+            z-index: 5;
+        }
+
+        .certificate-name .name-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 3mm;
+        }
+
+        .certificate-name .school-info {
+            font-size: 22px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .certificate-name .school-label {
+            display: inline;
+            color: #7B1E7A;
+        }
+
+        .certificate-name .school-value {
+            display: inline;
+            color: #333;
+        }
+
+        /* עיצוב ישן - מוסתר */
+        .student-name {
+            display: none;
         }
 
         .school-name {
-            position: absolute;
-            top: 53%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 45px;
-            font-weight: 600;
-            color: #4A3728;
-            text-align: center;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
-            z-index: 10;
-            width: 70%;
-            line-height: 1.3;
+            display: none;
         }
 
         /* הגדרות הדפסה */
         @media print {
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            html, body {
+                width: 297mm;
+                height: 210mm;
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                overflow: hidden;
             }
 
             .print-info,
             .controls {
-                display: none;
+                display: none !important;
             }
 
             .certificates-container {
@@ -139,14 +176,34 @@
             }
 
             .certificate {
-                box-shadow: none;
-                border-radius: 0;
-                margin: 0;
+                width: 297mm !important;
+                height: 210mm !important;
+                max-width: 297mm !important;
+                max-height: 210mm !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: url('tempTeuda.png') no-repeat center center !important;
+                background-size: cover !important;
+            }
+
+            .top-logos {
+                display: flex !important;
+            }
+
+            .top-logo {
+                display: block !important;
+            }
+
+            .certificate-name {
+                display: block !important;
             }
 
             @page {
-                size: A4;
-                margin: 0;
+                size: A4 landscape;
+                margin: 0mm;
+                padding: 0mm;
             }
         }
 
@@ -169,8 +226,8 @@
 </head>
 <body>
     <div class="print-info">
-        <h1>תעודות האקתון הממציא הצעיר 2025</h1>
-        <p>תעודות אישיות למשתתפים • גודל A4 • דוגמאות לאישור</p>
+        <h1>תעודות נשים מובילות מדע - Forever Young</h1>
+        <p>תעודות אישיות למשתתפים • A4 לרוחב • דוגמאות לאישור</p>
     </div>
 
     <div class="controls">
@@ -473,21 +530,33 @@
         function generateAllCertificates() {
             const container = document.getElementById('certificatesContainer');
             container.innerHTML = ''; // נקה תעודות קיימות
-            
+
             allParticipants.forEach(participant => {
                 const certificate = document.createElement('div');
                 certificate.className = 'certificate';
-                
+
                 certificate.innerHTML = `
-                    <div class="student-name">${participant.name}</div>
-                    <div class="school-name">${participant.school}</div>
+                    <!-- לוגואים עליונים -->
+                    <div class="top-logos">
+                        <img src="logot.png" alt="טכנולוג" class="top-logo">
+                        <img src="logoastra.png" alt="AstraZeneca" class="top-logo">
+                    </div>
+
+                    <!-- פרטי המשתתף -->
+                    <div class="certificate-name">
+                        <div class="name-value">${participant.name}</div>
+                        <div class="school-info">
+                            <span class="school-label">מבית ספר: </span>
+                            <span class="school-value">${participant.school}</span>
+                        </div>
+                    </div>
                 `;
-                
+
                 container.appendChild(certificate);
             });
-            
+
             // עדכון מידע בכותרת
-            document.querySelector('.print-info p').textContent = `${allParticipants.length} תעודות אישיות למשתתפים • גודל A4`;
+            document.querySelector('.print-info p').textContent = `${allParticipants.length} תעודות אישיות למשתתפים • A4 לרוחב`;
         }
 
         // יצירת כל התעודות מיד בטעינת הדף
