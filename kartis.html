@@ -138,62 +138,97 @@
             page-break-inside: avoid;
             break-inside: avoid;
             margin: 0 auto;
+            background: white;
         }
 
-        .geometric-pattern {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0.3;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="2" fill="%23f9d77e" opacity="0.4"/><circle cx="25" cy="15" r="1.5" fill="%23ff6b9d" opacity="0.3"/><circle cx="15" cy="25" r="1" fill="%234ecdc4" opacity="0.3"/></pattern></defs><rect width="100%25" height="100%25" fill="url(%23dots)"/><path d="M0,120 Q100,100 200,120 T400,120 L400,0 L0,0 Z" fill="%23f9d77e" opacity="0.15"/><path d="M0,300 Q100,270 200,280 T400,300 L400,180 Q300,200 200,180 T0,200 Z" fill="%237B1E7A" opacity="0.1"/></svg>');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .name-tag::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40%;
-            background: linear-gradient(to top, rgba(123, 30, 122, 0.08), transparent);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .name-tag::after {
-            content: '';
+        .wave-top {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            height: 35%;
-            background: linear-gradient(to bottom, rgba(249, 215, 126, 0.1), transparent);
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(180deg, #A12D85 0%, #7B1E7A 100%);
+            clip-path: path('M 0,0 L 0,35 Q 75,25 150,35 Q 225,45 300,35 Q 375,25 450,35 L 450,0 Z');
             z-index: 1;
-            pointer-events: none;
+        }
+
+        .wave-bottom {
+            display: none;
+        }
+
+        .qr-section {
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .qr-code {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 3px;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .qr-text {
+            color: #7B1E7A;
+            font-size: 7px;
+            font-weight: 700;
+            text-align: center;
+            max-width: 60px;
+            line-height: 1.2;
         }
 
         .header {
             text-align: center;
-            padding: 8px 15px 0;
-            position: relative;
-            z-index: 2;
+            padding: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 11;
         }
 
         .event-title {
             font-size: 14px;
             font-weight: 700;
-            color: #7B1E7A;
-            margin-bottom: 2px;
-            text-shadow: none;
+            color: white;
+            margin-top: 3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .organizer {
-            font-size: 10px;
-            color: #f9d77e;
-            font-weight: 600;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700, #FFA500);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+            filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.8));
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: 0% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
         }
 
         .content {
@@ -205,6 +240,7 @@
             padding: 6px 12px;
             position: relative;
             z-index: 2;
+            margin-top: 62px;
         }
 
         .name-section {
@@ -213,7 +249,11 @@
         }
 
         .name-label {
-            display: none;
+            display: block;
+            font-size: 12px;
+            color: #7B1E7A;
+            font-weight: 600;
+            margin-bottom: 2px;
         }
 
         .name-value {
@@ -283,65 +323,56 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        .footer-logos {
+        .logo-tech {
             position: absolute;
-            top: 32px;
-            left: 5px;
-            right: 5px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 2;
-            gap: 5px;
-        }
-
-        .logo {
-            height: 50px;
-            max-width: 75px;
+            bottom: 85px;
+            left: 10px;
+            height: 45px;
+            max-width: 70px;
             object-fit: contain;
-            opacity: 0.9;
-            filter: brightness(1.1) drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
 
-        .footer-logos img:nth-child(2) {
-            height: 65px !important;
-            transform: translateY(-8px) translateX(9px);
+        .logo-astra {
+            position: absolute;
+            bottom: 120px;
+            right: 10px;
+            height: 50px;
+            max-width: 100px;
+            object-fit: contain;
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
 
-        /* צבעי בתי ספר - עדינים יותר בהתאם לטמפלייט */
-        .school-0 { background: linear-gradient(135deg, #ffe5e5, #fff0f0); }
-        .school-1 { background: linear-gradient(135deg, #e0f7f5, #f0fbfa); }
-        .school-2 { background: linear-gradient(135deg, #dff4f9, #eff9fc); }
-        .school-3 { background: linear-gradient(135deg, #e8f5ef, #f4faf7); }
-        .school-4 { background: linear-gradient(135deg, #fff9e6, #fffcf0); }
-        .school-5 { background: linear-gradient(135deg, #ffe5f9, #fff2fc); }
-        .school-6 { background: linear-gradient(135deg, #e5f2ff, #f2f8ff); }
-        .school-7 { background: linear-gradient(135deg, #f3e5f5, #f9f2fa); }
-        .school-8 { background: linear-gradient(135deg, #e0f9f9, #f0fcfc); }
-        .school-9 { background: linear-gradient(135deg, #fff0e5, #fff7f0); }
-        .school-10 { background: linear-gradient(135deg, #ffe8ec, #fff4f6); }
-        .school-11 { background: linear-gradient(135deg, #e5f8fb, #f2fcfd); }
-        .school-12 { background: linear-gradient(135deg, #e5f7f2, #f2fbf8); }
-        .school-13 { background: linear-gradient(135deg, #ffebf3, #fff5f9); }
-        .school-14 { background: linear-gradient(135deg, #fffaeb, #fffcf5); }
-        .school-15 { background: linear-gradient(135deg, #ede8fc, #f6f4fe); }
-        .school-16 { background: linear-gradient(135deg, #f0eefe, #f7f6ff); }
-        .school-17 { background: linear-gradient(135deg, #ffebf3, #fff5f9); }
-        .school-18 { background: linear-gradient(135deg, #e5f7f3, #f2fbf9); }
-        .school-19 { background: linear-gradient(135deg, #fceee9, #fef7f4); }
-        .school-20 { background: linear-gradient(135deg, #effbfb, #f7fdfd); }
-        .school-21 { background: linear-gradient(135deg, #fff2ee, #fff9f7); }
-        .school-22 { background: linear-gradient(135deg, #eef6ff, #f7fbff); }
-        .school-23 { background: linear-gradient(135deg, #eaf4ff, #f5f9ff); }
-        .school-24 { background: linear-gradient(135deg, #ffebf3, #fff5f9); }
-        .school-25 { background: linear-gradient(135deg, #fffaeb, #fffcf5); }
+        .logo-nashim {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+            height: 85px;
+            max-width: 80px;
+            object-fit: contain;
+            z-index: 10;
+            filter: drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            -webkit-filter: drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
 
         /* הגדרות הדפסה */
         @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
             body {
-                background: white;
+                background: white !important;
                 padding: 0;
                 margin: 0;
+            }
+
+            html {
+                background: white !important;
             }
 
             body::before,
@@ -349,10 +380,22 @@
                 display: none;
             }
 
+            body > *:not(.container) {
+                display: none !important;
+            }
+
+            .container > *:not(.name-tags-container) {
+                display: none !important;
+            }
+
             .logos-container,
+            .logo-item,
             .print-info,
-            .controls {
-                display: none;
+            .controls,
+            h1, h2, p,
+            button {
+                display: none !important;
+                visibility: hidden !important;
             }
 
             .name-tags-container {
@@ -365,7 +408,14 @@
             .name-tag {
                 margin: 0;
                 box-shadow: none;
-                border: 1px solid #ddd;
+                border: 2px solid #ddd;
+                border-radius: 15px;
+                width: 9cm !important;
+                height: 6cm !important;
+            }
+
+            .logo-nashim {
+                filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white) drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important;
             }
 
             @page {
@@ -722,11 +772,21 @@
                 nameTag.className = `name-tag school-${schoolColorIndex}`;
                 
                 nameTag.innerHTML = `
-                    <div class="geometric-pattern"></div>
+                    <div class="wave-top"></div>
+                    <div class="wave-bottom"></div>
+
+                    <div class="qr-section">
+                        <div class="qr-code">
+                            <img src="qr.png" alt="QR Code">
+                        </div>
+                        <div class="qr-text">סרקו לצפייה<br>בלוח הזמנים</div>
+                    </div>
+
                     <div class="header">
                         <div class="event-title">נשים מובילות מדע</div>
                         <div class="organizer">Forever Young</div>
                     </div>
+
                     <div class="content">
                         <div class="name-section">
                             <div class="name-label">שם:</div>
@@ -741,11 +801,10 @@
                             <div class="team-value">${participant.team}</div>
                         </div>
                     </div>
-                    <div class="footer-logos">
-                        <img src="logot.png" alt="טכנולוג" class="logo">
-                        <img src="logoastra.png" alt="AstraZeneca" class="logo">
-                        <img src="logonashim.png" alt="נשים מובילות מדע" class="logo">
-                    </div>
+
+                    <img src="logot.png" alt="טכנולוג" class="logo-tech">
+                    <img src="logoastra.png" alt="AstraZeneca" class="logo-astra">
+                    <img src="logonashim.png" alt="נשים מובילות מדע" class="logo-nashim">
                 `;
                 
                 container.appendChild(nameTag);
