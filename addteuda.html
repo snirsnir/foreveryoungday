@@ -255,50 +255,90 @@
         }
 
         .certificate {
-            width: 210mm;
-            height: 297mm;
-            background-image: url('bg.png');
+            width: 297mm;
+            height: 210mm;
+            background: url('tempTeuda.png') no-repeat center center;
             background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #f8f9fa;
             position: relative;
             margin: 0 auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             border-radius: 10px;
-            overflow: hidden;
+            overflow: visible;
             page-break-after: always;
             break-after: page;
         }
 
-        .student-name {
+        /* לוגואים עליונים */
+        .top-logos {
             position: absolute;
-            top: 39%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 48px;
-            font-weight: 800;
-            color: #2C1810;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
-            z-index: 10;
-            width: 80%;
-            line-height: 1.2;
+            top: 3mm;
+            left: 15mm;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 15mm;
+            z-index: 5;
         }
 
-        .school-name {
+        .top-logo {
+            height: 20mm;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* שם המשתתף */
+        .certificate-name {
             position: absolute;
-            top: 53.5%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 32px;
-            font-weight: 600;
-            color: #4A3728;
+            top: 35mm;
+            left: 72mm;
             text-align: center;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
-            z-index: 10;
-            width: 70%;
-            line-height: 1.3;
+            z-index: 5;
+        }
+
+        .certificate-name .name-label {
+            font-size: 38px;
+            font-weight: 600;
+            color: #7B1E7A;
+            margin-bottom: 5mm;
+        }
+
+        .certificate-name .name-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 3mm;
+        }
+
+        .certificate-name .school-info {
+            font-size: 22px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .certificate-name .school-label {
+            display: inline;
+            color: #7B1E7A;
+        }
+
+        .certificate-name .school-value {
+            display: inline;
+            color: #333;
+        }
+
+        /* הסתרת אלמנטים מיותרים */
+        .side-logo,
+        .certificate-medal,
+        .trophy-icon,
+        .side-text,
+        .side-text-author,
+        .decoration-circle,
+        .name-rounded-box,
+        .main-title,
+        .student-name,
+        .description-text,
+        .bottom-logos,
+        .school-name {
+            display: none;
         }
 
         .certificate-actions {
@@ -330,8 +370,8 @@
             }
 
             html, body {
-                width: 210mm;
-                height: 297mm;
+                width: 297mm;
+                height: 210mm;
                 background: white !important;
                 padding: 0 !important;
                 margin: 0 !important;
@@ -341,7 +381,21 @@
             .header,
             .form-container,
             .certificate-actions,
-            .success-message {
+            .success-message,
+            .logos-container,
+            .logo-item,
+            .side-logo,
+            .certificate-medal,
+            .trophy-icon,
+            .side-text,
+            .side-text-author,
+            .decoration-circle,
+            .name-rounded-box,
+            .main-title,
+            .student-name,
+            .description-text,
+            .bottom-logos,
+            .school-name {
                 display: none !important;
             }
 
@@ -349,15 +403,15 @@
                 display: block !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                width: 210mm !important;
-                height: 297mm !important;
+                width: 297mm !important;
+                height: 210mm !important;
             }
 
             .certificate {
-                width: 210mm !important;
-                height: 297mm !important;
-                max-width: 210mm !important;
-                max-height: 297mm !important;
+                width: 297mm !important;
+                height: 210mm !important;
+                max-width: 297mm !important;
+                max-height: 210mm !important;
                 box-shadow: none !important;
                 border-radius: 0 !important;
                 margin: 0 !important;
@@ -365,36 +419,24 @@
                 page-break-after: avoid;
                 break-after: avoid;
                 transform: none !important;
+                background: url('tempTeuda.png') no-repeat center center !important;
+                background-size: cover !important;
             }
 
-            .student-name {
-                font-size: 45px !important;
+            .top-logos {
+                display: flex !important;
             }
 
-            .school-name {
-                font-size: 30px !important;
+            .top-logo {
+                display: block !important;
             }
 
-            /* מיקום מיוחד לתעודת מורה בהדפסה */
-            .certificate[data-type="teacher"] .student-name {
-                top: 68% !important;
-            }
-
-            .certificate[data-type="teacher"] .school-name {
-                top: 68.5% !important;
-            }
-
-            /* מיקום לתעודת תלמיד בהדפסה */
-            .certificate[data-type="student"] .student-name {
-                top: 39% !important;
-            }
-
-            .certificate[data-type="student"] .school-name {
-                top: 53.5% !important;
+            .certificate-name {
+                display: block !important;
             }
 
             @page {
-                size: A4 portrait;
+                size: A4 landscape;
                 margin: 0mm;
                 padding: 0mm;
             }
@@ -536,8 +578,113 @@
             </div>
             
             <div class="certificate" id="certificate">
-                <div class="student-name" id="certificatePersonName"></div>
-                <div class="school-name" id="certificateSchoolName"></div>
+                <!-- לוגואים עליונים -->
+                <div class="top-logos">
+                    <img src="logot.png" alt="טכנולוג" class="top-logo">
+                    <img src="logoastra.png" alt="AstraZeneca" class="top-logo">
+                </div>
+
+                <!-- פרטי המשתתף -->
+                <div class="certificate-name">
+                    <div class="name-value" id="certificatePersonNameNew"></div>
+                    <div class="school-info">
+                        <span class="school-label">מבית ספר: </span>
+                        <span class="school-value" id="certificateSchoolNameNew"></span>
+                    </div>
+                </div>
+
+                <!-- גביע -->
+                <svg class="trophy-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- כוס -->
+                    <path d="M 30,20 L 35,60 L 65,60 L 70,20 Z" fill="#FFD93D" stroke="#FFA500" stroke-width="2"/>
+                    <!-- ידיות -->
+                    <path d="M 30,25 Q 20,25 20,35 Q 20,40 25,40" fill="none" stroke="#FFA500" stroke-width="2"/>
+                    <path d="M 70,25 Q 80,25 80,35 Q 80,40 75,40" fill="none" stroke="#FFA500" stroke-width="2"/>
+                    <!-- בסיס -->
+                    <rect x="40" y="60" width="20" height="10" fill="#FFA500"/>
+                    <rect x="30" y="70" width="40" height="5" fill="#FFA500"/>
+                    <!-- קישוט -->
+                    <circle cx="50" cy="40" r="8" fill="#7B1E7A"/>
+                </svg>
+
+                <!-- קישוטים עגולים -->
+                <div class="decoration-circle circle-1"></div>
+                <div class="decoration-circle circle-2"></div>
+                <div class="decoration-circle circle-3"></div>
+                <div class="decoration-circle circle-4"></div>
+
+                <!-- לוגו בפס -->
+                <img src="logonashim.png" alt="נשים מובילות מדע" class="side-logo">
+
+                <!-- מדליה - נשתמש בעיצוב CSS -->
+                <svg class="certificate-medal" viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
+                    <!-- סרטים -->
+                    <polygon points="25,0 35,0 45,40 35,37" fill="#4ECDC4" />
+                    <polygon points="65,0 75,0 65,37 55,40" fill="#4ECDC4" />
+
+                    <!-- מדליה עגולה חיצונית -->
+                    <circle cx="50" cy="70" r="37" fill="none" stroke="#FFA500" stroke-width="2"/>
+
+                    <!-- מדליה עגולה פנימית -->
+                    <circle cx="50" cy="70" r="34" fill="#FFD93D"/>
+
+                    <!-- עיגול פנימי נוסף -->
+                    <circle cx="50" cy="70" r="30" fill="none" stroke="#7B1E7A" stroke-width="1.5"/>
+
+                    <!-- טקסט במדליה -->
+                    <text x="50" y="62" text-anchor="middle" font-size="10" font-weight="800" fill="#7B1E7A" font-family="Heebo">מדליית</text>
+                    <text x="50" y="74" text-anchor="middle" font-size="10" font-weight="800" fill="#7B1E7A" font-family="Heebo">מצוינות</text>
+                    <text x="50" y="87" text-anchor="middle" font-size="13" font-weight="800" fill="#FFA500" font-family="Heebo">2026</text>
+                </svg>
+
+                <!-- טקסט בפס הסגול -->
+                <div class="side-text">
+                    "השגיו את המטרה שהעמידו ליצירתם קטנים של הדגמניות ללהבות גדולות של הישגים"
+                </div>
+                <div class="side-text-author">גולדה מאיר</div>
+
+                <!-- כותרת ראשית -->
+                <div class="main-title">
+                    <h1>תעודה זו מוענקת לכן על זכייתכן</h1>
+                    <div class="highlight">במיזם</div>
+                    <div class="subtitle">בתחרות "נשים מובילות מדע" לקידום חשיבה יזמית רפואית בקרב נשים בישראל.</div>
+                </div>
+
+                <!-- מלבן עגול עם השם -->
+                <div class="name-rounded-box">
+                    <div class="student-name" id="certificatePersonName"></div>
+                </div>
+
+                <!-- תיאור -->
+                <div class="description-text" id="certificateDescription">
+                    על השתתפותך הפעילה והמצוינה<br>
+                    באירוע נשים מובילות מדע<br>
+                    בית ספר: <span id="certificateSchoolName"></span>
+                </div>
+
+                <!-- לוגואים תחתונים -->
+                <div class="bottom-logos">
+                    <div class="bottom-logo-item">
+                        <div class="bottom-logo-text">גבריאל חמו<br>מנכ״ל רח״ן הגולן</div>
+                        <div class="signature-line"></div>
+                    </div>
+                    <div class="bottom-logo-item">
+                        <div class="bottom-logo-text">דולאן אבו סאלח<br>ראש מוצגת מכינה מקדמת</div>
+                        <div class="signature-line"></div>
+                    </div>
+                    <div class="bottom-logo-item">
+                        <div class="bottom-logo-text">מיטל מורדי<br>ראש מחלקת תורני ומדעים</div>
+                        <div class="signature-line"></div>
+                    </div>
+                    <div class="bottom-logo-item">
+                        <div class="bottom-logo-text">ד״ר תמיר ורד<br>מנהל תוכנית נוער ומחשות</div>
+                        <div class="signature-line"></div>
+                    </div>
+                    <div class="bottom-logo-item">
+                        <div class="bottom-logo-text">אמיר גולדברג<br>מנכ״ל אסטרזניקה ישראל</div>
+                        <div class="signature-line"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="certificate-actions">
@@ -581,20 +728,15 @@
 
         function updateCertificatePositions() {
             const isTeacher = document.querySelector('input[name="certificateType"]:checked').value === 'teacher';
-            const certificate = document.getElementById('certificate');
-            const studentName = document.getElementById('certificatePersonName');
-            const schoolName = document.getElementById('certificateSchoolName');
-            
+            const schoolName = document.getElementById('schoolName').value.trim();
+            const descriptionText = document.getElementById('certificateDescription');
+
             if (isTeacher) {
                 // עיצוב תעודת מורה
-                certificate.style.backgroundImage = "url('teacher.jpg')";
-                studentName.style.top = '68%';
-                schoolName.style.top = '68.5%';
+                descriptionText.innerHTML = `על הדרכתך המסורה והמעוררת השראה<br>באירוע נשים מובילות מדע<br>בית ספר: <span id="certificateSchoolName">${schoolName}</span>`;
             } else {
                 // עיצוב תעודת תלמיד
-                certificate.style.backgroundImage = "url('bg.png')";
-                studentName.style.top = '39%';
-                schoolName.style.top = '53.5%';
+                descriptionText.innerHTML = `על השתתפותך הפעילה והמצוינה<br>באירוע נשים מובילות מדע<br>בית ספר: <span id="certificateSchoolName">${schoolName}</span>`;
             }
         }
 
@@ -611,6 +753,8 @@
             // עדכון התעודה
             document.getElementById('certificatePersonName').textContent = personName;
             document.getElementById('certificateSchoolName').textContent = schoolName;
+            document.getElementById('certificatePersonNameNew').textContent = personName;
+            document.getElementById('certificateSchoolNameNew').textContent = schoolName;
             
             // עדכון עיצוב התעודה
             updateCertificatePositions();
