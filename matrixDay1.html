@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>לוז נשים מובילות מדע</title>
+<title>יום 1 - נשים מובילות מדע</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -186,12 +186,12 @@
 <body>
 
 <div class="header">
-  <h1>🔬 לוז נשים מובילות מדע</h1>
+  <h1>🔬 יום 1 - נשים מובילות מדע</h1>
   <div class="sub">הקצה קבוצות → מעבדות → רצועות זמן</div>
 </div>
 
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:var(--lung)"></div>🫁 נשימה</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--lung)"></div>🫁 אור ונשימה</div>
   <div class="legend-item"><div class="legend-dot" style="background:var(--cardio)"></div>💖 קרדיולוגיה</div>
   <div class="legend-item"><div class="legend-dot" style="background:var(--brain)"></div>🧠 המוח</div>
   <div class="legend-item"><div class="legend-dot" style="background:var(--museum)"></div>🏥 מוזיאון רפואה</div>
@@ -202,7 +202,7 @@
 </div>
 
 <div class="note">
-  כל קבוצה עוברת על שלושת הנושאים — נשימה, קרדיולוגיה, המוח — אחד בכל רצועה.<br>
+  כל קבוצה עוברת על שלושת הנושאים — אור ונשימה, קרדיולוגיה, המוח — אחד בכל רצועה.<br>
   <span class="note-mus">🏥 בכל רצועה כל קבוצה מבקרת במוזיאון רפואה רבע שעה</span>
 </div>
 
@@ -284,7 +284,7 @@ function buildGrid() {
 
 const grid = buildGrid();
 
-function renderCell(si, cell) {
+function renderCell(si, cell, labIdx) {
   if (!cell) return '<td class="g-cell g-empty"></td>';
 
   const gi = cell.groupIdx;
@@ -292,6 +292,7 @@ function renderCell(si, cell) {
   const cls = topicCls[topic];
   const musSub = cell.museumSub;
   const musTime = museumTimes[si][musSub];
+  const labName = labs[labIdx].name;
 
   const museumHTML = `
     <div class="mus-banner">
@@ -303,13 +304,13 @@ function renderCell(si, cell) {
 
   if (musSub === 0) {
     // Museum top, merged מעבדה spans rows 2+3
-    contentHTML = museumHTML + '<div class="lab-block lab-block-merged">מעבדה</div>';
+    contentHTML = museumHTML + `<div class="lab-block lab-block-merged">${labName}</div>`;
   } else if (musSub === 1) {
     // מעבדה / museum / מעבדה — all separate, equal rows
-    contentHTML = '<div class="lab-block">מעבדה</div>' + museumHTML + '<div class="lab-block">מעבדה</div>';
+    contentHTML = `<div class="lab-block">${labName}</div>` + museumHTML + `<div class="lab-block">${labName}</div>`;
   } else {
     // Merged מעבדה spans rows 1+2, museum bottom
-    contentHTML = '<div class="lab-block lab-block-merged">מעבדה</div>' + museumHTML;
+    contentHTML = `<div class="lab-block lab-block-merged">${labName}</div>` + museumHTML;
   }
 
   const bracelet = bracelets[gi];
@@ -329,7 +330,7 @@ function renderCell(si, cell) {
 
   h += '<tr class="topic-row">';
   h += '<th class="th-time" rowspan="2"></th>';
-  h += '<th class="th-lung" colspan="3"><span class="t-emoji">🫁</span><span class="t-label">נשימה</span></th>';
+  h += '<th class="th-lung" colspan="3"><span class="t-emoji">🫁</span><span class="t-label">אור ונשימה</span></th>';
   h += '<th class="th-cardio" colspan="3"><span class="t-emoji">💖</span><span class="t-label">קרדיולוגיה</span></th>';
   h += '<th class="th-brain" colspan="3"><span class="t-emoji">🧠</span><span class="t-label">המוח</span></th>';
   h += '</tr>';
@@ -341,7 +342,7 @@ function renderCell(si, cell) {
   slots.forEach((slot, si) => {
     h += '<tr>';
     h += `<td class="time-cell"><span class="t-time" dir="ltr">${slot.time}</span><span class="t-badge">${slot.badge}</span></td>`;
-    grid[si].forEach((cell) => { h += renderCell(si, cell); });
+    grid[si].forEach((cell, labIdx) => { h += renderCell(si, cell, labIdx); });
     h += '</tr>';
   });
 
