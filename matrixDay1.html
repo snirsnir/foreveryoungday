@@ -103,18 +103,38 @@
   .g-name-bar {
     font-size: 10.5px; font-weight: 700; text-align: center;
     padding: 4px 4px 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
   }
   .g-lung .g-name-bar { background: var(--lung); color: #fff; }
   .g-cardio .g-name-bar { background: var(--cardio); color: #fff; }
   .g-brain .g-name-bar { background: var(--brain); color: #fff; }
 
-  /* 3-row grid inside each cell — FIXED height rows so everything aligns */
+  .bracelet-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.7);
+    flex-shrink: 0;
+  }
+
+  /*
+   * Content grid — 3 rows.
+   * museumSub=0: [museum]  [מעבדה merged spanning 2 rows]
+   * museumSub=1: [מעבדה]   [museum]   [מעבדה]
+   * museumSub=2: [מעבדה merged spanning 2 rows]  [museum]
+   *
+   * Row template: top row = 1fr, mid row = auto (museum height), bottom row = 1fr
+   * Merged block spans top+mid or mid+bottom → gets more space.
+   */
   .g-content {
     display: grid;
-    grid-template-rows: 1fr auto 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     gap: 4px;
     padding: 5px;
-    height: 120px; /* fixed height ensures all cells same size */
+    height: 125px;
   }
 
   /* מעבדה block */
@@ -131,18 +151,19 @@
   .g-cardio .lab-block { color: var(--cardio-dark); }
   .g-brain .lab-block { color: var(--brain-dark); }
 
-  /* Museum banner — fixed height middle row */
+  .lab-block-merged { grid-row: span 2; }
+
+  /* Museum banner */
   .mus-banner {
     background: var(--museum-light);
     border: 1px solid rgba(59,130,196,0.3);
     border-radius: 5px;
-    padding: 3px 6px;
+    padding: 4px 6px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0;
   }
   .mus-banner .mus-time {
     font-size: 10px; font-weight: 800; color: var(--museum-dark); display: block;
@@ -150,9 +171,6 @@
   .mus-banner .mus-label {
     font-size: 9px; font-weight: 600; color: var(--museum); display: block; margin-top: 1px;
   }
-
-  /* Placeholder — invisible spacer when museum is not in that row */
-  .placeholder { }
 
   .note {
     max-width: 700px; margin: 18px auto 0;
@@ -200,6 +218,17 @@ const groups = [
   'קופטאן',
 ];
 
+const bracelets = [
+  { name: 'סגול', color: '#9b59b6' },
+  { name: 'חום', color: '#8B4513' },
+  { name: 'צהוב', color: '#f1c40f' },
+  { name: 'ירוק', color: '#2ecc71' },
+  { name: 'כחול', color: '#3498db' },
+  { name: 'אדום', color: '#e74c3c' },
+  { name: 'ירוק כהה', color: '#1a5c38' },
+  { name: 'כתום', color: '#e67e22' },
+];
+
 const rotation = [
   ['L','C','B'],
   ['L','C','B'],
@@ -229,7 +258,6 @@ const slots = [
   { time:'11:40 – 12:30', badge:'רצועה ג\'' },
 ];
 
-// Museum times written end←start so RTL flips them correctly to start→end
 const museumTimes = [
   ['10:00–10:15', '10:15–10:30', '10:30–10:45'],
   ['10:50–11:05', '11:05–11:20', '11:20–11:35'],
@@ -238,6 +266,7 @@ const museumTimes = [
 
 const topicCls = { L:'lung', C:'cardio', B:'brain' };
 const labCls   = { L:'lh-lung', C:'lh-cardio', B:'lh-brain' };
+const musLabel = { L:'ריאות', C:'לב', B:'מוח' };
 
 function buildGrid() {
   const grid = [];
@@ -255,21 +284,6 @@ function buildGrid() {
 
 const grid = buildGrid();
 
-// Render each cell using a fixed 3-row grid:
-//   Row 0 (top):    מעבדה  OR  מוזיאון (if museumSub=0)
-//   Row 1 (mid):    מוזיאון (if museumSub=1)  OR empty placeholder
-//   Row 2 (bottom): מעבדה  OR  מוזיאון (if museumSub=2)
-//
-// museumSub=0: [museum] [placeholder] [מעבדה]   — but we want מעבדה to fill rows 1+2
-// museumSub=1: [מעבדה]  [museum]      [מעבדה]
-// museumSub=2: [מעבדה]  [placeholder] [museum]  — but we want מעבדה to fill rows 0+1
-//
-// Simpler: always 3 rows. Each row is either מעבדה or מוזיאון.
-// museumSub=0: row0=museum, row1=מעבדה, row2=מעבדה
-// museumSub=1: row0=מעבדה,  row1=museum, row2=מעבדה
-// museumSub=2: row0=מעבדה,  row1=מעבדה,  row2=museum
-// All 3 rows equal height → everything aligns.
-
 function renderCell(si, cell) {
   if (!cell) return '<td class="g-cell g-empty"></td>';
 
@@ -282,22 +296,30 @@ function renderCell(si, cell) {
   const museumHTML = `
     <div class="mus-banner">
       <span class="mus-time" dir="ltr">${musTime}</span>
-      <span class="mus-label">🏥 מ. רפואה</span>
+      <span class="mus-label">🏥 מ. רפואה - ${musLabel[topic]}</span>
     </div>`;
-  const labHTML = '<div class="lab-block">מעבדה</div>';
 
-  // Build 3 rows: each is either museum or מעבדה
-  const rows = [labHTML, labHTML, labHTML];
-  rows[musSub] = museumHTML;
+  let contentHTML = '';
 
+  if (musSub === 0) {
+    // Museum top, merged מעבדה spans rows 2+3
+    contentHTML = museumHTML + '<div class="lab-block lab-block-merged">מעבדה</div>';
+  } else if (musSub === 1) {
+    // מעבדה / museum / מעבדה — all separate, equal rows
+    contentHTML = '<div class="lab-block">מעבדה</div>' + museumHTML + '<div class="lab-block">מעבדה</div>';
+  } else {
+    // Merged מעבדה spans rows 1+2, museum bottom
+    contentHTML = '<div class="lab-block lab-block-merged">מעבדה</div>' + museumHTML;
+  }
+
+  const bracelet = bracelets[gi];
   return `
     <td class="g-cell g-${cls}">
-      <div class="g-name-bar">${groups[gi]}</div>
-      <div class="g-content">
-        ${rows[0]}
-        ${rows[1]}
-        ${rows[2]}
+      <div class="g-name-bar">
+        <span class="bracelet-dot" style="background:${bracelet.color}"></span>
+        ${groups[gi]} - ${bracelet.name}
       </div>
+      <div class="g-content">${contentHTML}</div>
     </td>`;
 }
 
