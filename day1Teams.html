@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>לוז נשים מובילות מדע - לפי קבוצות</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lung: #2a9d8f;
+    --lung-light: #d4eeeb;
+    --lung-dark: #1a6b5f;
+    --cardio: #e76f83;
+    --cardio-light: #fde4e9;
+    --cardio-dark: #b8455c;
+    --brain: #7b5ea7;
+    --brain-light: #ece3f4;
+    --brain-dark: #5a3d82;
+    --museum: #3b82c4;
+    --museum-light: #dce9f7;
+    --museum-dark: #1e5a9e;
+    --dark: #1a1a2e;
+    --dark2: #16162a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: linear-gradient(145deg, #f0f4f8 0%, #e8ecf2 100%);
+    min-height: 100vh;
+    padding: 32px 16px 44px;
+    direction: rtl;
+  }
+
+  .header { text-align: center; margin-bottom: 22px; }
+  .header h1 { font-size: 24px; font-weight: 800; color: var(--dark); }
+  .header .sub { font-size: 12px; color: #7a8899; margin-top: 4px; }
+
+  .legend {
+    display: flex; justify-content: center; gap: 18px;
+    margin-bottom: 18px; flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #444; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  .wrapper {
+    max-width: 1500px; margin: 0 auto;
+    overflow-x: auto; border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.05);
+    background: #fff;
+  }
+
+  table { width: 100%; border-collapse: collapse; min-width: 900px; }
+
+  /* GROUP HEADER */
+  .group-header-row th {
+    padding: 10px 6px;
+    text-align: center;
+    color: #fff;
+    background: var(--dark);
+    border-left: 2px solid rgba(255,255,255,0.15);
+    vertical-align: middle;
+  }
+  .group-header-row th:first-child {
+    border-radius: 16px 0 0 0;
+    min-width: 108px;
+  }
+  .group-header-row th:last-child {
+    border-radius: 0 16px 0 0;
+  }
+  .group-header-row .group-name {
+    font-size: 11px;
+    font-weight: 700;
+    display: block;
+  }
+  .group-header-row .bracelet-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 3px;
+  }
+  .group-header-row .bracelet-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.5);
+  }
+  .group-header-row .bracelet-name {
+    font-size: 10px;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  /* TIME CELLS */
+  .time-cell {
+    background: var(--dark); color: #cdd6f4;
+    text-align: center; padding: 14px 6px;
+    border-top: 1px solid #2a2a44; vertical-align: middle;
+  }
+  .time-cell .t-time { font-size: 14px; font-weight: 800; display: block; color: #eef2ff; }
+  .time-cell .t-badge { font-size: 9.5px; color: #6b7a9e; display: block; margin-top: 2px; font-weight: 500; }
+
+  /* ACTIVITY CELL */
+  .activity-cell {
+    padding: 0;
+    vertical-align: top;
+    border: 1px solid rgba(0,0,0,0.07);
+    min-width: 110px;
+  }
+  .activity-cell.topic-L { background: var(--lung-light); }
+  .activity-cell.topic-C { background: var(--cardio-light); }
+  .activity-cell.topic-B { background: var(--brain-light); }
+
+  /* Topic name bar at top of cell */
+  .topic-bar {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 4px 3px;
+    text-align: center;
+    color: #fff;
+  }
+  .topic-L .topic-bar { background: var(--lung); }
+  .topic-C .topic-bar { background: var(--cardio); }
+  .topic-B .topic-bar { background: var(--brain); }
+
+  /* Content grid - 3 rows like original */
+  .activity-content {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 4px;
+    padding: 5px;
+    height: 125px;
+  }
+
+  /* Lab block */
+  .lab-block {
+    background: rgba(255,255,255,0.55);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+  }
+  .topic-L .lab-block { color: var(--lung-dark); }
+  .topic-C .lab-block { color: var(--cardio-dark); }
+  .topic-B .lab-block { color: var(--brain-dark); }
+
+  .lab-block-merged { grid-row: span 2; }
+
+  /* Museum banner */
+  .mus-banner {
+    background: var(--museum-light);
+    border: 1px solid rgba(59,130,196,0.3);
+    border-radius: 5px;
+    padding: 5px 6px;
+    text-align: center;
+  }
+  .mus-banner .mus-time {
+    font-size: 10px; font-weight: 800; color: var(--museum-dark); display: block;
+  }
+  .mus-banner .mus-label {
+    font-size: 8px; font-weight: 600; color: var(--museum); display: block; margin-top: 1px;
+  }
+
+  .note {
+    max-width: 700px; margin: 18px auto 0;
+    text-align: center; font-size: 11px; color: #8a8a9a; line-height: 1.7;
+  }
+  .note .note-mus {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--museum-light); color: var(--museum-dark);
+    padding: 3px 10px; border-radius: 8px; font-weight: 600; font-size: 10.5px; margin-top: 5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🔬 לוז נשים מובילות מדע - לפי קבוצות</h1>
+  <div class="sub">כל עמודה מציגה את הלוז של קבוצה אחת</div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--lung)"></div>🫁 נשימה</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cardio)"></div>💖 קרדיולוגיה</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--brain)"></div>🧠 המוח</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--museum)"></div>🏥 מוזיאון רפואה</div>
+</div>
+
+<div class="wrapper">
+  <table id="tbl"></table>
+</div>
+
+<div class="note">
+  כל קבוצה עוברת על שלושת הנושאים — נשימה, קרדיולוגיה, המוח — אחד בכל רצועה.<br>
+  <span class="note-mus">🏥 בכל רצועה כל קבוצה מבקרת במוזיאון רפואה רבע שעה</span>
+</div>
+
+<script>
+const groups = [
+  'שש שנתי – יש"י',
+  'רב תחומי',
+  'מבשרת',
+  'אלדד + אתגרי העתיד',
+  'נבון',
+  'אולפנה – מעיין האמונה',
+  'עתידים',
+  'קופטאן',
+];
+
+const bracelets = [
+  { name: 'סגול', color: '#9b59b6' },
+  { name: 'חום', color: '#8B4513' },
+  { name: 'צהוב', color: '#f1c40f' },
+  { name: 'ירוק', color: '#2ecc71' },
+  { name: 'כחול', color: '#3498db' },
+  { name: 'אדום', color: '#e74c3c' },
+  { name: 'ירוק כהה', color: '#1a5c38' },
+  { name: 'כתום', color: '#e67e22' },
+];
+
+const rotation = [
+  ['L','C','B'],
+  ['L','C','B'],
+  ['L','B','C'],
+  ['C','L','B'],
+  ['C','B','L'],
+  ['C','B','L'],
+  ['B','L','C'],
+  ['B','C','L'],
+];
+
+const labs = [
+  { name:'מעבדה 1',          topic:'L' },
+  { name:'מעבדה 2',          topic:'L' },
+  { name:'מעבדה 3',          topic:'L' },
+  { name:'מעבדה 4',          topic:'C' },
+  { name:'מעבדה 5',          topic:'C' },
+  { name:'מעבדה 6',          topic:'C' },
+  { name:'יחיד. רפ. א\'',   topic:'B' },
+  { name:'יחיד. רפ. ב\'',   topic:'B' },
+  { name:'מעבדת אלקטרוניקה', topic:'B' },
+];
+
+const slots = [
+  { time:'10:00 – 10:50', badge:'רצועה א\'' },
+  { time:'10:50 – 11:40', badge:'רצועה ב\'' },
+  { time:'11:40 – 12:30', badge:'רצועה ג\'' },
+];
+
+const museumTimes = [
+  ['10:00–10:15', '10:15–10:30', '10:30–10:45'],
+  ['10:50–11:05', '11:05–11:20', '11:20–11:35'],
+  ['11:40–11:55', '11:55–12:10', '12:10–12:25'],
+];
+
+const topicNames = { L:'🫁 נשימה', C:'💖 קרדיולוגיה', B:'🧠 המוח' };
+const musLabel = { L:'ריאות', C:'לב', B:'מוח' };
+
+// Build schedule: for each group, for each slot, what lab are they in?
+function buildGroupSchedule() {
+  const schedule = groups.map(() => []);
+
+  for (let si = 0; si < 3; si++) {
+    const byTopic = { L:[], C:[], B:[] };
+    rotation.forEach((row, gi) => byTopic[row[si]].push(gi));
+
+    // Assign labs to groups
+    byTopic.L.forEach((gi, i) => {
+      schedule[gi][si] = { labIdx: i, topic: 'L', museumSub: i };
+    });
+    byTopic.C.forEach((gi, i) => {
+      schedule[gi][si] = { labIdx: 3 + i, topic: 'C', museumSub: i };
+    });
+    byTopic.B.forEach((gi, i) => {
+      schedule[gi][si] = { labIdx: 6 + i, topic: 'B', museumSub: i };
+    });
+  }
+
+  return schedule;
+}
+
+const groupSchedule = buildGroupSchedule();
+
+function renderActivityCell(gi, si) {
+  const info = groupSchedule[gi][si];
+  const topic = info.topic;
+  const labName = labs[info.labIdx].name;
+  const musSub = info.museumSub;
+  const musTime = museumTimes[si][musSub];
+
+  const museumHTML = `
+    <div class="mus-banner">
+      <span class="mus-time" dir="ltr">${musTime}</span>
+      <span class="mus-label">🏥 מ. רפואה - ${musLabel[topic]}</span>
+    </div>`;
+
+  let contentHTML = '';
+
+  if (musSub === 0) {
+    // Museum top, merged lab spans rows 2+3
+    contentHTML = museumHTML + `<div class="lab-block lab-block-merged">${labName}</div>`;
+  } else if (musSub === 1) {
+    // lab / museum / lab — all separate, equal rows
+    contentHTML = `<div class="lab-block">${labName}</div>` + museumHTML + `<div class="lab-block">${labName}</div>`;
+  } else {
+    // Merged lab spans rows 1+2, museum bottom
+    contentHTML = `<div class="lab-block lab-block-merged">${labName}</div>` + museumHTML;
+  }
+
+  return `
+    <td class="activity-cell topic-${topic}">
+      <div class="topic-bar">${topicNames[topic]}</div>
+      <div class="activity-content">${contentHTML}</div>
+    </td>`;
+}
+
+(function render() {
+  const tbl = document.getElementById('tbl');
+  let h = '';
+
+  // Header row with group names
+  h += '<tr class="group-header-row">';
+  h += '<th></th>';
+  groups.forEach((group, gi) => {
+    const bracelet = bracelets[gi];
+    h += `<th>
+      <span class="group-name">${group}</span>
+      <div class="bracelet-info">
+        <span class="bracelet-dot" style="background:${bracelet.color}"></span>
+        <span class="bracelet-name">${bracelet.name}</span>
+      </div>
+    </th>`;
+  });
+  h += '</tr>';
+
+  // Data rows
+  slots.forEach((slot, si) => {
+    h += '<tr>';
+    h += `<td class="time-cell">
+      <span class="t-time" dir="ltr">${slot.time}</span>
+      <span class="t-badge">${slot.badge}</span>
+    </td>`;
+    groups.forEach((_, gi) => {
+      h += renderActivityCell(gi, si);
+    });
+    h += '</tr>';
+  });
+
+  tbl.innerHTML = h;
+})();
+</script>
+</body>
+</html>
