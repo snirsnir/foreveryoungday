@@ -21,6 +21,8 @@
     --museum-dark: #1e5a9e;
     --dark: #1a1a2e;
     --dark2: #16162a;
+    --common: #f8f9fa;
+    --common-border: #dee2e6;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -102,6 +104,34 @@
   .time-cell .t-time { font-size: 14px; font-weight: 800; display: block; color: #eef2ff; }
   .time-cell .t-badge { font-size: 9.5px; color: #6b7a9e; display: block; margin-top: 2px; font-weight: 500; }
 
+  /* COMMON ROW - spans all columns */
+  .common-row td {
+    background: var(--common);
+    border: 1px solid var(--common-border);
+    padding: 12px 10px;
+    vertical-align: middle;
+  }
+  .common-row .time-cell {
+    background: var(--dark);
+    border: none;
+  }
+  .common-content {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+  }
+  .common-content .common-title {
+    font-weight: 700;
+    color: #212529;
+    display: block;
+  }
+  .common-content .common-location {
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 2px;
+  }
+
   /* ACTIVITY CELL */
   .activity-cell {
     padding: 0;
@@ -165,6 +195,42 @@
     font-size: 8px; font-weight: 600; color: var(--museum); display: block; margin-top: 1px;
   }
 
+  /* מעגלי חשיבה cell - uniform color */
+  .circles-cell {
+    padding: 0;
+    vertical-align: top;
+    border: 1px solid rgba(0,0,0,0.07);
+    min-width: 110px;
+    background: #fff3e0;
+  }
+
+  .circles-bar {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 4px 3px;
+    text-align: center;
+    color: #fff;
+    background: #e65100;
+  }
+
+  .circles-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 5px;
+    height: 50px;
+  }
+
+  .circles-lab {
+    background: rgba(255,255,255,0.7);
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 800;
+    text-align: center;
+    color: #e65100;
+  }
+
   .note {
     max-width: 700px; margin: 18px auto 0;
     text-align: center; font-size: 11px; color: #8a8a9a; line-height: 1.7;
@@ -204,7 +270,7 @@ const groups = [
   'שש שנתי – יש"י',
   'רב תחומי',
   'מבשרת',
-  'אלדד + אתגרי העתיד',
+  'אתגרי העתיד + מאיר שפיה',
   'נבון',
   'אולפנה – מעיין האמונה',
   'עתידים',
@@ -318,6 +384,37 @@ function renderActivityCell(gi, si) {
     </td>`;
 }
 
+// Render circles (מעגלי חשיבה) cell - same lab as first slot, uniform color
+function renderCirclesCell(gi) {
+  const info = groupSchedule[gi][0]; // Use first slot assignment
+  const labName = labs[info.labIdx].name;
+
+  return `
+    <td class="circles-cell">
+      <div class="circles-bar">💭 מעגלי חשיבה</div>
+      <div class="circles-content">
+        <div class="circles-lab">${labName}</div>
+      </div>
+    </td>`;
+}
+
+// Render common row (spans all groups)
+function renderCommonRow(time, badge, title, location) {
+  let h = '<tr class="common-row">';
+  h += `<td class="time-cell">
+    <span class="t-time" dir="ltr">${time}</span>
+    ${badge ? `<span class="t-badge">${badge}</span>` : ''}
+  </td>`;
+  h += `<td colspan="${groups.length}">
+    <div class="common-content">
+      <span class="common-title">${title}</span>
+      ${location ? `<span class="common-location">${location}</span>` : ''}
+    </div>
+  </td>`;
+  h += '</tr>';
+  return h;
+}
+
 (function render() {
   const tbl = document.getElementById('tbl');
   let h = '';
@@ -337,7 +434,13 @@ function renderActivityCell(gi, si) {
   });
   h += '</tr>';
 
-  // Data rows
+  // === COMMON: התאספות ונשנושים ===
+  h += renderCommonRow('09:00 – 09:30', '', '☕ התאספות ונשנושים', 'בכניסה לאודיטוריום');
+
+  // === COMMON: פתיחה ===
+  h += renderCommonRow('09:30 – 10:00', '', '🎤 פתיחה', 'באודיטוריום');
+
+  // === ROTATION SLOTS (different for each group) ===
   slots.forEach((slot, si) => {
     h += '<tr>';
     h += `<td class="time-cell">
@@ -349,6 +452,23 @@ function renderActivityCell(gi, si) {
     });
     h += '</tr>';
   });
+
+  // === COMMON: ארוחת צהריים ===
+  h += renderCommonRow('12:30 – 13:00', '', '🍽️ ארוחת צהריים קלה', '');
+
+  // === מעגלי חשיבה (different for each - same lab as first slot) ===
+  h += '<tr>';
+  h += `<td class="time-cell">
+    <span class="t-time" dir="ltr">13:00 – 14:15</span>
+    <span class="t-badge">מעגלי חשיבה</span>
+  </td>`;
+  groups.forEach((_, gi) => {
+    h += renderCirclesCell(gi);
+  });
+  h += '</tr>';
+
+  // === COMMON: סיכום היום ===
+  h += renderCommonRow('14:15 – 14:30', '', '✨ סיכום היום וצידה לדרך', 'באודיטוריום');
 
   tbl.innerHTML = h;
 })();

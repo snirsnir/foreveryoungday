@@ -44,7 +44,7 @@
             z-index: -2;
             clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -96,7 +96,7 @@
             color: #666;
             font-size: 18px;
         }
-        
+
         .controls {
             background: white;
             padding: 20px;
@@ -104,7 +104,7 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             margin-bottom: 30px;
         }
-        
+
         .group-selector {
             display: flex;
             gap: 15px;
@@ -112,16 +112,17 @@
             flex-wrap: wrap;
             justify-content: center;
         }
-        
+
         select {
             padding: 12px 20px;
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
             background: white;
-            min-width: 200px;
+            min-width: 250px;
+            font-family: 'Heebo', sans-serif;
         }
-        
+
         select:focus {
             outline: none;
             border-color: #7B1E7A;
@@ -146,68 +147,109 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(123, 30, 122, 0.4);
         }
-        
+
         .schedule-page {
             background: white;
             width: 210mm;
-            height: 297mm;
+            max-width: 100%;
             margin: 0 auto 30px auto;
-            padding: 20mm;
+            padding: 15mm;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             border-radius: 10px;
             display: none;
+            position: relative;
         }
-        
+
         .schedule-page.active {
             display: block;
         }
-        
+
+        .digital-qr {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            text-align: center;
+            font-size: 10px;
+            color: #7B1E7A;
+            max-width: 90px;
+        }
+
+        .digital-qr p {
+            margin-bottom: 5px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .digital-qr img {
+            width: 70px;
+            height: 70px;
+            border-radius: 6px;
+        }
+
         .page-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 25px;
             border-bottom: 3px solid #7B1E7A;
-            padding-bottom: 20px;
+            padding-bottom: 15px;
         }
 
         .page-header h2 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #7B1E7A;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 800;
         }
 
         .page-header .group-name {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: #7B1E7A;
             font-weight: bold;
         }
-        
+
+        .bracelet-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f0f0;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .bracelet-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,0,0,0.2);
+        }
+
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 16px;
-            margin-top: 20px;
+            font-size: 14px;
         }
-        
+
         .schedule-table th {
             background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
             color: white;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
         }
-        
+
         .schedule-table th:first-child {
             border-top-right-radius: 10px;
+            width: 120px;
         }
-        
+
         .schedule-table th:last-child {
             border-top-left-radius: 10px;
         }
-        
+
         .schedule-table td {
-            padding: 20px 15px;
+            padding: 12px 10px;
             text-align: center;
             border: 2px solid #f0f0f0;
             background: #fafafa;
@@ -215,42 +257,114 @@
             color: #333;
             vertical-align: middle;
         }
-        
+
         .schedule-table tr:nth-child(even) td {
             background: #f8f9ff;
         }
-        
-        .schedule-table tr:hover td {
-            background: #e6ecff;
-            transform: scale(1.02);
-            transition: all 0.3s ease;
-        }
-        
+
         .time-slot {
             font-weight: 700;
             background: linear-gradient(135deg, #7B1E7A, #9B4D9A) !important;
             color: white !important;
-            font-size: 18px;
+            font-size: 14px;
+            white-space: nowrap;
         }
-        
+
         .activity {
-            min-height: 60px;
+            min-height: 40px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
             line-height: 1.4;
+            gap: 3px;
         }
-        
+
+        .activity-title {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .activity-location {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .activity-topic {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .topic-lung {
+            background: #d4eeeb;
+            color: #1a6b5f;
+        }
+
+        .topic-cardio {
+            background: #fde4e9;
+            color: #b8455c;
+        }
+
+        .topic-brain {
+            background: #ece3f4;
+            color: #5a3d82;
+        }
+
+        .topic-circles {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .common-activity {
+            background: #f8f9fa !important;
+        }
+
+        .common-activity .activity-title {
+            color: #495057;
+        }
+
         @media print {
+            @page {
+                size: A4;
+                margin: 10mm;
+                margin-top: 5mm;
+                margin-bottom: 5mm;
+            }
+
+            /* Hide browser default headers and footers */
+            @page {
+                @top-left { content: none; }
+                @top-center { content: none; }
+                @top-right { content: none; }
+                @bottom-left { content: none; }
+                @bottom-center { content: none; }
+                @bottom-right { content: none; }
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            html, body {
+                height: auto !important;
+                overflow: visible !important;
+            }
+
             body {
                 background: white;
                 padding: 0;
+                margin: 0;
             }
 
             body::before,
             body::after {
-                display: none;
+                display: none !important;
             }
 
             .container {
@@ -260,31 +374,147 @@
             .logos-container,
             .header,
             .controls {
-                display: none;
+                display: none !important;
             }
-            
+
+            #schedules {
+                margin: 0;
+                padding: 0;
+            }
+
             .schedule-page {
                 width: 100%;
-                height: 100%;
+                height: auto;
                 margin: 0;
-                padding: 15mm;
+                padding: 0;
                 box-shadow: none;
                 border-radius: 0;
-                page-break-after: always;
+                page-break-after: auto;
+                page-break-inside: avoid;
+                display: block !important;
             }
-            
-            .schedule-page:last-child {
-                page-break-after: avoid;
+
+            .schedule-page:not(.active) {
+                display: none !important;
+            }
+
+            .page-header {
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+                border-bottom-width: 2px;
+            }
+
+            .page-header h2 {
+                font-size: 1.6rem;
+                margin-bottom: 6px;
+            }
+
+            .page-header .group-name {
+                font-size: 1.3rem;
+            }
+
+            .bracelet-badge {
+                padding: 5px 14px;
+                margin-top: 8px;
+                font-size: 13px;
+            }
+
+            .bracelet-dot {
+                width: 15px;
+                height: 15px;
+            }
+
+            .schedule-table {
+                font-size: 14px;
+            }
+
+            .schedule-table th {
+                padding: 10px;
+                font-size: 15px;
+            }
+
+            .schedule-table td {
+                padding: 8px 10px;
+            }
+
+            .time-slot {
+                font-size: 13px !important;
+            }
+
+            .activity {
+                min-height: 35px;
+                gap: 3px;
+            }
+
+            .activity-title {
+                font-size: 15px;
+            }
+
+            .activity-location {
+                font-size: 12px;
+            }
+
+            .activity-topic {
+                padding: 3px 10px;
+                font-size: 11px;
+                margin-top: 3px;
+            }
+
+            .print-note {
+                margin-top: 12px !important;
+                font-size: 12px !important;
+            }
+
+            .print-qr-section {
+                margin-top: 15px !important;
+                padding: 15px !important;
+            }
+
+            .print-qr-section p {
+                font-size: 14px !important;
+                margin-bottom: 12px !important;
+            }
+
+            .print-qr-section img {
+                max-width: 120px !important;
+            }
+
+            .digital-qr {
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                max-width: 80px;
+                font-size: 9px;
+            }
+
+            .digital-qr img {
+                width: 60px;
+                height: 60px;
             }
         }
-        
+
         .print-all {
             margin-right: 15px;
         }
-        
+
         @media screen {
             .print-mode .schedule-page {
                 display: block !important;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .schedule-page {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .schedule-table {
+                font-size: 12px;
+            }
+
+            .time-slot {
+                font-size: 11px;
             }
         }
     </style>
@@ -307,61 +537,248 @@
             <h1>📅 מערכת לוחות זמנים</h1>
             <p>נשים מובילות מדע • Forever Young</p>
         </div>
-        
+
         <div class="controls">
             <div class="group-selector">
-                <label for="groupSelect" style="font-weight: bold; color: #333;">בחר קבוצה:</label>
+                <label for="groupSelect" style="font-weight: bold; color: #333;">בחרי בית ספר:</label>
                 <select id="groupSelect">
-                    <option value="">-- בחר קבוצה --</option>
+                    <option value="">-- בחרי בית ספר --</option>
                 </select>
                 <button class="btn print-all" onclick="printAll()">🖨️ הדפס הכל</button>
-                <button class="btn" onclick="printCurrent()">🖨️ הדפס קבוצה נוכחית</button>
+                <button class="btn" onclick="printCurrent()">🖨️ הדפס לוז נוכחי</button>
             </div>
         </div>
-        
+
         <div id="schedules"></div>
     </div>
 
     <script>
-        const scheduleData = [
-            { group: "קבוצה לדוגמא", slot1: "פעילות 1 - מיקום 1", slot2: "פעילות 2 - מיקום 2", slot3: "פעילות 3 - מיקום 3" }
+        // נתוני הקבוצות - מתוך day1Teams
+        const groups = [
+            'שש שנתי – יש"י',
+            'רב תחומי',
+            'מבשרת',
+            'אתגרי העתיד + מאיר שפיה',
+            'נבון',
+            'אולפנה – מעיין האמונה',
+            'עתידים',
+            'קופטאן',
         ];
+
+        const bracelets = [
+            { name: 'סגול', color: '#9b59b6' },
+            { name: 'חום', color: '#8B4513' },
+            { name: 'צהוב', color: '#f1c40f' },
+            { name: 'ירוק', color: '#2ecc71' },
+            { name: 'כחול', color: '#3498db' },
+            { name: 'אדום', color: '#e74c3c' },
+            { name: 'ירוק כהה', color: '#1a5c38' },
+            { name: 'כתום', color: '#e67e22' },
+        ];
+
+        const rotation = [
+            ['L','C','B'],
+            ['L','C','B'],
+            ['L','B','C'],
+            ['C','L','B'],
+            ['C','B','L'],
+            ['C','B','L'],
+            ['B','L','C'],
+            ['B','C','L'],
+        ];
+
+        const labs = [
+            { name:'מעבדה 1', topic:'L' },
+            { name:'מעבדה 2', topic:'L' },
+            { name:'מעבדה 3', topic:'L' },
+            { name:'מעבדה 4', topic:'C' },
+            { name:'מעבדה 5', topic:'C' },
+            { name:'מעבדה 6', topic:'C' },
+            { name:'יחידת רפואה א\'', topic:'B' },
+            { name:'יחידת רפואה ב\'', topic:'B' },
+            { name:'מעבדת אלקטרוניקה', topic:'B' },
+        ];
+
+        const topicNames = {
+            L: '🫁 אור ונשימה',
+            C: '💖 קרדיולוגיה',
+            B: '🧠 המוח'
+        };
+
+        const topicClasses = {
+            L: 'topic-lung',
+            C: 'topic-cardio',
+            B: 'topic-brain'
+        };
+
+        const museumTimes = [
+            ['10:00-10:15', '10:15-10:30', '10:30-10:45'],
+            ['10:50-11:05', '11:05-11:20', '11:20-11:35'],
+            ['11:40-11:55', '11:55-12:10', '12:10-12:25'],
+        ];
+
+        const musLabel = { L:'ריאות', C:'לב', B:'מוח' };
+
+        // בניית לוח הזמנים לכל קבוצה
+        function buildGroupSchedule() {
+            const schedule = groups.map(() => []);
+
+            for (let si = 0; si < 3; si++) {
+                const byTopic = { L:[], C:[], B:[] };
+                rotation.forEach((row, gi) => byTopic[row[si]].push(gi));
+
+                byTopic.L.forEach((gi, i) => {
+                    schedule[gi][si] = { labIdx: i, topic: 'L', museumSub: i };
+                });
+                byTopic.C.forEach((gi, i) => {
+                    schedule[gi][si] = { labIdx: 3 + i, topic: 'C', museumSub: i };
+                });
+                byTopic.B.forEach((gi, i) => {
+                    schedule[gi][si] = { labIdx: 6 + i, topic: 'B', museumSub: i };
+                });
+            }
+
+            return schedule;
+        }
+
+        const groupSchedule = buildGroupSchedule();
 
         function initializeApp() {
             const select = document.getElementById('groupSelect');
             const schedulesDiv = document.getElementById('schedules');
-            
+
             // מילוי הרשימה הנפתחת
-            scheduleData.forEach((data, index) => {
+            groups.forEach((group, index) => {
                 const option = document.createElement('option');
                 option.value = index;
-                option.textContent = data.group;
+                option.textContent = group;
                 select.appendChild(option);
             });
-            
+
             // יצירת כל הלוחות
-            scheduleData.forEach((data, index) => {
-                const schedulePage = createSchedulePage(data, index);
+            groups.forEach((group, index) => {
+                const schedulePage = createSchedulePage(group, index);
                 schedulesDiv.appendChild(schedulePage);
             });
-            
+
             // מאזין לשינוי בחירה
             select.addEventListener('change', function() {
                 showSchedule(this.value);
             });
         }
-        
-        function createSchedulePage(data, index) {
+
+        function createSchedulePage(groupName, groupIndex) {
             const page = document.createElement('div');
             page.className = 'schedule-page';
-            page.id = `schedule-${index}`;
-            
+            page.id = `schedule-${groupIndex}`;
+
+            const bracelet = bracelets[groupIndex];
+            const schedule = groupSchedule[groupIndex];
+
+            // בניית שורות הלוז
+            let tableRows = '';
+
+            // התאספות ונשנושים
+            tableRows += `
+                <tr>
+                    <td class="time-slot">09:00 - 09:30</td>
+                    <td class="common-activity">
+                        <div class="activity">
+                            <span class="activity-title">☕ התאספות ונשנושים</span>
+                            <span class="activity-location">בכניסה לאודיטוריום</span>
+                        </div>
+                    </td>
+                </tr>`;
+
+            // פתיחה
+            tableRows += `
+                <tr>
+                    <td class="time-slot">09:30 - 10:00</td>
+                    <td class="common-activity">
+                        <div class="activity">
+                            <span class="activity-title">🎤 פתיחה</span>
+                            <span class="activity-location">באודיטוריום</span>
+                        </div>
+                    </td>
+                </tr>`;
+
+            // שלוש רצועות
+            const slotTimes = ['10:00 - 10:50', '10:50 - 11:40', '11:40 - 12:30'];
+            const slotNames = ['רצועה א\'', 'רצועה ב\'', 'רצועה ג\''];
+
+            slotTimes.forEach((time, si) => {
+                const info = schedule[si];
+                const topic = info.topic;
+                const labName = labs[info.labIdx].name;
+                const musTime = museumTimes[si][info.museumSub];
+
+                tableRows += `
+                    <tr>
+                        <td class="time-slot">${time}<br><small>${slotNames[si]}</small></td>
+                        <td>
+                            <div class="activity">
+                                <span class="activity-title">${topicNames[topic]}</span>
+                                <span class="activity-location">${labName}</span>
+                                <span class="activity-topic ${topicClasses[topic]}">🏥 מוזיאון רפואה (${musLabel[topic]}): ${musTime}</span>
+                            </div>
+                        </td>
+                    </tr>`;
+            });
+
+            // ארוחת צהריים
+            tableRows += `
+                <tr>
+                    <td class="time-slot">12:30 - 13:00</td>
+                    <td class="common-activity">
+                        <div class="activity">
+                            <span class="activity-title">🍽️ ארוחת צהריים קלה</span>
+                        </div>
+                    </td>
+                </tr>`;
+
+            // מעגלי חשיבה - אותה מעבדה כמו רצועה ראשונה
+            const circlesInfo = schedule[0];
+            const circlesLabName = labs[circlesInfo.labIdx].name;
+
+            tableRows += `
+                <tr>
+                    <td class="time-slot">13:00 - 14:15</td>
+                    <td>
+                        <div class="activity">
+                            <span class="activity-title">💭 מעגלי חשיבה</span>
+                            <span class="activity-location">${circlesLabName}</span>
+                            <span class="activity-topic topic-circles">פעילות סיכום</span>
+                        </div>
+                    </td>
+                </tr>`;
+
+            // סיכום היום
+            tableRows += `
+                <tr>
+                    <td class="time-slot">14:15 - 14:30</td>
+                    <td class="common-activity">
+                        <div class="activity">
+                            <span class="activity-title">✨ סיכום היום וצידה לדרך</span>
+                            <span class="activity-location">באודיטוריום</span>
+                        </div>
+                    </td>
+                </tr>`;
+
             page.innerHTML = `
+                <div class="digital-qr">
+                    <p>צריכות את לוח הזמנים בדיגיטל? סרקו!</p>
+                    <img src="luzQR.png" alt="QR Code ללוז דיגיטלי">
+                </div>
+
                 <div class="page-header">
                     <h2>📚 לוח זמנים יומי</h2>
-                    <div class="group-name">${data.group}</div>
+                    <div class="group-name">${groupName}</div>
+                    <div class="bracelet-badge">
+                        <span class="bracelet-dot" style="background: ${bracelet.color}"></span>
+                        <span>צמיד ${bracelet.name}</span>
+                    </div>
                 </div>
-                
+
                 <table class="schedule-table">
                     <thead>
                         <tr>
@@ -370,95 +787,72 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="time-slot">10:00 - 11:30</td>
-                            <td class="activity">${data.slot1}</td>
-                        </tr>
-                        <tr>
-                            <td class="time-slot">12:00 - 13:30</td>
-                            <td class="activity">${data.slot2}</td>
-                        </tr>
-                        <tr>
-                            <td class="time-slot">14:00 - 15:30</td>
-                            <td class="activity">${data.slot3}</td>
-                        </tr>
+                        ${tableRows}
                     </tbody>
                 </table>
-                
-                <div style="margin-top: 40px; text-align: center; color: #666; font-size: 14px;">
-<p> לא מוצאים את המעבדה? חפשו את כפות הרגליים ברצפה, הן יעזרו לכם למצוא היעד 👣</p>
+
+                <div class="print-note" style="margin-top: 15px; text-align: center; color: #666; font-size: 12px;">
+                    <p>👣 לא מוצאות את המעבדה? חפשו את כפות הרגליים על הרצפה, הן יעזרו לכן למצוא את היעד</p>
+                </div>
+
+                <div class="print-qr-section" style="margin-top: 12px; text-align: center; padding: 12px; background: #fff5f5; border: 2px solid #e53e3e; border-radius: 10px;">
+                    <p style="color: #c53030; font-weight: 800; font-size: 14px; margin-bottom: 10px;">
+                        ⚠️ יש לענות על השאלון הבא לפני שמתחילים את הפעילות
+                    </p>
+                    <img src="qrForm.png" alt="QR Code לשאלון" style="max-width: 120px; height: auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.12);">
                 </div>
             `;
-            
+
             return page;
         }
-        
+
         function showSchedule(index) {
             // הסתרת כל הלוחות
             document.querySelectorAll('.schedule-page').forEach(page => {
                 page.classList.remove('active');
             });
-            
+
             // הצגת הלוח הנבחר
             if (index !== '') {
                 document.getElementById(`schedule-${index}`).classList.add('active');
             }
         }
-        
+
         function printCurrent() {
             const select = document.getElementById('groupSelect');
             if (select.value === '') {
-                alert('אנא בחר קבוצה קודם');
+                alert('אנא בחרי בית ספר קודם');
                 return;
             }
-            
-            const currentSchedule = document.getElementById(`schedule-${select.value}`);
-            if (currentSchedule) {
-                // הסתרת כל הלוחות
-                document.querySelectorAll('.schedule-page').forEach(page => {
-                    page.style.display = 'none';
-                });
-                
-                // הצגת הלוח הנוכחי בלבד
-                currentSchedule.style.display = 'block';
-                
-                window.print();
-                
-                // החזרת המצב הרגיל אחרי ההדפסה
-                setTimeout(() => {
-                    document.querySelectorAll('.schedule-page').forEach(page => {
-                        page.style.display = 'none';
-                    });
-                    currentSchedule.classList.add('active');
-                }, 500);
-            }
-        }
-        
-        function printAll() {
-            // הפיכת הגוף למצב הדפסה
-            document.body.classList.add('print-mode');
-            
-            // הצגת כל הלוחות
-            document.querySelectorAll('.schedule-page').forEach(page => {
-                page.style.display = 'block';
-            });
-            
+
+            // The active class already shows the right page
+            // Just print directly
             window.print();
-            
-            // החזרת המצב הרגיל
-            setTimeout(() => {
-                document.body.classList.remove('print-mode');
-                document.querySelectorAll('.schedule-page').forEach(page => {
-                    page.style.display = 'none';
-                });
-                showSchedule(document.getElementById('groupSelect').value);
-            }, 500);
         }
-        
+
+        function printAll() {
+            const currentValue = document.getElementById('groupSelect').value;
+
+            // Temporarily show all pages for printing
+            document.querySelectorAll('.schedule-page').forEach(page => {
+                page.classList.add('active');
+            });
+
+            window.print();
+
+            // Restore after print - show only the previously selected page
+            setTimeout(() => {
+                document.querySelectorAll('.schedule-page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                if (currentValue !== '') {
+                    document.getElementById(`schedule-${currentValue}`).classList.add('active');
+                }
+            }, 100);
+        }
+
         // אתחול האפליקציה
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 </html>
-
-
