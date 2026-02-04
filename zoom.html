@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מפגשי זום - נשים מובילות מדע</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    direction: rtl;
+    overflow-x: hidden;
+  }
+
+  .slide {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 40px 20px;
+  }
+
+  /* Slide 0 - אז מה היה לנו */
+  .slide-0 {
+    background: url('nashimBG.png') center center / cover no-repeat;
+    background-attachment: fixed;
+  }
+
+  .slide-0::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .slide-0 .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 750px;
+  }
+
+  .slide-0 h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #FFD700;
+    -webkit-text-stroke: 1.5px #000;
+    paint-order: stroke fill;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.6);
+    margin-bottom: 40px;
+  }
+
+  .slide-0 ul {
+    list-style: none;
+    text-align: right;
+  }
+
+  .slide-0 ul li {
+    color: #fff;
+    font-size: 1.45rem;
+    font-weight: 700;
+    -webkit-text-stroke: 2px #000;
+    paint-order: stroke fill;
+    padding: 14px 54px 14px 20px;
+    margin: 10px 0;
+    border-right: none;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    position: relative;
+  }
+
+  .slide-0 ul li::before {
+    content: '✓';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #4ecdc4;
+    text-shadow: 0 0 8px rgba(78,205,196,0.6);
+  }
+
+  .slide-0 ul li .dt-label {
+    color: #FFD700;
+    font-weight: 800;
+  }
+
+  /* Slide 1 - אז מה הלאה */
+  .slide-1 {
+    background: url('nashimBG.png') center center / cover no-repeat;
+    background-attachment: fixed;
+  }
+
+  .slide-1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .slide-1 .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .slide-1 h1 {
+    font-size: 5rem;
+    font-weight: 900;
+    color: #FFD700;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .scroll-arrow {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    cursor: pointer;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-arrow svg {
+    width: 50px;
+    height: 50px;
+    fill: #FFD700;
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(15px); }
+  }
+
+  /* Shared overlay for slides 2-4 */
+  .slide-bg::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 0;
+  }
+  .slide-bg > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Slide 2 - מפגשי זום */
+  .slide-2 {
+    background: url('nashimBG.png') center center / cover no-repeat;
+    background-attachment: fixed;
+  }
+
+  .slide-2 h2 {
+    font-size: 4.2rem;
+    font-weight: 900;
+    color: #FFD700;
+    -webkit-text-stroke: 1.5px #000;
+    paint-order: stroke fill;
+    text-shadow: 0 4px 14px rgba(0,0,0,0.6);
+    margin-bottom: 50px;
+  }
+
+  .zoom-meetings {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+  }
+
+  .zoom-card {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 30px;
+    width: 500px;
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .zoom-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+    background: rgba(255,255,255,0.18);
+  }
+
+  .zoom-card h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #4ecdc4;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .zoom-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    color: #c8dfe8;
+    margin-bottom: 25px;
+    direction: ltr;
+  }
+
+  .zoom-date .icon {
+    font-size: 1.5rem;
+  }
+
+  .zoom-content-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #FFD700;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .zoom-list {
+    list-style: none;
+  }
+
+  .zoom-list li {
+    color: #fff;
+    padding: 11px 18px;
+    margin: 8px 0;
+    border-right: 3px solid #4ecdc4;
+    background: rgba(255,255,255,0.07);
+    border-radius: 0 10px 10px 0;
+    font-size: 1.08rem;
+    font-weight: 700;
+    -webkit-text-stroke: 1.2px #000;
+    paint-order: stroke fill;
+    transition: background 0.3s ease;
+  }
+
+  .zoom-list li:hover {
+    background: rgba(255,255,255,0.14);
+  }
+
+  .zoom-list li::before {
+    content: '•';
+    color: #4ecdc4;
+    margin-left: 10px;
+    font-weight: bold;
+  }
+
+  /* Slide 3 - טעימה */
+  .slide-3 {
+    background: url('nashimBG.png') center center / cover no-repeat;
+    background-attachment: fixed;
+  }
+
+  .slide-3 h2 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #FFD700;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.5);
+    margin-bottom: 10px;
+  }
+
+  .slide-3 h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+
+  .tech-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    max-width: 900px;
+  }
+
+  .tech-image {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease;
+  }
+
+  .tech-image:hover {
+    transform: scale(1.02);
+  }
+
+  .video-section {
+    text-align: center;
+    width: 100%;
+  }
+
+  .video-section h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4ecdc4;
+    margin-bottom: 20px;
+  }
+
+  .video-container {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+  }
+
+  .video-container video {
+    width: 100%;
+    display: block;
+  }
+
+  /* Slide 4 - נתראה */
+  .slide-4 {
+    background: url('nashimBG.png') center center / cover no-repeat;
+    background-attachment: fixed;
+  }
+
+  .slide-4::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .slide-4 .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .slide-4 h1 {
+    font-size: 4.5rem;
+    font-weight: 900;
+    color: #FFD700;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .slide-4 .hearts {
+    font-size: 3rem;
+    margin-top: 20px;
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  /* Scroll indicator for other slides */
+  .scroll-down {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+  }
+
+  .scroll-down svg {
+    width: 40px;
+    height: 40px;
+    fill: #FFD700;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  /* Slide 2.5 - טעימה מיום השיא */
+  .slide-taste {
+    background: url('nashimBG.png') center center / cover no-repeat;
+    background-attachment: fixed;
+  }
+
+  .slide-taste h2 {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #FFD700;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.5);
+    margin-bottom: 8px;
+  }
+
+  .slide-taste h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #c8dfe8;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    margin-bottom: 45px;
+  }
+
+  .cubes-row {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cube {
+    width: 280px;
+    height: 260px;
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 18px;
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .cube:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    background: rgba(255,255,255,0.2);
+  }
+
+  .cube .cube-icon {
+    font-size: 3rem;
+    margin-bottom: 18px;
+  }
+
+  .cube .cube-label {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #fff;
+    -webkit-text-stroke: 1.5px #000;
+    paint-order: stroke fill;
+    line-height: 1.35;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .slide-1 h1 {
+      font-size: 3rem;
+    }
+
+    .slide-2 h2 {
+      font-size: 2.5rem;
+    }
+
+    .zoom-card {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .slide-3 h2 {
+      font-size: 2rem;
+    }
+
+    .slide-3 h3 {
+      font-size: 1.5rem;
+    }
+
+    .slide-4 h1 {
+      font-size: 3rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Slide 0: אז מה היה לנו -->
+<section class="slide slide-0" id="slide0">
+  <div class="content">
+    <h1>אז מה היה לנו?</h1>
+    <ul>
+      <li>ביקרנו בטכנודע</li>
+      <li>הכרנו לעומק את הלב, מוח והריאות</li>
+      <li>נחשפנו לאתגרים שיש בתחומים בימים אלו</li>
+      <li>יישמנו תהליך <span class="dt-label">DESIGN THINKING</span> — שיטה המעודדת חדשנות ופתרון בעיות מורכבות</li>
+    </ul>
+  </div>
+  <a href="#slide1" class="scroll-arrow">
+    <svg viewBox="0 0 24 24">
+      <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+    </svg>
+  </a>
+</section>
+
+<!-- Slide 1: אז מה הלאה -->
+<section class="slide slide-1" id="slide1">
+  <div class="content">
+    <h1>אז מה הלאה?</h1>
+  </div>
+  <a href="#slide2" class="scroll-arrow">
+    <svg viewBox="0 0 24 24">
+      <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+    </svg>
+  </a>
+</section>
+
+<!-- Slide 2: מפגשי זום -->
+<section class="slide slide-2 slide-bg" id="slide2">
+  <h2>מפגשי זום</h2>
+
+  <div class="zoom-meetings">
+    <!-- מפגש זום ראשון -->
+    <div class="zoom-card">
+      <h3>מפגש זום ראשון</h3>
+      <div class="zoom-date">
+        <span class="icon">📅</span>
+        <span>11.02.2026 (יום רביעי)</span>
+        <span>|</span>
+        <span class="icon">⏰</span>
+        <span>16:30 - 17:30</span>
+      </div>
+      <div class="zoom-content-title">תוכן המפגש:</div>
+      <ul class="zoom-list">
+        <li>הסבר ראשוני על הפורמט והמבנה</li>
+        <li>מיני הרצאה מאת איתן ושדי-לוי מחברת BLUEDOT על בינה מלאכותית</li>
+        <li>הכרת כלים דיגיטליים לשיווק דיגיטלי</li>
+      </ul>
+    </div>
+
+    <!-- מפגש זום שני -->
+    <div class="zoom-card">
+      <h3>מפגש זום שני</h3>
+      <div class="zoom-date">
+        <span class="icon">📅</span>
+        <span>18.02.2026 (יום רביעי)</span>
+        <span>|</span>
+        <span class="icon">⏰</span>
+        <span>16:30 - 17:30</span>
+      </div>
+      <div class="zoom-content-title">תוכן המפגש:</div>
+      <ul class="zoom-list">
+        <li>הכרת עם ספר פרויקט</li>
+        <li>אסטרטגיות הצגה אפקטיביות</li>
+        <li>הכנה לפאנל השופטים</li>
+        <li>דגשים וטיפים לקראת יום השיא</li>
+        <li>מענה על שאלות</li>
+      </ul>
+    </div>
+  </div>
+
+  <a href="#slideTaste" class="scroll-down">
+    <svg viewBox="0 0 24 24">
+      <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+    </svg>
+  </a>
+</section>
+
+<!-- Slide: טעימה מיום השיא -->
+<section class="slide slide-taste slide-bg" id="slideTaste">
+  <h2>יום השיא</h2>
+  <h3>תתחלקו ל 3 מתחמים</h3>
+
+  <div class="cubes-row">
+    <div class="cube">
+      <div class="cube-icon">📣</div>
+      <div class="cube-label">סדנת שיווק ופרסום</div>
+    </div>
+    <div class="cube">
+      <div class="cube-icon">🔧</div>
+      <div class="cube-label">בניית אב-טיפוס</div>
+    </div>
+    <div class="cube">
+      <div class="cube-icon">📖</div>
+      <div class="cube-label">בניית ספר פרויקט</div>
+    </div>
+  </div>
+
+  <div style="margin-top:35px;text-align:center;">
+    <span style="color:#e8eef2;font-size:1.05rem;font-weight:600;text-shadow:0 2px 6px rgba(0,0,0,0.5);">שעה וחצי לכל מתחם | פרטים נוספים במפגשי הזום</span>
+  </div>
+
+  <a href="#slide3" class="scroll-down">
+    <svg viewBox="0 0 24 24">
+      <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+    </svg>
+  </a>
+</section>
+
+<!-- Slide 3: טעימה -->
+<section class="slide slide-3 slide-bg" id="slide3">
+  <h2>טעימה לקראת מפגשי הזום..</h2>
+  <h3>☕ סיפור אמיתי של עגלת הקפה שלנו בטכנודע</h3>
+
+  <div class="tech-content">
+    <img src="techabreak.jpeg" alt="עגלת הקפה בטכנודע" class="tech-image">
+
+    <div class="video-section">
+      <h4>tech a break</h4>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/tcd-pPJ96xc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;aspect-ratio:16/9;display:block;"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <a href="#slide4" class="scroll-down">
+    <svg viewBox="0 0 24 24">
+      <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+    </svg>
+  </a>
+</section>
+
+<!-- Slide 4: נתראה -->
+<section class="slide slide-4" id="slide4">
+  <div class="content">
+    <h1>אז נתראה..</h1>
+    <div class="hearts">💜✨💜</div>
+  </div>
+</section>
+
+</body>
+</html>
