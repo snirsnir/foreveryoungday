@@ -243,7 +243,7 @@
 <body>
 
 <div class="header">
-  <h1>🔬 יום 1 - נשים מובילות מדע</h1>
+  <h1>🔬 נשים מובילות מדע</h1>
   <div class="sub">הקצה קבוצות → מעבדות → רצועות זמן</div>
 </div>
 
@@ -298,15 +298,15 @@ const rotation = [
 ];
 
 const labs = [
-  { name:'מעבדה 1',          topic:'L', instructor:'אורטל' },
-  { name:'מעבדה 2',          topic:'L', instructor:'גילי' },
-  { name:'מעבדה 3',          topic:'L', instructor:'עזריאל' },
-  { name:'מעבדה 4',          topic:'C', instructor:'גל' },
-  { name:'מעבדה 5',          topic:'C', instructor:'אבי' },
-  { name:'מעבדה 6',          topic:'C', instructor:'זינב' },
-  { name:'יחיד. רפ. א\'',   topic:'B', instructor:'לידור' },
-  { name:'יחיד. רפ. ב\'',   topic:'B', instructor:'דוד' },
-  { name:'מעבדת אלקטרוניקה', topic:'B', instructor:'יעל' },
+  { name:'מעבדה 1',          topic:'L', instructor:'אורטל', floor:'קומה 1' },
+  { name:'מעבדה 2',          topic:'L', instructor:'גילי', floor:'קומה 1' },
+  { name:'מעבדה 3',          topic:'L', instructor:'עזריאל', floor:'קומה 1' },
+  { name:'מעבדה 4',          topic:'C', instructor:'גל', floor:'קומה 1' },
+  { name:'מעבדה 5',          topic:'C', instructor:'אבי', floor:'קומה 1' },
+  { name:'מעבדה 6',          topic:'C', instructor:'זינב', floor:'קומה 1' },
+  { name:'יחידה רפואית א\'', topic:'B', instructor:'לידור', floor:'קומת קרקע' },
+  { name:'יחידה רפואית ב\'', topic:'B', instructor:'דוד', floor:'קומה 1' },
+  { name:'מעבדת אלקטרוניקה', topic:'B', instructor:'יעל', floor:'קומת קרקע' },
 ];
 
 const slots = [
@@ -432,7 +432,8 @@ function renderCommonRow(time, badge, title, location) {
   h += '<tr class="lab-row">';
   labs.forEach(lab => {
     const instructorHTML = lab.instructor ? `<span style="display:inline-block;font-size:12px;font-weight:800;margin-bottom:3px;background:#ffeb3b;color:#000;padding:2px 8px;border-radius:3px;">${lab.instructor}</span><br>` : '';
-    h += `<th class="${labCls[lab.topic]}">${instructorHTML}${lab.name}</th>`;
+    const floorHTML = lab.floor ? `<br><span style="font-size:9px;opacity:0.8;">${lab.floor}</span>` : '';
+    h += `<th class="${labCls[lab.topic]}">${instructorHTML}${lab.name}${floorHTML}</th>`;
   });
   h += '</tr>';
 
