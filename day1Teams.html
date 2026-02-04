@@ -245,7 +245,7 @@
 <body>
 
 <div class="header">
-  <h1>🔬 יום 1 - נשים מובילות מדע - לפי קבוצות</h1>
+  <h1>🔬 נשים מובילות מדע - לפי קבוצות</h1>
   <div class="sub">כל עמודה מציגה את הלוז של קבוצה אחת</div>
 </div>
 
@@ -300,15 +300,15 @@ const rotation = [
 ];
 
 const labs = [
-  { name:'מעבדה 1',          topic:'L' },
-  { name:'מעבדה 2',          topic:'L' },
-  { name:'מעבדה 3',          topic:'L' },
-  { name:'מעבדה 4',          topic:'C' },
-  { name:'מעבדה 5',          topic:'C' },
-  { name:'מעבדה 6',          topic:'C' },
-  { name:'יחיד. רפ. א\'',   topic:'B' },
-  { name:'יחיד. רפ. ב\'',   topic:'B' },
-  { name:'מעבדת אלקטרוניקה', topic:'B' },
+  { name:'מעבדה 1',          topic:'L', floor:'קומה 1' },
+  { name:'מעבדה 2',          topic:'L', floor:'קומה 1' },
+  { name:'מעבדה 3',          topic:'L', floor:'קומה 1' },
+  { name:'מעבדה 4',          topic:'C', floor:'קומה 1' },
+  { name:'מעבדה 5',          topic:'C', floor:'קומה 1' },
+  { name:'מעבדה 6',          topic:'C', floor:'קומה 1' },
+  { name:'יחידה רפואית א\'', topic:'B', floor:'קומת קרקע' },
+  { name:'יחידה רפואית ב\'', topic:'B', floor:'קומה 1' },
+  { name:'מעבדת אלקטרוניקה', topic:'B', floor:'' },
 ];
 
 const slots = [
@@ -354,7 +354,9 @@ const groupSchedule = buildGroupSchedule();
 function renderActivityCell(gi, si) {
   const info = groupSchedule[gi][si];
   const topic = info.topic;
-  const labName = labs[info.labIdx].name;
+  const lab = labs[info.labIdx];
+  const labName = lab.name;
+  const labFloor = lab.floor;
   const musSub = info.museumSub;
   const musTime = museumTimes[si][musSub];
 
@@ -364,17 +366,20 @@ function renderActivityCell(gi, si) {
       <span class="mus-label">🏥 מ. רפואה - ${musLabel[topic]}</span>
     </div>`;
 
+  const floorHTML = labFloor ? `<div style="font-size:9px;opacity:0.8;margin-top:2px;">${labFloor}</div>` : '';
+  const labBlockContent = `${labName}${floorHTML}`;
+
   let contentHTML = '';
 
   if (musSub === 0) {
     // Museum top, merged lab spans rows 2+3
-    contentHTML = museumHTML + `<div class="lab-block lab-block-merged">${labName}</div>`;
+    contentHTML = museumHTML + `<div class="lab-block lab-block-merged" style="flex-direction:column;">${labBlockContent}</div>`;
   } else if (musSub === 1) {
     // lab / museum / lab — all separate, equal rows
-    contentHTML = `<div class="lab-block">${labName}</div>` + museumHTML + `<div class="lab-block">${labName}</div>`;
+    contentHTML = `<div class="lab-block" style="flex-direction:column;">${labBlockContent}</div>` + museumHTML + `<div class="lab-block" style="flex-direction:column;">${labBlockContent}</div>`;
   } else {
     // Merged lab spans rows 1+2, museum bottom
-    contentHTML = `<div class="lab-block lab-block-merged">${labName}</div>` + museumHTML;
+    contentHTML = `<div class="lab-block lab-block-merged" style="flex-direction:column;">${labBlockContent}</div>` + museumHTML;
   }
 
   return `
@@ -387,13 +392,16 @@ function renderActivityCell(gi, si) {
 // Render circles (מעגלי חשיבה) cell - same lab as first slot, uniform color
 function renderCirclesCell(gi) {
   const info = groupSchedule[gi][0]; // Use first slot assignment
-  const labName = labs[info.labIdx].name;
+  const lab = labs[info.labIdx];
+  const labName = lab.name;
+  const labFloor = lab.floor;
+  const floorHTML = labFloor ? `<div style="font-size:9px;opacity:0.7;margin-top:2px;">${labFloor}</div>` : '';
 
   return `
     <td class="circles-cell">
       <div class="circles-bar">💭 מעגלי חשיבה</div>
       <div class="circles-content">
-        <div class="circles-lab">${labName}</div>
+        <div class="circles-lab" style="display:flex;flex-direction:column;align-items:center;">${labName}${floorHTML}</div>
       </div>
     </td>`;
 }
