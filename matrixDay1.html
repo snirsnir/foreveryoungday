@@ -72,10 +72,11 @@
 
   /* LAB SUB-HEADER */
   .lab-row th {
-    padding: 8px 3px; font-size: 10px; font-weight: 600;
+    padding: 10px 3px; font-size: 10px; font-weight: 600;
     color: rgba(255,255,255,0.93); text-align: center;
     border-left: 1px solid rgba(255,255,255,0.22);
     border-top: 2px solid rgba(255,255,255,0.15);
+    vertical-align: middle;
   }
   .lab-row th:first-child { border-left: none; }
   .lab-row .lh-time { background: var(--dark2); }
@@ -297,15 +298,15 @@ const rotation = [
 ];
 
 const labs = [
-  { name:'מעבדה 1',          topic:'L' },
-  { name:'מעבדה 2',          topic:'L' },
-  { name:'מעבדה 3',          topic:'L' },
-  { name:'מעבדה 4',          topic:'C' },
-  { name:'מעבדה 5',          topic:'C' },
-  { name:'מעבדה 6',          topic:'C' },
-  { name:'יחיד. רפ. א\'',   topic:'B' },
-  { name:'יחיד. רפ. ב\'',   topic:'B' },
-  { name:'מעבדת אלקטרוניקה', topic:'B' },
+  { name:'מעבדה 1',          topic:'L', instructor:'אורטל' },
+  { name:'מעבדה 2',          topic:'L', instructor:'גילי' },
+  { name:'מעבדה 3',          topic:'L', instructor:'עזריאל' },
+  { name:'מעבדה 4',          topic:'C', instructor:'גל' },
+  { name:'מעבדה 5',          topic:'C', instructor:'אבי' },
+  { name:'מעבדה 6',          topic:'C', instructor:'זינב' },
+  { name:'יחיד. רפ. א\'',   topic:'B', instructor:'לידור' },
+  { name:'יחיד. רפ. ב\'',   topic:'B', instructor:'דוד' },
+  { name:'מעבדת אלקטרוניקה', topic:'B', instructor:'יעל' },
 ];
 
 const slots = [
@@ -429,7 +430,10 @@ function renderCommonRow(time, badge, title, location) {
 
   // Lab sub-header
   h += '<tr class="lab-row">';
-  labs.forEach(lab => { h += `<th class="${labCls[lab.topic]}">${lab.name}</th>`; });
+  labs.forEach(lab => {
+    const instructorHTML = lab.instructor ? `<span style="display:inline-block;font-size:12px;font-weight:800;margin-bottom:3px;background:#ffeb3b;color:#000;padding:2px 8px;border-radius:3px;">${lab.instructor}</span><br>` : '';
+    h += `<th class="${labCls[lab.topic]}">${instructorHTML}${lab.name}</th>`;
+  });
   h += '</tr>';
 
   // === COMMON: התאספות ונשנושים ===
