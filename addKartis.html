@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחולל תעודות - נשים מובילות מדע</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 250px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23f9d77e" fill-opacity="0.3" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,101.3C1248,85,1344,75,1392,69.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat top center;
+            background-size: cover;
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: #7B1E7A;
+            z-index: -2;
+            clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 20px;
+            background: white;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .logo-item {
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-item img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #7B1E7A;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #7B1E7A;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .certificate-title {
+            font-size: 48px !important;
+            font-weight: 800 !important;
+            background: linear-gradient(135deg, #7B1E7A 0%, #B8428D 50%, #7B1E7A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2 !important;
+            margin: 0 !important;
+            text-align: center !important;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-title {
+            text-align: center;
+            color: #7B1E7A;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #4A5568;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Heebo', sans-serif;
+            transition: all 0.3s ease;
+            background: #F8FAFC;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #7B1E7A;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(123, 30, 122, 0.1);
+        }
+
+        .color-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .color-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 12px 15px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: #F8FAFC;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .color-option:hover {
+            border-color: #7B1E7A;
+            background: #F3F4F6;
+        }
+
+        .color-option input[type="radio"] {
+            display: none;
+        }
+
+        .color-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .color-option input[type="radio"]:checked ~ .color-option-content {
+            color: #7B1E7A;
+        }
+
+        .color-option:has(input[type="radio"]:checked) {
+            border-color: #7B1E7A;
+            background: rgba(123, 30, 122, 0.05);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Heebo', sans-serif;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            box-shadow: 0 4px 15px rgba(123, 30, 122, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(123, 30, 122, 0.4);
+        }
+
+        .btn-secondary {
+            background: #F1F5F9;
+            color: #64748B;
+            border: 2px solid #E2E8F0;
+        }
+
+        .btn-secondary:hover {
+            background: #E2E8F0;
+            color: #475569;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .preview-container {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .name-tags-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(9cm, 1fr));
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .name-tag {
+            width: 9cm;
+            height: 6cm;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            margin: 0 auto;
+            min-width: 9cm;
+            min-height: 6cm;
+            max-width: 9cm;
+            max-height: 6cm;
+            background: white;
+        }
+
+        .geometric-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            background: white;
+            z-index: 0;
+        }
+
+        .wave-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(180deg, #A12D85 0%, #7B1E7A 100%);
+            clip-path: path('M 0,0 L 0,35 Q 75,25 150,35 Q 225,45 300,35 Q 375,25 450,35 L 450,0 Z');
+            z-index: 1;
+        }
+
+        .wave-bottom {
+            display: none;
+        }
+
+
+        .name-tag::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to top, rgba(123, 30, 122, 0.08), transparent);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .name-tag::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 35%;
+            background: linear-gradient(to bottom, rgba(249, 215, 126, 0.1), transparent);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .header-section {
+            text-align: center;
+            padding: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 11;
+        }
+
+        .event-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-top: 3px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .organizer {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700, #FFA500);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+            filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.8));
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: 0% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .qr-section {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            text-align: center;
+            z-index: 10;
+            background: white;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .qr-code {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 3px;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .qr-text {
+            font-size: 7px;
+            color: #7B1E7A;
+            font-weight: 700;
+            line-height: 1.2;
+            max-width: 60px;
+        }
+
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: calc(100% - 50px);
+            padding: 6px 12px;
+            position: relative;
+            z-index: 2;
+            margin-top: 62px;
+        }
+
+        .name-section {
+            text-align: right;
+            margin-bottom: 5px;
+        }
+
+        .name-label {
+            display: block;
+            font-size: 12px;
+            color: #7B1E7A;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .name-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            padding: 5px 12px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            border: 2px dashed rgba(255, 255, 255, 0.7);
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .school-section {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+
+        .school-label {
+            font-size: 12px;
+            color: #7B1E7A;
+            font-weight: 600;
+            margin-bottom: 2px;
+            text-shadow: none;
+        }
+
+        .school-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            padding: 2px 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            text-shadow: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .team-section {
+            text-align: center;
+            width: 100%;
+        }
+
+        .team-label {
+            font-size: 10px;
+            color: #7B1E7A;
+            font-weight: 500;
+            margin-bottom: 1px;
+            text-shadow: none;
+        }
+
+        .team-value {
+            font-size: 10px;
+            font-weight: 500;
+            color: #444;
+            padding: 2px 6px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            text-shadow: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .logo-tech {
+            position: absolute;
+            bottom: 12px;
+            left: 10px;
+            height: 35px;
+            max-width: 60px;
+            object-fit: contain;
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .logo-astra {
+            position: absolute;
+            bottom: 12px;
+            right: 10px;
+            height: 35px;
+            max-width: 80px;
+            object-fit: contain;
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .logo-nashim {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+            height: 85px;
+            max-width: 80px;
+            object-fit: contain;
+            z-index: 10;
+            filter: drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            -webkit-filter: drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 0 0 white) drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        /* בחירת סוג כרטיס */
+        .card-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .card-type-option {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #F8FAFC;
+            font-size: 16px;
+            font-weight: 600;
+            color: #4A5568;
+        }
+
+        .card-type-option input[type="radio"] {
+            display: none;
+        }
+
+        .card-type-option.selected {
+            border-color: #7B1E7A;
+            background: rgba(123, 30, 122, 0.08);
+            color: #7B1E7A;
+        }
+
+        .card-type-option:hover {
+            border-color: #7B1E7A;
+            background: #F3F4F6;
+        }
+
+        .card-type-icon {
+            font-size: 22px;
+        }
+
+        /* כרטיס שופט - רקע tags.png */
+        .name-tag.judge-card {
+            background: url('tags.png') no-repeat center center !important;
+            background-size: cover !important;
+            border: none;
+        }
+
+        .name-tag.judge-card .geometric-pattern,
+        .name-tag.judge-card .wave-top,
+        .name-tag.judge-card .wave-bottom {
+            display: none !important;
+        }
+
+        .name-tag.judge-card::before,
+        .name-tag.judge-card::after {
+            display: none !important;
+        }
+
+        .name-tag.judge-card .header-section,
+        .name-tag.judge-card .qr-section {
+            display: none !important;
+        }
+
+        /* הסתרת כל הלוגואים בכרטיס שופט */
+        .judge-card .logo-tech,
+        .judge-card .logo-astra,
+        .judge-card .logo-nashim,
+        .judge-card .logo-clalit-judge {
+            display: none !important;
+        }
+
+        /* הסתרת labels */
+        .name-tag.judge-card .name-label,
+        .name-tag.judge-card .school-label {
+            display: none !important;
+        }
+
+        .name-tag.judge-card .content {
+            margin-top: 0;
+            height: auto;
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            left: auto;
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-start;
+            padding: 5px;
+            z-index: 5;
+        }
+
+        .name-tag.judge-card .name-section {
+            width: 100%;
+            text-align: right;
+            margin-bottom: 0;
+        }
+
+        .name-tag.judge-card .school-section {
+            width: 100%;
+            text-align: right;
+            margin-top: 0px;
+        }
+
+        .name-tag.judge-card .name-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #821A54;
+            background: none;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            min-height: auto;
+            text-align: right;
+            direction: rtl;
+            display: block;
+            justify-content: unset;
+            align-items: unset;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .name-tag.judge-card .school-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #F4B845;
+            background: none;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            text-align: right;
+            direction: rtl;
+            display: block;
+        }
+
+        .name-tag.judge-card .name-section,
+        .name-tag.judge-card .school-section {
+            text-align: right;
+            width: 100%;
+        }
+
+        .name-tag.judge-card .judge-lastname {
+            font-size: 26px;
+            font-weight: 800;
+            color: #821A54;
+            margin-top: 0;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* QR בכרטיס שופט - למטה משמאל */
+        .judge-card .judge-qr-wrapper {
+            position: absolute;
+            bottom: 15px;
+            left: 18px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .judge-card .judge-qr-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            direction: rtl;
+            margin-bottom: 2px;
+            white-space: nowrap;
+        }
+
+        .judge-card .judge-qr {
+            background: white;
+            padding: 4px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .judge-card .judge-qr img {
+            width: 70px;
+            height: 70px;
+            display: block;
+        }
+
+        /* צבעי רקע לתעודות */
+        .school-0, .school-1, .school-2, .school-3, .school-4,
+        .school-5, .school-6, .school-7, .school-8, .school-9,
+        .school-10, .school-11, .school-12, .school-13, .school-14,
+        .school-15, .school-16, .school-17, .school-18, .school-19,
+        .school-20, .school-21, .school-22, .school-23, .school-24,
+        .school-25 {
+            background: white;
+        }
+
+        .preview-actions {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* הגדרות הדפסה */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: white !important;
+                padding: 0;
+                margin: 0;
+            }
+
+            html {
+                background: white !important;
+            }
+
+            body > *:not(.container) {
+                display: none !important;
+            }
+
+            .container {
+                padding: 0;
+                margin: 0;
+                max-width: none;
+                background: white;
+            }
+
+            .container > *:not(.preview-container) {
+                display: none !important;
+            }
+
+            .logos-section,
+            .logo-item,
+            .header,
+            .form-container,
+            .preview-actions,
+            .success-message,
+            .btn,
+            button,
+            h1, h2, p,
+            form,
+            input,
+            label {
+                display: none !important;
+                visibility: hidden !important;
+            }
+
+            .preview-container {
+                display: block !important;
+                margin: 0;
+                padding: 0;
+                background: white;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .name-tags-preview {
+                display: grid !important;
+                grid-template-columns: repeat(2, 9cm);
+                gap: 5mm;
+                justify-content: center;
+                margin: 0;
+                padding: 0;
+            }
+
+            .name-tag.judge-card {
+                background: url('tags.png') no-repeat center center !important;
+                background-size: cover !important;
+                border: none !important;
+            }
+
+            .name-tag {
+                margin: 0;
+                box-shadow: none;
+                border: 2px solid #ddd;
+                border-radius: 15px;
+                width: 9cm !important;
+                height: 6cm !important;
+                min-width: 9cm !important;
+                min-height: 6cm !important;
+                max-width: 9cm !important;
+                max-height: 6cm !important;
+            }
+
+            .name-tag::before,
+            .name-tag::after {
+                display: none !important;
+            }
+
+            .logo-nashim {
+                filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white) drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important;
+                -webkit-filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white) drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important;
+            }
+
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+        }
+
+        /* עיצוב רספונסיבי */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .color-selector {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 10px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .name-tags-preview {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+
+            .name-tag {
+                width: 90vw;
+                height: calc(90vw * 0.667);
+                max-width: 9cm;
+                max-height: 6cm;
+            }
+        }
+
+        /* אנימציות */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .preview-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-container {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logos-container">
+            <div class="logo-item">
+                <img src="logot.png" alt="טכנולוג">
+            </div>
+            <div class="logo-item">
+                <img src="logoastra.png" alt="AstraZeneca">
+            </div>
+            <div class="logo-item">
+                <img src="logonashim.png" alt="נשים מובילות מדע">
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>📜 מחולל תעודות</h1>
+            <p>נשים מובילות מדע • Forever Young</p>
+        </div>
+
+        <div class="form-container">
+            <h2 class="form-title">📝 יצירת כרטיס חדש</h2>
+
+            <form id="nameTagForm">
+                <div class="form-group">
+                    <label>סוג כרטיס:</label>
+                    <div class="card-type-selector">
+                        <label class="card-type-option selected" id="typeStudentLabel">
+                            <input type="radio" name="cardType" value="student" checked onchange="switchCardType('student')">
+                            <span class="card-type-icon">🎓</span>
+                            <span>כרטיס תלמידה</span>
+                        </label>
+                        <label class="card-type-option" id="typeJudgeLabel">
+                            <input type="radio" name="cardType" value="judge" onchange="switchCardType('judge')">
+                            <span class="card-type-icon">⚖️</span>
+                            <span>כרטיס שופט/ת</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group student-field">
+                    <label for="personName">שם המשתתף/ת:</label>
+                    <input type="text" id="personName" name="personName" placeholder="הכנס/י את השם המלא" required>
+                </div>
+
+                <div class="form-group judge-field" style="display:none;">
+                    <label for="judgeFirstName">שם פרטי:</label>
+                    <input type="text" id="judgeFirstName" name="judgeFirstName" placeholder="הכנס/י שם פרטי">
+                </div>
+
+                <div class="form-group judge-field" style="display:none;">
+                    <label for="judgeLastName">שם משפחה:</label>
+                    <input type="text" id="judgeLastName" name="judgeLastName" placeholder="הכנס/י שם משפחה">
+                </div>
+
+                <div class="form-group student-field">
+                    <label for="schoolName">שם בית הספר:</label>
+                    <input type="text" id="schoolName" name="schoolName" placeholder="הכנס/י את שם בית הספר" required>
+                </div>
+
+                <div class="form-group student-field">
+                    <label for="teamName">שם הקבוצה:</label>
+                    <input type="text" id="teamName" name="teamName" placeholder="הכנס/י את שם הקבוצה" required>
+                </div>
+
+                <div class="form-group judge-field" style="display:none;">
+                    <label for="roleName">תפקיד:</label>
+                    <input type="text" id="roleName" name="roleName" placeholder="הכנס/י את התפקיד">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        ✨ צור תעודה
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                        🗑️ נקה טופס
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="preview-container" id="previewContainer">
+            <div class="success-message" id="successMessage">
+                ✅ התעודה נוצרה בהצלחה! ניתן להדפיס עכשיו
+            </div>
+
+            <div class="name-tags-preview" id="nameTagsPreview">
+                <!-- התעודות יופיעו כאן -->
+            </div>
+
+            <div class="preview-actions">
+                <button class="btn btn-success" onclick="printNameTags()">
+                    🖨️ הדפס תעודות
+                </button>
+                <button class="btn btn-primary" onclick="addAnother()">
+                    ➕ הוסף תעודה נוספת
+                </button>
+                <button class="btn btn-secondary" onclick="createNew()">
+                    📝 התחל מחדש
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let createdTags = [];
+        let currentCardType = 'student';
+
+        // החלפת סוג כרטיס
+        function switchCardType(type) {
+            currentCardType = type;
+            const studentFields = document.querySelectorAll('.student-field');
+            const judgeFields = document.querySelectorAll('.judge-field');
+
+            document.getElementById('typeStudentLabel').classList.toggle('selected', type === 'student');
+            document.getElementById('typeJudgeLabel').classList.toggle('selected', type === 'judge');
+
+            if (type === 'judge') {
+                studentFields.forEach(f => { f.style.display = 'none'; f.querySelector('input').required = false; });
+                judgeFields.forEach(f => { f.style.display = 'block'; f.querySelector('input').required = true; });
+            } else {
+                studentFields.forEach(f => { f.style.display = 'block'; f.querySelector('input').required = true; });
+                judgeFields.forEach(f => { f.style.display = 'none'; f.querySelector('input').required = false; });
+            }
+        }
+
+        // אתחול הטופס
+        function initForm() {
+            document.getElementById('nameTagForm').addEventListener('submit', handleSubmit);
+            document.getElementById('personName').focus();
+        }
+
+        // טיפול בשליחת הטופס
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            if (currentCardType === 'judge') {
+                const firstName = document.getElementById('judgeFirstName').value.trim();
+                const lastName = document.getElementById('judgeLastName').value.trim();
+                const roleName = document.getElementById('roleName').value.trim();
+                if (!firstName || !lastName || !roleName) {
+                    alert('אנא מלא את כל השדות');
+                    return;
+                }
+                const tagData = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    name: firstName + ' ' + lastName,
+                    role: roleName,
+                    type: 'judge',
+                    color: 0
+                };
+                addNameTag(tagData);
+            } else {
+                const personName = document.getElementById('personName').value.trim();
+                const schoolName = document.getElementById('schoolName').value.trim();
+                const teamName = document.getElementById('teamName').value.trim();
+                if (!personName || !schoolName || !teamName) {
+                    alert('אנא מלא את כל השדות');
+                    return;
+                }
+                const tagData = {
+                    name: personName,
+                    school: schoolName,
+                    team: teamName,
+                    type: 'student',
+                    color: 0
+                };
+                addNameTag(tagData);
+            }
+        }
+
+        // הוספת תעודה חדשה
+        function addNameTag(tagData) {
+            createdTags.push(tagData);
+            updatePreview();
+
+            // הצגת התצוגה המקדימה
+            document.getElementById('previewContainer').style.display = 'block';
+
+            // עדכון הודעת הצלחה
+            const count = createdTags.length;
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = `✅ ${count === 1 ? 'תעודה נוצרה' : `${count} תעודות נוצרו`} בהצלחה! ניתן להדפיס עכשיו`;
+
+            // גלילה לתצוגה המקדימה
+            document.getElementById('previewContainer').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // עדכון התצוגה המקדימה
+        function updatePreview() {
+            const previewContainer = document.getElementById('nameTagsPreview');
+            previewContainer.innerHTML = '';
+
+            createdTags.forEach((tag, index) => {
+                const nameTag = document.createElement('div');
+                const isJudge = tag.type === 'judge';
+                nameTag.className = `name-tag school-${tag.color}${isJudge ? ' judge-card' : ''}`;
+
+                let contentHTML;
+                if (isJudge) {
+                    contentHTML = `
+                        <div class="content">
+                            <div class="name-section">
+                                <div class="name-label">שם:</div>
+                                <div class="name-value">${tag.firstName}</div>
+                                <div class="name-value judge-lastname">${tag.lastName}</div>
+                            </div>
+                            <div class="school-section">
+                                <div class="school-label">תפקיד:</div>
+                                <div class="school-value">${tag.role}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    contentHTML = `
+                        <div class="content">
+                            <div class="name-section">
+                                <div class="name-label">שם:</div>
+                                <div class="name-value">${tag.name}</div>
+                            </div>
+                            <div class="school-section">
+                                <div class="school-label">מבית הספר:</div>
+                                <div class="school-value">${tag.school}</div>
+                            </div>
+                            <div class="team-section">
+                                <div class="team-label">שם הקבוצה:</div>
+                                <div class="team-value">${tag.team}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                nameTag.innerHTML = `
+                    <div class="geometric-pattern"></div>
+                    <div class="wave-top"></div>
+                    <div class="wave-bottom"></div>
+
+                    <div class="qr-section">
+                        <div class="qr-code">
+                            <img src="qr.png" alt="QR Code">
+                        </div>
+                        <div class="qr-text">סרקו לצפייה<br>בלוח הזמנים</div>
+                    </div>
+
+                    <div class="header-section">
+                        <div class="event-title">נשים מובילות מדע</div>
+                        <div class="organizer">Forever Young</div>
+                    </div>
+
+                    ${contentHTML}
+
+                    ${isJudge ? '<div class="judge-qr-wrapper"><div class="judge-qr-label">סרקו אותי לצפייה בתוכניה</div><div class="judge-qr"><img src="qr.png" alt="QR Code"></div></div>' : ''}
+                    <img src="logot.png" alt="טכנולוג" class="logo-tech">
+                    <img src="logoastra.png" alt="AstraZeneca" class="logo-astra">
+                    <img src="logonashim.png" alt="נשים מובילות מדע" class="logo-nashim">
+                `;
+
+                previewContainer.appendChild(nameTag);
+            });
+        }
+
+        // הדפסת התעודות
+        function printNameTags() {
+            window.print();
+        }
+
+        // הוספת תעודה נוספת
+        function addAnother() {
+            // ניקוי השדות
+            document.getElementById('personName').value = '';
+            document.getElementById('schoolName').value = '';
+            document.getElementById('teamName').value = '';
+            document.getElementById('judgeFirstName').value = '';
+            document.getElementById('judgeLastName').value = '';
+            document.getElementById('roleName').value = '';
+
+            // פוקוס על השדה הראשון
+            document.getElementById('personName').focus();
+
+            // גלילה חזרה לטופס
+            document.querySelector('.form-container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // ניקוי הטופס
+        function clearForm() {
+            document.getElementById('nameTagForm').reset();
+            document.getElementById('previewContainer').style.display = 'none';
+            createdTags = [];
+            document.getElementById('personName').focus();
+        }
+
+        // התחלה מחדש
+        function createNew() {
+            clearForm();
+        }
+
+        // קיצורי מקלדת
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter ליצירת כרטיסייה
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                const form = document.getElementById('nameTagForm');
+                if (form.checkValidity()) {
+                    handleSubmit(e);
+                }
+            }
+            
+            // Ctrl/Cmd + P להדפסה
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                if (createdTags.length > 0) {
+                    e.preventDefault();
+                    printNameTags();
+                }
+            }
+
+            // Ctrl/Cmd + N להוספת תעודה נוספת
+            if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                if (createdTags.length > 0) {
+                    e.preventDefault();
+                    addAnother();
+                }
+            }
+        });
+
+        // אתחול האפליקציה
+        document.addEventListener('DOMContentLoaded', function() {
+            initForm();
+        });
+
+        // שמירה אוטומטית בזיכרון
+        let tempData = {
+            personName: '',
+            schoolName: '',
+            teamName: '',
+            judgeFirstName: '',
+            judgeLastName: '',
+            roleName: ''
+        };
+
+        // עדכון נתונים בזמן הקלדה
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = ['personName', 'schoolName', 'teamName', 'judgeFirstName', 'judgeLastName', 'roleName'];
+            
+            inputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('input', function(e) {
+                        tempData[inputId] = e.target.value;
+                    });
+                }
+            });
+        });
+
+        // פונקציה לייצוא נתונים
+        function exportTags() {
+            if (createdTags.length === 0) {
+                alert('אין תעודות ליצוא');
+                return;
+            }
+
+            const dataStr = JSON.stringify(createdTags, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'certificates_' + new Date().toISOString().split('T')[0] + '.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            URL.revokeObjectURL(url);
+        }
+
+        // פונקציה לייבוא נתונים
+        function importTags(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedTags = JSON.parse(e.target.result);
+                    if (Array.isArray(importedTags)) {
+                        createdTags = importedTags;
+                        updatePreview();
+                        document.getElementById('previewContainer').style.display = 'block';
+
+                        const count = createdTags.length;
+                        const successMessage = document.getElementById('successMessage');
+                        successMessage.textContent = `✅ ${count} תעודות יובאו בהצלחה!`;
+                    }
+                } catch (error) {
+                    alert('שגיאה בקריאת הקובץ: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // הוספת אפשרות מחיקת תעודה בודדת
+        function removeTag(index) {
+            if (confirm('האם אתה בטוח שברצונך למחוק תעודה זו?')) {
+                createdTags.splice(index, 1);
+
+                if (createdTags.length === 0) {
+                    document.getElementById('previewContainer').style.display = 'none';
+                } else {
+                    updatePreview();
+
+                    const count = createdTags.length;
+                    const successMessage = document.getElementById('successMessage');
+                    successMessage.textContent = `✅ ${count} תעודות נוצרו בהצלחה! ניתן להדפיס עכשיו`;
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
