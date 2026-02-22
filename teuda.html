@@ -74,7 +74,7 @@
         .certificate {
             width: 297mm;
             height: 210mm;
-            background: url('tempTeuda.png') no-repeat center center;
+            background: url('teuda4all.png') no-repeat center center;
             background-size: cover;
             position: relative;
             page-break-after: always;
@@ -90,22 +90,72 @@
             break-after: avoid;
         }
 
-        /* לוגואים עליונים */
-        .top-logos {
+        /* לוגואים - תחתית התעודה */
+        .logos-row {
             position: absolute;
-            top: 3mm;
-            left: 15mm;
+            bottom: 5mm;
+            left: 0;
+            right: 0;
             display: flex;
-            justify-content: flex-start;
             align-items: center;
-            gap: 15mm;
+            gap: 6mm;
+            justify-content: flex-end;
+            padding-right: 15mm;
+            transform: translateX(150px);
             z-index: 5;
         }
 
-        .top-logo {
-            height: 20mm;
+        .bottom-logo-img {
+            height: 14mm;
             width: auto;
             object-fit: contain;
+        }
+
+        .bottom-logo-img.logo-small {
+            height: 10mm;
+        }
+
+        /* חתימות - מעל הלוגואים */
+        .signatories {
+            position: absolute;
+            bottom: 24mm;
+            left: 5mm;
+            right: 150mm;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: flex-start;
+            gap: 25mm;
+            direction: rtl;
+            z-index: 5;
+        }
+
+        .signatory {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .sig-image {
+            height: 14mm;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 2mm;
+        }
+
+        .sig-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .sig-role {
+            font-size: 11px;
+            font-weight: 500;
+            color: #555;
+            white-space: nowrap;
         }
 
         /* שם המשתתף */
@@ -184,20 +234,16 @@
                 border-radius: 0 !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                background: url('tempTeuda.png') no-repeat center center !important;
+                background: url('teuda4all.png') no-repeat center center !important;
                 background-size: cover !important;
-            }
-
-            .top-logos {
-                display: flex !important;
-            }
-
-            .top-logo {
-                display: block !important;
             }
 
             .certificate-name {
                 display: block !important;
+            }
+
+            .logos-row, .signatories {
+                display: flex !important;
             }
 
             @page {
@@ -231,318 +277,46 @@
     </div>
 
     <div class="controls">
-        <button class="print-btn" onclick="window.print()">
+        <button class="print-btn" onclick="printCerts()">
             🖨️ הדפס תעודות
         </button>
-        <button class="print-btn" onclick="generateAllCertificates()">
-            📜 צור את כל התעודות
+        <button class="print-btn" onclick="loadFromFirebase()">
+            📜 טען וצור תעודות מ-Firebase
         </button>
+        <p id="statusMsg" style="margin-top:15px; color:#666;"></p>
     </div>
 
     <div class="certificates-container" id="certificatesContainer">
         <!-- כל התעודות ייווצרו כאן אוטומטית -->
     </div>
 
-    <script>
-        // נתוני כל המשתתפים
-        const allParticipants = [
-                { name: "ינאי לביא בצרי", school: "אור לטף" },
-    { name: "איתי שטיבי", school: "אור לטף" },
-    { name: "אריאל חן", school: "אור לטף" },
-    { name: "עמרי פישר", school: "אור לטף" },
-    
-    // קמפוס יצחק נבון - קבוצה חדשה
-    { name: "צונסטקובסקי אידו", school: "קמפוס יצחק נבון" },
-    { name: "עמרי נועה", school: "קמפוס יצחק נבון" },
-    { name: "שירה שטרן", school: "קמפוס יצחק נבון" },
-    { name: "סטררליץ עופרי", school: "קמפוס יצחק נבון" },
-    { name: "ויצמן מיכאל", school: "קמפוס יצחק נבון" },
-    
-    // טכנודע - קבוצות חדשות
-    { name: "יערה כהנא", school: "טכנודע" },
-    { name: "נוגה בורשטיין", school: "טכנודע" },
-    { name: "מאיה גאווי", school: "טכנודע" },
-    { name: "מאיה טלמון", school: "טכנודע" },
-    { name: "רעי אסף לוי", school: "טכנודע" },
-    { name: "יאיר חפץ", school: "טכנודע" },
-    { name: "יואב אפלשטיין", school: "טכנודע" },
-    { name: "עמית חי", school: "טכנודע" },
-    { name: "בקי פרידמן", school: "טכנודע" },
-    { name: "הדס חממי", school: "טכנודע" },
-    { name: "נועה חממי", school: "טכנודע" },
-    { name: "רון סאסי", school: "טכנודע" },
-    { name: "מיכאלה מוגרבי", school: "טכנודע" },
-    { name: "מיכל חסון", school: "תכנית מחוננים בטכנודע" },
-    { name: "תמר ברקן", school: "תכנית מחוננים בטכנודע" },
-    { name: "שקד", school: "תכנית מחוננים בטכנודע" },
-    { name: "אדם פלג", school: "תכנית מחוננים בטכנודע" },
-            { name: "עידו מושקוביץ", school: "שדות" },
-            { name: "מאור שפירא", school: "שדות" },
-            { name: "תומר לביא", school: "שדות" },
-            { name: "אלון עמר", school: "שדות" },
-            { name: "ניב גולאברי", school: "אור לטף" },
-            { name: "איתמר סלונימסקי", school: "אור לטף" },
-            { name: "עמרי פישר", school: "אור לטף" },
-            { name: "נדב אלפסי", school: "אור לטף" },
-            { name: "ינאי בצרי", school: "אור לטף" },
-            { name: "איתי שטיוי", school: "אור לטף" },
-            { name: "ליאן קון", school: "אור לטף" },
-            { name: "אריאל חן", school: "אור לטף" },
-            { name: "דניאל קורן", school: "אור לטף" },
-            { name: "אגם סימן טוב", school: "ארלוזורוב" },
-            { name: "יאיר בני", school: "ארלוזורוב" },
-            { name: "איתי דהן", school: "ארלוזורוב" },
-            { name: "מאור לוי", school: "ארלוזורוב" },
-            { name: "איתן שגב", school: "ארלוזורוב" },
-            { name: "שני שטנגל", school: "ארלוזורוב" },
-            { name: "מאור גבאי", school: "ארלוזורוב" },
-            { name: "שחר ברדוגו", school: "ארלוזורוב" },
-            { name: "עילאי יהב", school: "ארלוזורוב" },
-            { name: "אלה לביא", school: "ארלוזורוב" },
-            { name: "אביגיל שביט", school: "ארלוזורוב" },
-            { name: "יקיר דונביץ", school: "ארלוזורוב" },
-            { name: "אורי קינן", school: "בית חינוך יצחק נבון" },
-            { name: "אלון לוין", school: "בית חינוך יצחק נבון" },
-            { name: "אור בדש", school: "בית חינוך יצחק נבון" },
-            { name: "איתי שגיב", school: "בית חינוך יצחק נבון" },
-            { name: "שקד יקיר", school: "בית חינוך יצחק נבון" },
-            { name: "גאיה קישילב", school: "בית חינוך יצחק נבון" },
-            { name: "אגם רותם", school: "בית חינוך יצחק נבון" },
-            { name: "רומי בלינטשטיין", school: "בית חינוך יצחק נבון" },
-            { name: "עילי בן שיטרית", school: "בית חינוך יצחק נבון" },
-            { name: "נועם צרור", school: "בירב" },
-            { name: "אליאב מלכה", school: "בירב" },
-            { name: "אודל בוחניק", school: "בירב" },
-            { name: "רום אללו", school: "בירב" },
-            { name: "אריאל זיסמן", school: "בירב" },
-            { name: "הראל מלול", school: "בירב" },
-            { name: "עילאי ביטון", school: "בירב" },
-            { name: "הדר", school: "בירב" },
-            { name: "מוריה", school: "בירב" },
-            { name: "נועה", school: "בירב" },
-            { name: "הראל יתאח", school: "בירב" },
-            { name: "אוראל שועאי", school: "בירב" },
-            { name: "פלג טימסית", school: "בראשית+הנדיב" },
-            { name: "תמר לנץ", school: "בראשית+הנדיב" },
-            { name: "ליאור גרובר", school: "בראשית+הנדיב" },
-            { name: "נעם ליפו", school: "בראשית+הנדיב" },
-            { name: "שון יוסופוב", school: "גוונים" },
-            { name: "אדל פרטוק", school: "גוונים" },
-            { name: "יאיר רקח", school: "גוונים" },
-            { name: "מעוז דסטה", school: "גוונים" },
-            { name: "ארז דסטה", school: "גוונים" },
-            { name: "אריאל קיומוב", school: "גוונים" },
-            { name: "אנסטסיה קציף", school: "גוונים" },
-            { name: "דיאנה קיסליצין", school: "גוונים" },
-            { name: "שחר אבי טל", school: "דרך ע\"ש רונה רמון" },
-            { name: "אנה נחום", school: "דרך ע\"ש רונה רמון" },
-            { name: "יובל גרשוב", school: "דרך ע\"ש רונה רמון" },
-            { name: "עידו לוין", school: "דרך ע\"ש רונה רמון" },
-            { name: "שחר אוחיון", school: "דרך ע\"ש רונה רמון" },
-            { name: "אוריין תייר", school: "דרך ע\"ש רונה רמון" },
-            { name: "נופר כהן", school: "דרך ע\"ש רונה רמון" },
-            { name: "חושן בראונשטיין", school: "דרך ע\"ש רונה רמון" },
-            { name: "גיא יופה", school: "דרך ע\"ש רונה רמון" },
-            { name: "גיא שפירא ציפורי", school: "דרך ע\"ש רונה רמון" },
-            { name: "איתי קפלן", school: "דרך ע\"ש רונה רמון" },
-            { name: "יוגב ענתבי", school: "דרך ע\"ש רונה רמון" },
-            { name: "אורי נגרין", school: "דרך ע\"ש רונה רמון" },
-            { name: "אור חיים לייבוביץ", school: "הנדיב" },
-            { name: "הוד שטרן", school: "הנדיב" },
-            { name: "אוריה זיו", school: "הנדיב" },
-            { name: "אדל יוסף", school: "הנדיב" },
-            { name: "אבישג לדני", school: "הנדיב" },
-            { name: "איילה קופל", school: "הנדיב" },
-            { name: "נויה פארן", school: "הנדיב" },
-            { name: "דרור מקובר", school: "הנדיב" },
-            { name: "יותם שמעון", school: "החיטה" },
-            { name: "לביא ליפשיץ", school: "החיטה" },
-            { name: "גיל צורי", school: "החיטה" },
-            { name: "שילה פידלמן", school: "החיטה" },
-            { name: "רבקה קרץ", school: "חבד" },
-            { name: "אסתר גרוסמן", school: "חבד" },
-            { name: "חנה דישון", school: "חבד" },
-            { name: "שיינא אביטן / שטערנא שארף", school: "חבד" },
-            { name: "רונה אטיאס", school: "חופים" },
-            { name: "זוהר גולדשטיין", school: "חופים" },
-            { name: "יונתן בראל", school: "חופים" },
-            { name: "בן שרעבי", school: "חופים" },
-            { name: "אביתר יריב", school: "חופים" },
-            { name: "סתיו אברמוב", school: "חופים" },
-            { name: "גאיה אדיניהו", school: "חופים" },
-            { name: "טליה בר חיים", school: "חופים" },
-            { name: "אורי אברמוב", school: "חופים" },
-            { name: "קרין עשת", school: "חופים" },
-            { name: "ינאי פרוכסאד", school: "חופים" },
-            { name: "ליבי חי", school: "חופים" },
-            { name: "פאטמה גואמיס", school: "יסודי זרזיר" },
-            { name: "יוסף מזאריב", school: "יסודי זרזיר" },
-            { name: "עומר עיאדה", school: "יסודי זרזיר" },
-            { name: "אסיל גואמיס", school: "יסודי זרזיר" },
-            { name: "אלון כגן", school: "יסודי עמק חרוד" },
-            { name: "דניאל לב", school: "יסודי עמק חרוד" },
-            { name: "אסף בניהו", school: "יסודי עמק חרוד" },
-            { name: "אסיה אופק", school: "יסודי עמק חרוד" },
-            { name: "שחר לוי", school: "יסודי עמק חרוד" },
-            { name: "גאיה וייסמן", school: "יסודי עמק חרוד" },
-            { name: "ליאור אביר", school: "יסודי עמק חרוד" },
-            { name: "נועם גור צמח", school: "יסודי עמק חרוד" },
-            { name: "שי אורן", school: "יסודי עמק חרוד" },
-            { name: "נעמה ויגמיסטר", school: "יסודי עמק חרוד" },
-            { name: "אושר אליהו ביטון", school: "ישורון" },
-            { name: "הדר כהן", school: "ישורון" },
-            { name: "זוהר אסתר חן", school: "ישורון" },
-            { name: "הדר אהרן", school: "ישורון" },
-            { name: "נועם ימיני", school: "ישורון" },
-            { name: "אליה אנקווא", school: "ישורון" },
-            { name: "עדיאל גבאי", school: "ישורון" },
-            { name: "ליאם פרץ", school: "ישורון" },
-            { name: "נועם יהודה מרקס", school: "מימון" },
-            { name: "אוהד בצלאל", school: "מימון" },
-            { name: "אליהב מלול", school: "מימון" },
-            { name: "נהוראי", school: "מימון, שובו" },
-            { name: "מאיה יזוב", school: "נחמיה תמרי" },
-            { name: "לאון נפתלייב", school: "נחמיה תמרי" },
-            { name: "יבסניה קלימוביץ", school: "נחמיה תמרי" },
-            { name: "טאיה גולדשטיין", school: "נחמיה תמרי" },
-            { name: "אורי אלקובי", school: "נחמיה תמרי" },
-            { name: "אמה חיימוב", school: "נחמיה תמרי" },
-            { name: "לינוי שמאילוב", school: "נחמיה תמרי" },
-            { name: "עמית גרשמן", school: "נחמיה תמרי" },
-            { name: "ליאל בגים", school: "נחמיה תמרי" },
-            { name: "דניאל מיכאלי", school: "נחמיה תמרי" },
-            { name: "אדל שלמה", school: "נחמיה תמרי" },
-            { name: "אדלינה חנוכוב", school: "נחמיה תמרי" },
-            { name: "אורן שחר", school: "נחמיה תמרי" },
-            { name: "אושר עואד", school: "נחמיה תמרי" },
-            { name: "עילי ארטוניאן", school: "נחמיה תמרי" },
-            { name: "נועם חיים שמאייב", school: "נחמיה תמרי" },
-            { name: "לוטם חוסטילוב", school: "נחמיה תמרי" },
-            { name: "סיון בן חורין", school: "נחמיה תמרי" },
-            { name: "בר עבו", school: "נחמיה תמרי" },
-            { name: "אלינוי אליגוייב", school: "נחמיה תמרי" },
-            { name: "ליה אברגיל", school: "נחמיה תמרי" },
-            { name: "אורי אגיבייב", school: "נחמיה תמרי" },
-            { name: "נועה בן לולו", school: "נחמיה תמרי" },
-            { name: "טליה קחלון", school: "נחמיה תמרי" },
-            { name: "אמי סבייב", school: "נחמיה תמרי" },
-            { name: "לורן וזיף", school: "נחמיה תמרי" },
-            { name: "אגם בקשייב", school: "נחמיה תמרי" },
-            { name: "מאי אברמוב", school: "נחמיה תמרי" },
-            { name: "מאיה שמחה אוחיון", school: "נחמיה תמרי" },
-            { name: "אופיר ארביב", school: "נחמיה תמרי" },
-            { name: "אדווה כהן", school: "נחמיה תמרי" },
-            { name: "יהלי נתנוב", school: "נחמיה תמרי" },
-            { name: "גיא פאר", school: "ניצני השרון" },
-            { name: "עילי אסיף", school: "ניצני השרון" },
-            { name: "איתן אוסדון", school: "ניצני השרון" },
-            { name: "הראל בונוביצקי", school: "ניצני השרון" },
-            { name: "יאיר חקשורי", school: "ניצני השרון" },
-            { name: "אליעם אנקווה", school: "ניצני השרון" },
-            { name: "עידו ששי", school: "ניצני השרון" },
-            { name: "עומר דולגין", school: "ניצני השרון" },
-            { name: "לוטם שוורצמן", school: "ניצני השרון" },
-            { name: "אוריה אטיאס", school: "ניצני השרון" },
-            { name: "שחר בן יוסף", school: "ניצני השרון" },
-            { name: "איתי חץ", school: "עמק יזרעאל" },
-            { name: "מתן גרינולד", school: "עמק יזרעאל" },
-            { name: "ליהי אופק", school: "עמק יזרעאל" },
-            { name: "יערה קלנר", school: "עמק יזרעאל" },
-            { name: "מור זפרן", school: "עמק יזרעאל" },
-            { name: "עמרי פינקלשטיין", school: "עמק יזרעאל" },
-            { name: "גיא יחיאלי", school: "עמק יזרעאל" },
-            { name: "אריאל כנות", school: "עמק יזרעאל" },
-            { name: "יונתן בן ארי", school: "צליל" },
-            { name: "יהלי הספל", school: "קדם" },
-            { name: "ראם ברוידא", school: "קדם" },
-            { name: "בארי לוי", school: "קדם" },
-            { name: "מיכאל בן ארי", school: "קדם" },
-            { name: "יהונתן ביהילה", school: "קדם" },
-            { name: "עידו בורבה", school: "קדם" },
-            { name: "יהב בן", school: "קדם" },
-            { name: "עמית אוחנה", school: "קדם" },
-            { name: "הילה האובן", school: "שדות" },
-            { name: "אלעד תורגמן", school: "שדות" },
-            { name: "שקד קוגוקרו", school: "שדות" },
-            { name: "נוגה אלמוג", school: "שדות" },
-            { name: "אלון רובינסון", school: "שדות" },
-            { name: "ענבר שטרית", school: "שדות" },
-            { name: "אייל לבנה", school: "שדות" },
-            { name: "זיו גזית", school: "שדות" },
-            { name: "ענבר לביד", school: "שדות" },
-            { name: "אורי יקירה", school: "שדות" },
-            { name: "דניאל רן", school: "שדות" },
-            { name: "יובל פינסקי", school: "שדות" },
-            { name: "נהטי אליהו", school: "שרת" },
-            { name: "נועה גרינברג", school: "שרת" },
-            { name: "נועם זיו", school: "שרת" },
-            { name: "נדב רבקין", school: "שרת" },
-            { name: "אלמה בראון", school: "שרת" },
-            { name: "אליה טמין", school: "שרת" },
-            { name: "סמיון קורגרוב", school: "שרת" },
-            { name: "מיכאל סעדיה", school: "שרת" },
-            { name: "יערה כהנא", school: "טכנודע" },
-            { name: "קמה גנות", school: "טכנודע" },
-            { name: "נוגה בורשטיין", school: "טכנודע" },
-            { name: "מאיה גאווי", school: "טכנודע" },
-            { name: "רעי אסף לוי", school: "טכנודע" },
-            { name: "יאיר חפץ", school: "טכנודע" },
-            { name: "ליאו דנן", school: "טכנודע" },
-            { name: "יואב אפלשטיין", school: "טכנודע" },
-            { name: "עמית חי", school: "טכנודע" },
-            { name: "רון סאסי", school: "טכנודע" },
-            { name: "מיכאלה מוגרבי", school: "טכנודע" },
-            { name: "אריאל מורגן", school: "טכנודע" },
-            { name: "בקי פרידמן", school: "טכנודע" },
-            { name: "הדס חממי", school: "טכנודע" },
-            { name: "נועה חממי", school: "טכנודע" },
-            { name: "אודליה ביאליק", school: "טכנודע" },
-            { name: "גילי דגן", school: "טכנודע" },
-            { name: "אוריה סרוסי", school: "טכנודע" },
-            { name: "עלמה שגב", school: "טכנודע" },
-            { name: "דוראני אחיה", school: "טכנודע" },
-            { name: "נועם איינאו", school: "תלמי רון" },
-            { name: "שגיא דניאל כהן", school: "תלמי רון" },
-            { name: "איתמר סולר", school: "תלמי רון" },
-            { name: "שלו ארביב", school: "תלמי רון" },
-            { name: "מיה חיונידי", school: "תלמי רון" },
-            { name: "ליה טפסאי", school: "תלמי רון" },
-            { name: "רגינה מורוז", school: "תלמי רון" },
-            { name: "ירדן כהן", school: "תלמי רון" },
-            { name: "שחף אמסלם", school: "תלמי רון" },
-            { name: "שחר סולומון", school: "תלמי רון" },
-            { name: "כפיר דב אלמז", school: "תלמי רון" },
-            { name: "איתי עוזרי", school: "תלמי רון" },
-            { name: "נעם מליאנקר", school: "תלמי רון" },
-            { name: "אורי עייש", school: "תלמי רון" },
-            { name: "יואב אלון פישר", school: "תלמי רון" },
-            { name: "אייל שרון", school: "תלמי רון" },
-            { name: "גלי מצרי", school: "תלמי רון" },
-            { name: "מיה רוזנטול", school: "תלמי רון" },
-            { name: "מילאנה קיסליוב", school: "תלמי רון" },
-            { name: "אדם וישניצקי", school: "תלמי רון" },
-            { name: "איתן בן סימון", school: "תלמי רון" },
-            { name: "רותם ויינשטיין", school: "תלמי רון" },
-            { name: "איתי ששון", school: "תלמי רון" },
-            { name: "יונתן דניאלוב", school: "תלמי רון" }
-        ];
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 
-        function generateAllCertificates() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQdei2zVCXkYh99pLPzr_ZMyi8ohupVhY",
+            authDomain: "forever-4a04b.firebaseapp.com",
+            databaseURL: "https://forever-4a04b-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "forever-4a04b",
+            storageBucket: "forever-4a04b.firebasestorage.app",
+            messagingSenderId: "250928700713",
+            appId: "1:250928700713:web:25d6979fca637b90d42b38"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const statusMsg = document.getElementById('statusMsg');
+
+        function generateCertificates(participants) {
             const container = document.getElementById('certificatesContainer');
-            container.innerHTML = ''; // נקה תעודות קיימות
+            container.innerHTML = '';
 
-            allParticipants.forEach(participant => {
+            participants.forEach(participant => {
                 const certificate = document.createElement('div');
                 certificate.className = 'certificate';
 
                 certificate.innerHTML = `
-                    <!-- לוגואים עליונים -->
-                    <div class="top-logos">
-                        <img src="logot.png" alt="טכנולוג" class="top-logo">
-                        <img src="logoastra.png" alt="AstraZeneca" class="top-logo">
-                    </div>
-
-                    <!-- פרטי המשתתף -->
                     <div class="certificate-name">
                         <div class="name-value">${participant.name}</div>
                         <div class="school-info">
@@ -550,17 +324,95 @@
                             <span class="school-value">${participant.school}</span>
                         </div>
                     </div>
+                    <div class="signatories">
+                        <div class="signatory">
+                            <img src="gadiSign.png" alt="חתימה" class="sig-image">
+                            <div class="sig-name">ד"ר גדי מדור</div>
+                            <div class="sig-role">מנכ"ל טכנודע חדרה</div>
+                        </div>
+                        <div class="signatory">
+                            <img src="OhadSig.png" alt="חתימה" class="sig-image">
+                            <div class="sig-name">אוהד גולדברג</div>
+                            <div class="sig-role">מנכ"ל אסטרהזניקה ישראל</div>
+                        </div>
+                    </div>
+                    <div class="logos-row">
+                        <img src="logoastra.png" alt="AstraZeneca" class="bottom-logo-img">
+                        <img src="logot.png" alt="טכנודע" class="bottom-logo-img logo-small">
+                        <img src="clalit.png" alt="כללית" class="bottom-logo-img logo-small">
+                    </div>
                 `;
 
                 container.appendChild(certificate);
             });
 
-            // עדכון מידע בכותרת
-            document.querySelector('.print-info p').textContent = `${allParticipants.length} תעודות אישיות למשתתפים • A4 לרוחב`;
+            document.querySelector('.print-info p').textContent = `${participants.length} תעודות אישיות למשתתפות • A4 לרוחב`;
+            statusMsg.textContent = `נטענו ${participants.length} תעודות בהצלחה!`;
+            statusMsg.style.color = '#4CAF50';
         }
 
-        // יצירת כל התעודות מיד בטעינת הדף
-        document.addEventListener('DOMContentLoaded', generateAllCertificates);
+        window.loadFromFirebase = async function() {
+            statusMsg.textContent = 'טוען נתונים מ-Firebase...';
+            statusMsg.style.color = '#666';
+
+            try {
+                const teamsRef = ref(database, 'teams');
+                const snapshot = await get(teamsRef);
+
+                if (!snapshot.exists()) {
+                    statusMsg.textContent = 'לא נמצאו נתונים ב-Firebase. יש להעלות נתונים קודם דרך deploy.html';
+                    statusMsg.style.color = '#f44336';
+                    return;
+                }
+
+                const data = snapshot.val();
+                const participants = [];
+
+                // מבנה: teams / [school] / [team] / students: [array]
+                for (const schoolKey in data) {
+                    const schoolData = data[schoolKey];
+                    // שם בית הספר - מחזיר _ לתווים מקוריים
+                    const schoolName = schoolKey.replace(/_/g, ' ').trim();
+
+                    for (const teamKey in schoolData) {
+                        const teamData = schoolData[teamKey];
+                        if (teamData.students && Array.isArray(teamData.students)) {
+                            teamData.students.forEach(studentName => {
+                                if (studentName && studentName.trim()) {
+                                    participants.push({
+                                        name: studentName.trim(),
+                                        school: schoolName
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+
+                if (participants.length === 0) {
+                    statusMsg.textContent = 'לא נמצאו תלמידות בנתונים';
+                    statusMsg.style.color = '#f44336';
+                    return;
+                }
+
+                generateCertificates(participants);
+
+            } catch (error) {
+                console.error('Error loading from Firebase:', error);
+                statusMsg.textContent = 'שגיאה בטעינת נתונים: ' + error.message;
+                statusMsg.style.color = '#f44336';
+            }
+        };
+
+        // הדפסה
+        window.printCerts = function() {
+            window.print();
+        };
+
+        // טעינה אוטומטית
+        document.addEventListener('DOMContentLoaded', () => {
+            window.loadFromFirebase();
+        });
     </script>
 </body>
 </html>

@@ -433,20 +433,47 @@
                 visibility: hidden !important;
             }
 
+            .container {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+
             .name-tags-container {
-                grid-template-columns: repeat(2, 9cm);
-                gap: 3mm;
-                justify-content: center;
-                margin: 0;
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .print-page {
+                display: grid !important;
+                grid-template-columns: repeat(2, 9cm) !important;
+                gap: 4mm !important;
+                justify-content: center !important;
+                align-content: start !important;
+                width: 100% !important;
+                height: 267mm !important;
+                padding-top: 30mm !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                box-sizing: border-box !important;
+            }
+
+            .print-page:last-child {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
             }
 
             .name-tag {
-                margin: 0;
-                box-shadow: none;
-                border: 2px solid #ddd;
-                border-radius: 15px;
+                margin: 0 !important;
+                box-shadow: none !important;
+                border: 2px solid #ddd !important;
+                border-radius: 15px !important;
                 width: 9cm !important;
                 height: 6cm !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
 
             .logo-nashim {
@@ -455,7 +482,7 @@
 
             @page {
                 size: A4;
-                margin: 10mm;
+                margin: 8mm;
             }
         }
 
@@ -631,50 +658,61 @@
             const container = document.getElementById('nameTagsContainer');
             container.innerHTML = '';
 
-            participants.forEach(participant => {
-                const schoolColorIndex = schoolColorMap[participant.school] || 0;
+            const CARDS_PER_PAGE = 8;
 
-                const nameTag = document.createElement('div');
-                nameTag.className = `name-tag school-${schoolColorIndex}`;
+            for (let i = 0; i < participants.length; i += CARDS_PER_PAGE) {
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'print-page';
 
-                nameTag.innerHTML = `
-                    <div class="wave-top"></div>
-                    <div class="wave-bottom"></div>
+                const pageParticipants = participants.slice(i, i + CARDS_PER_PAGE);
 
-                    <div class="qr-section">
-                        <div class="qr-code">
-                            <img src="qr2.png" alt="QR Code">
+                pageParticipants.forEach(participant => {
+                    const schoolColorIndex = schoolColorMap[participant.school] || 0;
+
+                    const nameTag = document.createElement('div');
+                    nameTag.className = `name-tag school-${schoolColorIndex}`;
+
+                    nameTag.innerHTML = `
+                        <div class="wave-top"></div>
+                        <div class="wave-bottom"></div>
+
+                        <div class="qr-section">
+                            <div class="qr-code">
+                                <img src="qr2.png" alt="QR Code">
+                            </div>
+                            <div class="qr-text">סרקו לצפייה<br>בלוח הזמנים</div>
                         </div>
-                        <div class="qr-text">סרקו לצפייה<br>בלוח הזמנים</div>
-                    </div>
 
-                    <div class="header">
-                        <div class="event-title">נשים מובילות מדע</div>
-                        <div class="organizer">Forever Young</div>
-                    </div>
-
-                    <div class="content">
-                        <div class="name-section">
-                            <div class="name-label">שם:</div>
-                            <div class="name-value">${participant.name}</div>
+                        <div class="header">
+                            <div class="event-title">נשים מובילות מדע</div>
+                            <div class="organizer">Forever Young</div>
                         </div>
-                        <div class="school-section">
-                            <div class="school-label">מבית הספר:</div>
-                            <div class="school-value">${participant.school}</div>
-                        </div>
-                        <div class="team-section">
-                            <div class="team-label">שם הקבוצה:</div>
-                            <div class="team-value">${participant.team}</div>
-                        </div>
-                    </div>
 
-                    <img src="logot.png" alt="טכנולוג" class="logo-tech">
-                    <img src="logoastra.png" alt="AstraZeneca" class="logo-astra">
-                    <img src="logonashim.png" alt="נשים מובילות מדע" class="logo-nashim">
-                `;
+                        <div class="content">
+                            <div class="name-section">
+                                <div class="name-label">שם:</div>
+                                <div class="name-value">${participant.name}</div>
+                            </div>
+                            <div class="school-section">
+                                <div class="school-label">מבית הספר:</div>
+                                <div class="school-value">${participant.school}</div>
+                            </div>
+                            <div class="team-section">
+                                <div class="team-label">שם הקבוצה:</div>
+                                <div class="team-value">${participant.team}</div>
+                            </div>
+                        </div>
 
-                container.appendChild(nameTag);
-            });
+                        <img src="logot.png" alt="טכנולוג" class="logo-tech">
+                        <img src="logoastra.png" alt="AstraZeneca" class="logo-astra">
+                        <img src="logonashim.png" alt="נשים מובילות מדע" class="logo-nashim">
+                    `;
+
+                    pageDiv.appendChild(nameTag);
+                });
+
+                container.appendChild(pageDiv);
+            }
         }
 
         // Load data when page loads

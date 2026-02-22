@@ -257,7 +257,7 @@
         .certificate {
             width: 297mm;
             height: 210mm;
-            background: url('tempTeuda.png') no-repeat center center;
+            background: url('teuda4all.png') no-repeat center center;
             background-size: cover;
             position: relative;
             margin: 0 auto;
@@ -272,7 +272,7 @@
         .top-logos {
             position: absolute;
             top: 3mm;
-            left: 15mm;
+            left: 20mm;
             display: flex;
             justify-content: flex-start;
             align-items: center;
@@ -284,6 +284,79 @@
             height: 20mm;
             width: auto;
             object-fit: contain;
+        }
+
+        /* לוגו כללית תחתון - מוסתר, הוחלף בשורת לוגואים */
+        .bottom-logo-clalit {
+            display: none;
+        }
+
+        /* לוגואים - תחתית התעודה */
+        .logos-row {
+            position: absolute;
+            bottom: 5mm;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            gap: 6mm;
+            justify-content: flex-end;
+            padding-right: 15mm;
+            transform: translateX(150px);
+            z-index: 5;
+        }
+
+        .bottom-logo-img {
+            height: 14mm;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .bottom-logo-img.logo-small {
+            height: 10mm;
+        }
+
+        /* חתימות - מעל הלוגואים */
+        .signatories {
+            position: absolute;
+            bottom: 24mm;
+            left: 5mm;
+            right: 150mm;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: flex-start;
+            gap: 25mm;
+            direction: rtl;
+            z-index: 5;
+        }
+
+        .signatory {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .sig-image {
+            height: 14mm;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 2mm;
+        }
+
+        .sig-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .sig-role {
+            font-size: 11px;
+            font-weight: 500;
+            color: #555;
+            white-space: nowrap;
         }
 
         /* שם המשתתף */
@@ -419,6 +492,11 @@
                 page-break-after: avoid;
                 break-after: avoid;
                 transform: none !important;
+                background: url('teuda4all.png') no-repeat center center !important;
+                background-size: cover !important;
+            }
+
+            .certificate.winner {
                 background: url('tempTeuda.png') no-repeat center center !important;
                 background-size: cover !important;
             }
@@ -433,6 +511,10 @@
 
             .certificate-name {
                 display: block !important;
+            }
+
+            .logos-row, .signatories {
+                display: flex !important;
             }
 
             @page {
@@ -541,12 +623,12 @@
                         <label class="radio-label">
                             <input type="radio" name="certificateType" value="student" checked>
                             <span class="radio-custom"></span>
-                            🎓 תעודת תלמיד
+                            🎓 תעודת השתתפות
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="certificateType" value="teacher">
+                            <input type="radio" name="certificateType" value="winner">
                             <span class="radio-custom"></span>
-                            👨‍🏫 תעודת מורה
+                            🏆 תעודת מנצח
                         </label>
                     </div>
                 </div>
@@ -591,6 +673,27 @@
                         <span class="school-label">מבית ספר: </span>
                         <span class="school-value" id="certificateSchoolNameNew"></span>
                     </div>
+                </div>
+
+                <!-- חתימות -->
+                <div class="signatories">
+                    <div class="signatory">
+                        <img src="gadiSign.png" alt="חתימה" class="sig-image">
+                        <div class="sig-name">ד"ר גדי מדור</div>
+                        <div class="sig-role">מנכ"ל טכנודע חדרה</div>
+                    </div>
+                    <div class="signatory">
+                        <img src="OhadSig.png" alt="חתימה" class="sig-image">
+                        <div class="sig-name">אוהד גולדברג</div>
+                        <div class="sig-role">מנכ"ל אסטרהזניקה ישראל</div>
+                    </div>
+                </div>
+
+                <!-- לוגואים תחתונים -->
+                <div class="logos-row">
+                    <img src="logoastra.png" alt="AstraZeneca" class="bottom-logo-img">
+                    <img src="logot.png" alt="טכנודע" class="bottom-logo-img logo-small">
+                    <img src="clalit.png" alt="כללית" class="bottom-logo-img logo-small">
                 </div>
 
                 <!-- גביע -->
@@ -713,41 +816,37 @@
         });
 
         function updateFormLabels() {
-            const isTeacher = document.querySelector('input[name="certificateType"]:checked').value === 'teacher';
             const nameLabel = document.getElementById('personNameLabel');
             const nameInput = document.getElementById('personName');
-            
-            if (isTeacher) {
-                nameLabel.textContent = 'שם המורה:';
-                nameInput.placeholder = 'הכנס/י את שם המורה המלא';
-            } else {
-                nameLabel.textContent = 'שם התלמיד/ה:';
-                nameInput.placeholder = 'הכנס/י את שם התלמיד המלא';
-            }
+            nameLabel.textContent = 'שם המשתתפ/ת:';
+            nameInput.placeholder = 'הכנס/י את השם המלא';
         }
 
         function updateCertificatePositions() {
-            const isTeacher = document.querySelector('input[name="certificateType"]:checked').value === 'teacher';
             const schoolName = document.getElementById('schoolName').value.trim();
             const descriptionText = document.getElementById('certificateDescription');
-
-            if (isTeacher) {
-                // עיצוב תעודת מורה
-                descriptionText.innerHTML = `על הדרכתך המסורה והמעוררת השראה<br>באירוע נשים מובילות מדע<br>בית ספר: <span id="certificateSchoolName">${schoolName}</span>`;
-            } else {
-                // עיצוב תעודת תלמיד
-                descriptionText.innerHTML = `על השתתפותך הפעילה והמצוינה<br>באירוע נשים מובילות מדע<br>בית ספר: <span id="certificateSchoolName">${schoolName}</span>`;
-            }
+            descriptionText.innerHTML = `על השתתפותך הפעילה והמצוינה<br>באירוע נשים מובילות מדע<br>בית ספר: <span id="certificateSchoolName">${schoolName}</span>`;
         }
 
         function generateCertificate() {
             const personName = document.getElementById('personName').value.trim();
             const schoolName = document.getElementById('schoolName').value.trim();
-            const isTeacher = document.querySelector('input[name="certificateType"]:checked').value === 'teacher';
+            const certType = document.querySelector('input[name="certificateType"]:checked').value;
+            const isWinner = certType === 'winner';
 
             if (!personName || !schoolName) {
                 alert('אנא מלא את כל השדות');
                 return;
+            }
+
+            // עדכון רקע התעודה לפי סוג
+            const certDiv = document.getElementById('certificate');
+            if (isWinner) {
+                certDiv.classList.add('winner');
+                certDiv.style.backgroundImage = "url('tempTeuda.png')";
+            } else {
+                certDiv.classList.remove('winner');
+                certDiv.style.backgroundImage = "url('teuda4all.png')";
             }
 
             // עדכון התעודה
@@ -755,20 +854,20 @@
             document.getElementById('certificateSchoolName').textContent = schoolName;
             document.getElementById('certificatePersonNameNew').textContent = personName;
             document.getElementById('certificateSchoolNameNew').textContent = schoolName;
-            
+
             // עדכון עיצוב התעודה
             updateCertificatePositions();
 
             // הצגת התעודה
             document.getElementById('certificatePreview').style.display = 'block';
-            
+
             // עדכון הודעת הצלחה
             const successMessage = document.querySelector('.success-message');
-            successMessage.textContent = `✅ תעודת ${isTeacher ? 'המורה' : 'התלמיד'} נוצרה בהצלחה! ניתן להדפיס עכשיו`;
-            
+            successMessage.textContent = `✅ תעודת ${isWinner ? 'המנצח' : 'ההשתתפות'} נוצרה בהצלחה! ניתן להדפיס עכשיו`;
+
             // גלילה חלקה לתעודה
-            document.getElementById('certificatePreview').scrollIntoView({ 
-                behavior: 'smooth' 
+            document.getElementById('certificatePreview').scrollIntoView({
+                behavior: 'smooth'
             });
         }
 
