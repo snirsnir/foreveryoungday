@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לוחות זמנים - נשים מובילות מדע</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 250px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23f9d77e" fill-opacity="0.3" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,101.3C1248,85,1344,75,1392,69.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat top center;
+            background-size: cover;
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: #7B1E7A;
+            z-index: -2;
+            clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 20px;
+            background: white;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .logo-item {
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-item img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header {
+            text-align: center;
+            color: #7B1E7A;
+            margin-bottom: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+            color: #7B1E7A;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .group-selector {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        select {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            min-width: 250px;
+            font-family: 'Heebo', sans-serif;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #7B1E7A;
+            box-shadow: 0 0 0 3px rgba(123, 30, 122, 0.1);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Heebo', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 30, 122, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(123, 30, 122, 0.4);
+        }
+
+        .schedule-page {
+            background: white;
+            width: 210mm;
+            max-width: 100%;
+            margin: 0 auto 30px auto;
+            padding: 15mm;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            display: none;
+            position: relative;
+        }
+
+        .schedule-page.active {
+            display: block;
+        }
+
+        .digital-qr {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            text-align: center;
+            font-size: 10px;
+            color: #7B1E7A;
+            max-width: 90px;
+        }
+
+        .digital-qr p {
+            margin-bottom: 5px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .digital-qr img {
+            width: 70px;
+            height: 70px;
+            border-radius: 6px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #7B1E7A;
+            padding-bottom: 15px;
+        }
+
+        .page-header h2 {
+            font-size: 1.8rem;
+            color: #7B1E7A;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        .page-header .group-name {
+            font-size: 1.4rem;
+            color: #7B1E7A;
+            font-weight: bold;
+        }
+
+        .bracelet-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f0f0;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .bracelet-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,0,0,0.2);
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .schedule-table th {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .schedule-table th:first-child {
+            border-top-right-radius: 10px;
+            width: 120px;
+        }
+
+        .schedule-table th:last-child {
+            border-top-left-radius: 10px;
+        }
+
+        .schedule-table td {
+            padding: 12px 10px;
+            text-align: center;
+            border: 2px solid #f0f0f0;
+            background: #fafafa;
+            font-weight: 500;
+            color: #333;
+            vertical-align: middle;
+        }
+
+        .schedule-table tr:nth-child(even) td {
+            background: #f8f9ff;
+        }
+
+        .time-slot {
+            font-weight: 700;
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A) !important;
+            color: white !important;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .activity {
+            min-height: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.4;
+            gap: 3px;
+        }
+
+        .activity-title {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .activity-location {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .activity-topic {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .topic-lung {
+            background: #d4eeeb;
+            color: #1a6b5f;
+        }
+
+        .topic-cardio {
+            background: #fde4e9;
+            color: #b8455c;
+        }
+
+        .topic-brain {
+            background: #ece3f4;
+            color: #5a3d82;
+        }
+
+        .topic-circles {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .common-activity {
+            background: #f8f9fa !important;
+        }
+
+        .common-activity .activity-title {
+            color: #495057;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm;
+                margin-top: 5mm;
+                margin-bottom: 5mm;
+            }
+
+            /* Hide browser default headers and footers */
+            @page {
+                @top-left { content: none; }
+                @top-center { content: none; }
+                @top-right { content: none; }
+                @bottom-left { content: none; }
+                @bottom-center { content: none; }
+                @bottom-right { content: none; }
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            html, body {
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            body::before,
+            body::after {
+                display: none !important;
+            }
+
+            .container {
+                max-width: none;
+            }
+
+            .logos-container,
+            .header,
+            .controls {
+                display: none !important;
+            }
+
+            #schedules {
+                margin: 0;
+                padding: 0;
+            }
+
+            .schedule-page {
+                width: 100%;
+                height: auto;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                border-radius: 0;
+                page-break-after: auto;
+                page-break-inside: avoid;
+                display: block !important;
+            }
+
+            .schedule-page:not(.active) {
+                display: none !important;
+            }
+
+            .page-header {
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+                border-bottom-width: 2px;
+            }
+
+            .page-header h2 {
+                font-size: 1.6rem;
+                margin-bottom: 6px;
+            }
+
+            .page-header .group-name {
+                font-size: 1.3rem;
+            }
+
+            .bracelet-badge {
+                padding: 5px 14px;
+                margin-top: 8px;
+                font-size: 13px;
+            }
+
+            .bracelet-dot {
+                width: 15px;
+                height: 15px;
+            }
+
+            .schedule-table {
+                font-size: 14px;
+            }
+
+            .schedule-table th {
+                padding: 10px;
+                font-size: 15px;
+            }
+
+            .schedule-table td {
+                padding: 8px 10px;
+            }
+
+            .time-slot {
+                font-size: 13px !important;
+            }
+
+            .activity {
+                min-height: 35px;
+                gap: 3px;
+            }
+
+            .activity-title {
+                font-size: 15px;
+            }
+
+            .activity-location {
+                font-size: 12px;
+            }
+
+            .activity-topic {
+                padding: 3px 10px;
+                font-size: 11px;
+                margin-top: 3px;
+            }
+
+            .print-note {
+                margin-top: 12px !important;
+                font-size: 12px !important;
+            }
+
+            .print-qr-section {
+                margin-top: 15px !important;
+                padding: 15px !important;
+            }
+
+            .print-qr-section p {
+                font-size: 14px !important;
+                margin-bottom: 12px !important;
+            }
+
+            .print-qr-section img {
+                max-width: 120px !important;
+            }
+
+            .digital-qr {
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                max-width: 80px;
+                font-size: 9px;
+            }
+
+            .digital-qr img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        .print-all {
+            margin-right: 15px;
+        }
+
+        @media screen {
+            .print-mode .schedule-page {
+                display: block !important;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .schedule-page {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .schedule-table {
+                font-size: 12px;
+            }
+
+            .time-slot {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logos-container">
+            <div class="logo-item">
+                <img src="logot.png" alt="טכנולוג">
+            </div>
+            <div class="logo-item">
+                <img src="logoastra.png" alt="AstraZeneca">
+            </div>
+            <div class="logo-item">
+                <img src="logonashim.png" alt="נשים מובילות מדע">
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>📅 מערכת לוחות זמנים</h1>
+            <p>נשים מובילות מדע • Forever Young</p>
+        </div>
+
+        <div class="controls">
+            <div class="group-selector">
+                <label for="groupSelect" style="font-weight: bold; color: #333;">בחרי בית ספר:</label>
+                <select id="groupSelect">
+                    <option value="">-- בחרי בית ספר --</option>
+                </select>
+                <button class="btn print-all" onclick="printAll()">🖨️ הדפס הכל</button>
+                <button class="btn" onclick="printCurrent()">🖨️ הדפס לוז נוכחי</button>
+            </div>
+        </div>
+
+        <div id="schedules"></div>
+    </div>
+
+    <script>
+        // נתוני הקבוצות - מתוך day1Teams
+        const groups = [
+            'שש שנתי – יש"י',
+            'רב תחומי',
+            'מבשרת',
+            'אתגרי העתיד + מאיר שפיה',
+            'נבון',
+            'אולפנה – מעיין האמונה',
+            'עתידים',
+            'קופטאן',
+        ];
+
+        const bracelets = [
+            { name: 'סגול', color: '#9b59b6' },
+            { name: 'חום', color: '#8B4513' },
+            { name: 'צהוב', color: '#f1c40f' },
+            { name: 'ירוק', color: '#2ecc71' },
+            { name: 'כחול', color: '#3498db' },
+            { name: 'אדום', color: '#e74c3c' },
+            { name: 'ירוק כהה', color: '#1a5c38' },
+            { name: 'כתום', color: '#e67e22' },
+        ];
+
+        const rotation = [
+            ['L','C','B'],
+            ['L','C','B'],
+            ['L','B','C'],
+            ['C','L','B'],
+            ['C','B','L'],
+            ['C','B','L'],
+            ['B','L','C'],
+            ['B','C','L'],
+        ];
+
+        const labs = [
+            { name:'מעבדה 1', topic:'L', floor:'קומה 1' },
+            { name:'מעבדה 2', topic:'L', floor:'קומה 1' },
+            { name:'מעבדה 3', topic:'L', floor:'קומה 1' },
+            { name:'מעבדה 4', topic:'C', floor:'קומה 1' },
+            { name:'מעבדה 5', topic:'C', floor:'קומה 1' },
+            { name:'מעבדה 6', topic:'C', floor:'קומה 1' },
+            { name:'יחידה רפואית א\'', topic:'B', floor:'קומת קרקע' },
+            { name:'יחידה רפואית ב\'', topic:'B', floor:'קומה 1' },
+            { name:'מעבדת אלקטרוניקה', topic:'B', floor:'קומת קרקע' },
+        ];
+
+        const topicNames = {
+            L: '🫁 אור ונשימה',
+            C: '💖 קרדיולוגיה',
+            B: '🧠 המוח'
+        };
+
+        const topicClasses = {
+            L: 'topic-lung',
+            C: 'topic-cardio',
+            B: 'topic-brain'
+        };
+
+        const museumTimes = [
+            ['10:00-10:15', '10:15-10:30', '10:30-10:45'],
+            ['10:50-11:05', '11:05-11:20', '11:20-11:35'],
+            ['11:40-11:55', '11:55-12:10', '12:10-12:25'],
+        ];
+
+        const musLabel = { L:'ריאות', C:'לב', B:'מוח' };
+
+        // בניית לוח הזמנים לכל קבוצה
+        function buildGroupSchedule() {
+            const schedule = groups.map(() => []);
+
+            for (let si = 0; si < 3; si++) {
+                const byTopic = { L:[], C:[], B:[] };
+                rotation.forEach((row, gi) => byTopic[row[si]].push(gi));
+
+                byTopic.L.forEach((gi, i) => {
+                    schedule[gi][si] = { labIdx: i, topic: 'L', museumSub: i };
+                });
+                byTopic.C.forEach((gi, i) => {
+                    schedule[gi][si] = { labIdx: 3 + i, topic: 'C', museumSub: i };
+                });
+                byTopic.B.forEach((gi, i) => {
+                    schedule[gi][si] = { labIdx: 6 + i, topic: 'B', museumSub: i };
+                });
+            }
+
+            return schedule;
+        }
+
+        const groupSchedule = buildGroupSchedule();
+
+        function initializeApp() {
+            const select = document.getElementById('groupSelect');
+            const schedulesDiv = document.getElementById('schedules');
+
+            // מילוי הרשימה הנפתחת
+            groups.forEach((group, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = group;
+                select.appendChild(option);
+            });
+
+            // יצירת כל הלוחות
+            groups.forEach((group, index) => {
+                const schedulePage = createSchedulePage(group, index);
+                schedulesDiv.appendChild(schedulePage);
+            });
+
+            // מאזין לשינוי בחירה
+            select.addEventListener('change', function() {
+                showSchedule(this.value);
+            });
+        }
+
+        function createSchedulePage(groupName, groupIndex) {
+            const page = document.createElement('div');
+            page.className = 'schedule-page';
+            page.id = `schedule-${groupIndex}`;
+
+            const bracelet = bracelets[groupIndex];
+            const schedule = groupSchedule[groupIndex];
+
+            // בניית שורות הלוז
+            let tableRows = '';
+
+            // התאספות ונשנושים
+            tableRows += `
+                <tr>
+                    <td class="time-slot">09:00 - 09:30</td>
+                    <td class="common-activity">
+                        <div class="activity">
+                            <span class="activity-title">☕ התאספות ונשנושים</span>
+                            <span class="activity-location">בכניסה לאודיטוריום</span>
+                        </div>
+                    </td>
+                </tr>`;
+
+            // פתיחה
+            tableRows += `
+                <tr>
+                    <td class="time-slot">09:30 - 10:00</td>
+                    <td class="common-activity">
+                        <div class="activity">
+                            <span class="activity-title">🎤 פתיחה</span>
+                            <span class="activity-location">באודיטוריום</span>
+                        </div>
+                    </td>
+                </tr>`;
+
+            // שלוש רצועות
+            const slotTimes = ['10:00 - 10:50', '10:50 - 11:40', '11:40 - 12:30'];
+            const slotNames = ['רצועה א\'', 'רצועה ב\'', 'רצועה ג\''];
+
+            slotTimes.forEach((time, si) => {
+                const info = schedule[si];
+                const topic = info.topic;
+                const lab = labs[info.labIdx];
+                const labName = lab.name;
+                const labFloor = lab.floor ? ` (${lab.floor})` : '';
+                const musTime = museumTimes[si][info.museumSub];
+
+                tableRows += `
+                    <tr>
+                        <td class="time-slot">${time}<br><small>${slotNames[si]}</small></td>
+                        <td>
+                            <div class="activity">
+                                <span class="activity-title">${topicNames[topic]}</span>
+                                <span class="activity-location">${labName}${labFloor}</span>
+                                <span class="activity-topic ${topicClasses[topic]}">🏥 מוזיאון רפואה (${musLabel[topic]}): ${musTime}</span>
+                            </div>
+                        </td>
+                    </tr>`;
+            });
+
+            // ארוחת צהריים
+            tableRows += `
+                <tr>
+                    <td class="time-slot">12:30 - 13:00</td>
+                    <td class="common-activity">
+                        <div class="activity">
+                            <span class="activity-title">🍽️ ארוחת צהריים קלה</span>
+                        </div>
+                    </td>
+                </tr>`;
+
+            // מעגלי חשיבה - אותה מעבדה כמו רצועה ראשונה
+            const circlesInfo = schedule[0];
+            const circlesLab = labs[circlesInfo.labIdx];
+            const circlesLabName = circlesLab.name;
+            const circlesFloor = circlesLab.floor ? ` (${circlesLab.floor})` : '';
+
+            tableRows += `
+                <tr>
+                    <td class="time-slot">13:00 - 14:15</td>
+                    <td>
+                        <div class="activity">
+                            <span class="activity-title">💭 מעגלי חשיבה</span>
+                            <span class="activity-location">${circlesLabName}${circlesFloor}</span>
+                            <span class="activity-topic topic-circles">פעילות סיכום</span>
+                        </div>
+                    </td>
+                </tr>`;
+
+            // סיכום היום
+            tableRows += `
+                <tr>
+                    <td class="time-slot">14:15 - 14:30</td>
+                    <td class="common-activity">
+                        <div class="activity">
+                            <span class="activity-title">✨ סיכום היום וצידה לדרך</span>
+                            <span class="activity-location">באודיטוריום</span>
+                        </div>
+                    </td>
+                </tr>`;
+
+            page.innerHTML = `
+                <div class="digital-qr">
+                    <p>צריכות את לוח הזמנים בדיגיטל? סרקו!</p>
+                    <img src="qr2.png" alt="QR Code ללוז דיגיטלי">
+                </div>
+
+                <div class="page-header">
+                    <h2>📚 לוח זמנים יומי</h2>
+                    <div class="group-name">${groupName}</div>
+                    <div class="bracelet-badge">
+                        <span class="bracelet-dot" style="background: ${bracelet.color}"></span>
+                        <span>צמיד ${bracelet.name}</span>
+                    </div>
+                </div>
+
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>שעות</th>
+                            <th>פעילויות</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+                </table>
+
+                <div class="print-note" style="margin-top: 15px; text-align: center; color: #666; font-size: 12px;">
+                    <p>👣 לא מוצאות את המעבדה? חפשו את כפות הרגליים על הרצפה, הן יעזרו לכן למצוא את היעד</p>
+                </div>
+
+                <div class="print-qr-section" style="margin-top: 12px; text-align: center; padding: 12px; background: #fff5f5; border: 2px solid #e53e3e; border-radius: 10px;">
+                    <p style="color: #c53030; font-weight: 800; font-size: 14px; margin-bottom: 10px;">
+                        ⚠️ יש לענות על השאלון הבא לפני שמתחילים את הפעילות
+                    </p>
+                    <img src="qrForm.png" alt="QR Code לשאלון" style="max-width: 120px; height: auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.12);">
+                </div>
+            `;
+
+            return page;
+        }
+
+        function showSchedule(index) {
+            // הסתרת כל הלוחות
+            document.querySelectorAll('.schedule-page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // הצגת הלוח הנבחר
+            if (index !== '') {
+                document.getElementById(`schedule-${index}`).classList.add('active');
+            }
+        }
+
+        function printCurrent() {
+            const select = document.getElementById('groupSelect');
+            if (select.value === '') {
+                alert('אנא בחרי בית ספר קודם');
+                return;
+            }
+
+            // The active class already shows the right page
+            // Just print directly
+            window.print();
+        }
+
+        function printAll() {
+            const currentValue = document.getElementById('groupSelect').value;
+
+            // Temporarily show all pages for printing
+            document.querySelectorAll('.schedule-page').forEach(page => {
+                page.classList.add('active');
+            });
+
+            window.print();
+
+            // Restore after print - show only the previously selected page
+            setTimeout(() => {
+                document.querySelectorAll('.schedule-page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                if (currentValue !== '') {
+                    document.getElementById(`schedule-${currentValue}`).classList.add('active');
+                }
+            }, 100);
+        }
+
+        // אתחול האפליקציה
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
