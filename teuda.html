@@ -290,6 +290,75 @@
         <!-- כל התעודות ייווצרו כאן אוטומטית -->
     </div>
 
+    <script>
+        function printCerts() {
+            var container = document.getElementById('certificatesContainer');
+            if (!container.children.length) {
+                alert('אין תעודות להדפסה. לחץ "טען וצור תעודות" קודם.');
+                return;
+            }
+            var baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+            var printWin = window.open('', '_blank');
+            if (!printWin) {
+                alert('הדפדפן חסם חלון קופץ. אנא אפשר חלונות קופצים.');
+                return;
+            }
+            var css = [
+                '* {margin:0;padding:0;box-sizing:border-box;',
+                '-webkit-print-color-adjust:exact !important;color-adjust:exact !important;print-color-adjust:exact !important;',
+                'font-family:"Heebo",sans-serif;}',
+                '@page{size:297mm 210mm;margin:0;}',
+                'html,body{margin:0;padding:0;background:white;direction:rtl;}',
+                '.certificate{display:block;width:297mm;height:210mm;position:relative;overflow:hidden;',
+                'background:url("teuda4all.png") no-repeat center center;background-size:cover;',
+                'page-break-after:always;break-after:page;}',
+                '.certificate:last-child{page-break-after:avoid;break-after:avoid;}',
+                '.logos-row{position:absolute;bottom:5mm;left:0;right:0;display:flex;',
+                'align-items:center;gap:6mm;justify-content:flex-end;padding-right:15mm;transform:translateX(150px);z-index:5;}',
+                '.bottom-logo-img{height:14mm;width:auto;object-fit:contain;}',
+                '.bottom-logo-img.logo-small{height:10mm;}',
+                '.signatories{position:absolute;bottom:24mm;left:5mm;right:150mm;display:flex;',
+                'flex-direction:row;align-items:flex-end;justify-content:flex-start;gap:25mm;direction:rtl;z-index:5;}',
+                '.signatory{display:flex;flex-direction:column;align-items:center;text-align:center;}',
+                '.sig-image{height:14mm;width:auto;object-fit:contain;margin-bottom:2mm;}',
+                '.sig-name{font-size:13px;font-weight:700;color:#333;white-space:nowrap;}',
+                '.sig-role{font-size:11px;font-weight:500;color:#555;white-space:nowrap;}',
+                '.certificate-name{position:absolute;top:35mm;left:72mm;text-align:center;z-index:5;}',
+                '.name-value{font-size:32px;font-weight:800;color:#333;margin-bottom:3mm;}',
+                '.school-info{font-size:22px;font-weight:600;color:#555;}',
+                '.school-label{display:inline;color:#7B1E7A;}',
+                '.school-value{display:inline;color:#333;}'
+            ].join('');
+            // פיצול מחרוזות בעייתיות כדי שהפרסר לא יסגור את תגית הסקריפט
+            var C = '<'; var G = '>';
+            var html = C + '!DOCTYPE html' + G +
+                C + 'html dir="rtl"' + G +
+                C + 'head' + G +
+                C + 'meta charset="UTF-8"' + G +
+                C + 'base href="' + baseUrl + '"' + G +
+                C + 'link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet"' + G +
+                C + 'style' + G + css + C + '/style' + G +
+                C + '/head' + G +
+                C + 'body' + G +
+                container.innerHTML +
+                C + '/body' + G +
+                C + '/html' + G;
+
+            printWin.document.open();
+            printWin.document.write(html);
+            printWin.document.close();
+
+            var printed = false;
+            printWin.onload = function() {
+                if (printed) return;
+                printed = true;
+                setTimeout(function() { printWin.print(); }, 800);
+            };
+            setTimeout(function() {
+                if (!printed) { printed = true; try { printWin.print(); } catch(e) {} }
+            }, 2500);
+        }
+    </script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
@@ -402,11 +471,6 @@
                 statusMsg.textContent = 'שגיאה בטעינת נתונים: ' + error.message;
                 statusMsg.style.color = '#f44336';
             }
-        };
-
-        // הדפסה
-        window.printCerts = function() {
-            window.print();
         };
 
         // טעינה אוטומטית
