@@ -372,16 +372,327 @@
             .key-points {
                 grid-template-columns: 1fr;
             }
-            
+
             .sentence-parts {
                 flex-direction: column;
                 align-items: stretch;
             }
-            
+
             .color-picker-container {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
+
+        /* ===== CLOUD SIDEBAR ===== */
+        .cloud-sidebar-btn {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(180deg, #5a1058, #7B1E7A, #9B4D9A);
+            color: white;
+            padding: 22px 14px;
+            border-radius: 0 16px 16px 0;
+            cursor: pointer;
+            z-index: 200;
+            box-shadow: 4px 0 20px rgba(90,16,88,0.5), 0 0 0 2px rgba(255,255,255,0.15) inset;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Segoe UI', sans-serif;
+            transition: all 0.3s ease;
+            user-select: none;
+            min-width: 52px;
+        }
+
+        .cloud-sidebar-btn:hover {
+            padding-left: 20px;
+            min-width: 60px;
+            box-shadow: 6px 0 28px rgba(90,16,88,0.65), 0 0 0 2px rgba(255,255,255,0.2) inset;
+        }
+
+        .cloud-sidebar-btn .csb-icon {
+            font-size: 26px;
+            line-height: 1;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .cloud-sidebar-btn .csb-label {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 1;
+        }
+
+        .cloud-sidebar-btn .csb-badge {
+            background: #f9d77e;
+            color: #5a1058;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 6px;
+            border-radius: 8px;
+            writing-mode: horizontal-tb;
+            transform: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+
+        .cloud-panel-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 300;
+            display: none;
+            backdrop-filter: blur(2px);
+        }
+
+        .cloud-panel-overlay.open { display: block; }
+
+        .cloud-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 400px;
+            max-width: 95vw;
+            background: white;
+            z-index: 400;
+            box-shadow: 6px 0 35px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+            direction: rtl;
+        }
+
+        .cloud-panel.open { transform: translateX(0); }
+
+        .cloud-panel-header {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .cloud-panel-header h2 { font-size: 18px; font-weight: 700; }
+
+        .cloud-panel-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 6px;
+            line-height: 1;
+            transition: background 0.2s;
+        }
+
+        .cloud-panel-close:hover { background: rgba(255,255,255,0.35); }
+
+        .cloud-panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cloud-section { margin-bottom: 22px; }
+
+        .cloud-section-title {
+            font-weight: 700;
+            color: #7B1E7A;
+            margin-bottom: 8px;
+            font-size: 15px;
+            border-bottom: 2px solid #f3e5f5;
+            padding-bottom: 5px;
+        }
+
+        .cloud-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            direction: rtl;
+            background: #fafafa;
+            transition: border-color 0.2s;
+        }
+
+        .cloud-select:focus { outline: none; border-color: #7B1E7A; background: white; }
+        .cloud-select:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        .students-list {
+            background: #f9f4f9;
+            border: 1px solid #e8d5e8;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 48px;
+            line-height: 1.8;
+        }
+
+        .student-tag {
+            display: inline-block;
+            background: #7B1E7A;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin: 2px;
+        }
+
+        .upload-area {
+            border: 2px dashed #9B4D9A;
+            border-radius: 10px;
+            padding: 28px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s;
+            background: #fdf7fd;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            background: #f3e5f5;
+            border-color: #7B1E7A;
+        }
+
+        .upload-icon { font-size: 36px; margin-bottom: 8px; }
+
+        .upload-area-title { font-weight: 700; color: #7B1E7A; margin-bottom: 4px; }
+
+        .upload-area-sub { font-size: 12px; color: #999; }
+
+        .upload-progress { margin-top: 12px; display: none; }
+
+        .upload-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .upload-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7B1E7A, #9B4D9A);
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 3px;
+        }
+
+        .upload-status {
+            font-size: 13px;
+            margin-top: 6px;
+            color: #666;
+            text-align: center;
+        }
+
+        .qr-section { display: none; text-align: center; }
+        .qr-section.visible { display: block; }
+
+        .qr-box {
+            background: #fdf7fd;
+            border: 2px solid #e8d5e8;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .qr-code-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        .qr-label {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .qr-url {
+            font-size: 11px;
+            color: #999;
+            word-break: break-all;
+            background: #f5f5f5;
+            padding: 6px;
+            border-radius: 6px;
+            margin-top: 8px;
+            text-align: left;
+            direction: ltr;
+        }
+
+        .btn-cloud {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-cloud:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(123,30,122,0.3);
+        }
+
+        .btn-cloud-secondary {
+            background: white;
+            color: #7B1E7A;
+            border: 2px solid #7B1E7A;
+        }
+
+        .btn-cloud-secondary:hover {
+            background: #f3e5f5;
+        }
+
+        .file-queue { margin-top: 12px; display: none; }
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            background: #fdf7fd;
+            border: 1px solid #e8d5e8;
+            border-radius: 7px;
+            margin-bottom: 5px;
+        }
+        .file-item-icon { font-size: 18px; flex-shrink: 0; }
+        .file-item-name {
+            flex: 1;
+            font-size: 13px;
+            color: #444;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .file-item-bar {
+            height: 3px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 3px;
+        }
+        .file-item-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7B1E7A, #9B4D9A);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .file-item-status { font-size: 14px; flex-shrink: 0; }
     </style>
 </head>
 <body>
@@ -668,6 +979,88 @@
         </div>
     </div>
 
+    <!-- ===== CLOUD SIDEBAR BUTTON ===== -->
+    <div class="cloud-sidebar-btn" onclick="openCloudPanel()">
+        <div class="csb-icon">☁️</div>
+        <div class="csb-label">העלאה לענן</div>
+        <div class="csb-badge">UPLOAD</div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="cloud-panel-overlay" id="cloudOverlay" onclick="closeCloudPanel()"></div>
+
+    <!-- Cloud Panel -->
+    <div class="cloud-panel" id="cloudPanel">
+        <div class="cloud-panel-header">
+            <h2>☁️ העלאת תוכן לענן</h2>
+            <button class="cloud-panel-close" onclick="closeCloudPanel()">✕</button>
+        </div>
+        <div class="cloud-panel-body">
+
+            <!-- School -->
+            <div class="cloud-section">
+                <div class="cloud-section-title">🏫 בחרי בית ספר</div>
+                <select class="cloud-select" id="cloudSchoolSelect" onchange="loadCloudGroups()">
+                    <option value="">טוען בתי ספר...</option>
+                </select>
+            </div>
+
+            <!-- Group -->
+            <div class="cloud-section">
+                <div class="cloud-section-title">👥 בחרי קבוצה</div>
+                <select class="cloud-select" id="cloudGroupSelect" onchange="loadCloudStudents()" disabled>
+                    <option value="">בחרי קבוצה...</option>
+                </select>
+            </div>
+
+            <!-- Students -->
+            <div class="cloud-section">
+                <div class="cloud-section-title">🎓 תלמידות הקבוצה</div>
+                <div class="students-list" id="cloudStudentsList">
+                    <span style="color:#bbb; font-size:13px;">בחרי בית ספר וקבוצה</span>
+                </div>
+            </div>
+
+            <!-- Upload -->
+            <div class="cloud-section">
+                <div class="cloud-section-title">📁 העלאת קובץ</div>
+                <div class="upload-area" id="cloudUploadArea"
+                     onclick="document.getElementById('cloudFileInput').click()"
+                     ondragover="event.preventDefault(); this.classList.add('dragover')"
+                     ondragleave="this.classList.remove('dragover')"
+                     ondrop="handleCloudDrop(event)">
+                    <div class="upload-icon">📎</div>
+                    <div class="upload-area-title">גרור קבצים לכאן</div>
+                    <div class="upload-area-sub">או לחצי לבחירת קבצים</div>
+                    <div class="upload-area-sub" style="margin-top:4px;">תמונות · סרטונים · PDF · PPT · ניתן לבחור מספר קבצים</div>
+                </div>
+                <input type="file" id="cloudFileInput" style="display:none" multiple
+                       onchange="handleCloudFileSelect(event)"
+                       accept="image/*,video/*,audio/*,.pdf,.ppt,.pptx,.doc,.docx">
+                <div class="file-queue" id="cloudFileQueue"></div>
+                <div class="upload-progress" id="cloudUploadProgress" style="display:none;">
+                    <div class="upload-progress-bar">
+                        <div class="upload-progress-fill" id="cloudProgressFill"></div>
+                    </div>
+                    <div class="upload-status" id="cloudUploadStatus">מעלה...</div>
+                </div>
+            </div>
+
+            <!-- QR Code -->
+            <div class="cloud-section qr-section" id="cloudQRSection">
+                <div class="cloud-section-title">📱 קוד QR לגלריה</div>
+                <div class="qr-box">
+                    <img class="qr-code-img" id="cloudQRImage" src="" alt="QR Code">
+                    <div class="qr-label">סרקו עם הטאבלט לצפייה בגלריית הקבצים</div>
+                    <div class="qr-url" id="cloudFileUrl"></div>
+                    <button class="btn-cloud" onclick="copyCloudUrl()">📋 העתק קישור לגלריה</button>
+                    <button class="btn-cloud btn-cloud-secondary" onclick="resetCloudUpload()">🔄 העלאה חדשה</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <script>
         let currentStep = 1;
         const maxSteps = 6;
@@ -876,6 +1269,237 @@
 
         // אתחול
         updateProgress();
+    </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getDatabase, ref, get, push, set } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+        import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQdei2zVCXkYh99pLPzr_ZMyi8ohupVhY",
+            authDomain: "forever-4a04b.firebaseapp.com",
+            databaseURL: "https://forever-4a04b-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "forever-4a04b",
+            storageBucket: "forever-4a04b.firebasestorage.app",
+            messagingSenderId: "250928700713",
+            appId: "1:250928700713:web:25d6979fca637b90d42b38"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const storage = getStorage(app);
+
+        let teamsData = {};
+        let uploadQueue = [];
+
+        // ===== Panel Open/Close =====
+        window.openCloudPanel = function() {
+            document.getElementById('cloudPanel').classList.add('open');
+            document.getElementById('cloudOverlay').classList.add('open');
+        };
+        window.closeCloudPanel = function() {
+            document.getElementById('cloudPanel').classList.remove('open');
+            document.getElementById('cloudOverlay').classList.remove('open');
+        };
+
+        // ===== Load Teams from Firebase =====
+        async function loadTeamsData() {
+            const schoolSelect = document.getElementById('cloudSchoolSelect');
+            try {
+                const snapshot = await get(ref(database, 'teams'));
+                if (snapshot.exists()) {
+                    teamsData = snapshot.val();
+                    schoolSelect.innerHTML = '<option value="">בחרי בית ספר...</option>';
+                    Object.keys(teamsData).forEach(key => {
+                        const opt = document.createElement('option');
+                        opt.value = key;
+                        opt.textContent = key.replace(/_/g, ' ').trim();
+                        schoolSelect.appendChild(opt);
+                    });
+                } else {
+                    schoolSelect.innerHTML = '<option value="">לא נמצאו נתונים</option>';
+                }
+            } catch (err) {
+                schoolSelect.innerHTML = '<option value="">שגיאה בטעינה</option>';
+                console.error(err);
+            }
+        }
+
+        window.loadCloudGroups = function() {
+            const schoolKey = document.getElementById('cloudSchoolSelect').value;
+            const groupSelect = document.getElementById('cloudGroupSelect');
+            document.getElementById('cloudStudentsList').innerHTML =
+                '<span style="color:#bbb;font-size:13px;">בחרי קבוצה</span>';
+
+            if (!schoolKey) {
+                groupSelect.innerHTML = '<option value="">בחרי קבוצה...</option>';
+                groupSelect.disabled = true;
+                return;
+            }
+
+            const schoolData = teamsData[schoolKey] || {};
+            groupSelect.innerHTML = '<option value="">בחרי קבוצה...</option>';
+            Object.keys(schoolData).forEach(gKey => {
+                const opt = document.createElement('option');
+                opt.value = gKey;
+                opt.textContent = gKey.replace(/_/g, ' ');
+                groupSelect.appendChild(opt);
+            });
+            groupSelect.disabled = false;
+        };
+
+        window.loadCloudStudents = function() {
+            const schoolKey = document.getElementById('cloudSchoolSelect').value;
+            const groupKey = document.getElementById('cloudGroupSelect').value;
+            const list = document.getElementById('cloudStudentsList');
+
+            if (!schoolKey || !groupKey) {
+                list.innerHTML = '<span style="color:#bbb;font-size:13px;">בחרי קבוצה</span>';
+                return;
+            }
+
+            const groupData = teamsData[schoolKey]?.[groupKey];
+            if (groupData?.students?.length) {
+                list.innerHTML = groupData.students
+                    .filter(s => s?.trim())
+                    .map(s => {
+                        const firstName = s.trim().split(' ')[0];
+                        return `<span class="student-tag">${firstName}</span>`;
+                    })
+                    .join('');
+            } else {
+                list.innerHTML = '<span style="color:#bbb;font-size:13px;">לא נמצאו תלמידות</span>';
+            }
+        };
+
+        // ===== Multi-File Upload =====
+        window.handleCloudDrop = function(event) {
+            event.preventDefault();
+            document.getElementById('cloudUploadArea').classList.remove('dragover');
+            const files = [...event.dataTransfer.files];
+            if (files.length) processFiles(files);
+        };
+
+        window.handleCloudFileSelect = function(event) {
+            const files = [...event.target.files];
+            if (files.length) processFiles(files);
+        };
+
+        function getFileIcon(mimeType) {
+            if (mimeType.startsWith('image/')) return '🖼️';
+            if (mimeType.startsWith('video/')) return '🎬';
+            if (mimeType.startsWith('audio/')) return '🎵';
+            if (mimeType.includes('pdf')) return '📄';
+            if (mimeType.includes('presentation') || mimeType.includes('powerpoint')) return '📊';
+            return '📎';
+        }
+
+        function processFiles(files) {
+            uploadQueue = files.map(f => ({ file: f, status: 'pending', url: null }));
+            renderFileQueue();
+            startUploads();
+        }
+
+        function renderFileQueue() {
+            const queueEl = document.getElementById('cloudFileQueue');
+            queueEl.style.display = 'block';
+            queueEl.innerHTML = uploadQueue.map((item, i) => `
+                <div class="file-item" id="fitem-${i}">
+                    <span class="file-item-icon">${getFileIcon(item.file.type)}</span>
+                    <div style="flex:1;overflow:hidden;">
+                        <div class="file-item-name">${item.file.name}</div>
+                        <div class="file-item-bar"><div class="file-item-bar-fill" id="fbar-${i}"></div></div>
+                    </div>
+                    <span class="file-item-status" id="fstatus-${i}">⏳</span>
+                </div>
+            `).join('');
+            document.getElementById('cloudQRSection').classList.remove('visible');
+        }
+
+        async function startUploads() {
+            const schoolKey = document.getElementById('cloudSchoolSelect').value;
+            const groupKey  = document.getElementById('cloudGroupSelect').value;
+            const sessionFolder = Date.now();
+            await Promise.all(uploadQueue.map((item, i) =>
+                uploadSingleFile(item, i, schoolKey, groupKey, sessionFolder)
+            ));
+            onAllUploaded(schoolKey, groupKey);
+        }
+
+        function uploadSingleFile(item, index, schoolKey, groupKey, sessionFolder) {
+            return new Promise(resolve => {
+                const basePath = schoolKey && groupKey
+                    ? `uploads/${schoolKey}/${groupKey}/${sessionFolder}`
+                    : `uploads/general/${sessionFolder}`;
+                const fileRef = storageRef(storage, `${basePath}/${item.file.name}`);
+                const task = uploadBytesResumable(fileRef, item.file);
+
+                task.on('state_changed',
+                    snap => {
+                        const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+                        const bar = document.getElementById(`fbar-${index}`);
+                        if (bar) bar.style.width = pct + '%';
+                    },
+                    () => {
+                        item.status = 'error';
+                        const el = document.getElementById(`fstatus-${index}`);
+                        if (el) el.textContent = '❌';
+                        resolve();
+                    },
+                    async () => {
+                        item.url = await getDownloadURL(task.snapshot.ref);
+                        item.status = 'done';
+                        const el = document.getElementById(`fstatus-${index}`);
+                        if (el) el.textContent = '✅';
+                        const bar = document.getElementById(`fbar-${index}`);
+                        if (bar) bar.style.width = '100%';
+                        resolve();
+                    }
+                );
+            });
+        }
+
+        async function onAllUploaded(schoolKey, groupKey) {
+            const done = uploadQueue.filter(f => f.status === 'done');
+            if (!done.length) return;
+
+            const sessionRef = push(ref(database, 'sessions'));
+            await set(sessionRef, {
+                school: schoolKey || 'כללי',
+                group: groupKey || 'כללי',
+                timestamp: Date.now(),
+                files: done.map(f => ({ name: f.file.name, url: f.url, type: f.file.type }))
+            });
+
+            const viewerUrl = `https://snirsnir.github.io/foreveryoungday/viewer.html?session=${sessionRef.key}`;
+            showQRCode(viewerUrl);
+        }
+
+        function showQRCode(url) {
+            document.getElementById('cloudQRImage').src =
+                `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(url)}&size=200x200&color=7B1E7A`;
+            document.getElementById('cloudFileUrl').textContent = url;
+            const qrSection = document.getElementById('cloudQRSection');
+            qrSection.classList.add('visible');
+            setTimeout(() => qrSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 200);
+        }
+
+        window.copyCloudUrl = function() {
+            const url = document.getElementById('cloudFileUrl').textContent;
+            navigator.clipboard.writeText(url).then(() => alert('✅ הקישור הועתק!'));
+        };
+
+        window.resetCloudUpload = function() {
+            document.getElementById('cloudFileInput').value = '';
+            const queueEl = document.getElementById('cloudFileQueue');
+            queueEl.style.display = 'none';
+            queueEl.innerHTML = '';
+            document.getElementById('cloudQRSection').classList.remove('visible');
+            uploadQueue = [];
+        };
+
+        // Init
+        loadTeamsData();
     </script>
 </body>
 </html>

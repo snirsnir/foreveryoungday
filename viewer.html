@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>גלריית הקבוצה - נשים מובילות מדע</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #f5eef5;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #5a1058, #7B1E7A, #9B4D9A);
+            color: white;
+            padding: 20px 16px 24px;
+            text-align: center;
+        }
+
+        .header-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 14px;
+        }
+
+        .header-logos img {
+            height: 44px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+
+        .page-header h1 {
+            font-size: 1.6em;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .header-meta {
+            font-size: 14px;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
+        }
+
+        .gallery-container {
+            max-width: 960px;
+            margin: 24px auto;
+            padding: 0 16px 40px;
+        }
+
+        /* States */
+        .state-box {
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .state-box .state-icon { font-size: 56px; margin-bottom: 16px; }
+        .state-box .state-text { font-size: 1.1em; color: #777; }
+        .state-box .state-text.error { color: #e74c3c; }
+
+        /* Gallery grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .file-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(123,30,122,0.1);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .file-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 28px rgba(123,30,122,0.18);
+        }
+
+        /* Image preview */
+        .card-img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .card-img:hover { opacity: 0.88; }
+
+        /* Video */
+        .card-video {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            display: block;
+            background: #000;
+        }
+
+        /* Audio */
+        .card-audio-wrap {
+            height: 190px;
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            gap: 12px;
+        }
+
+        .card-audio-icon { font-size: 48px; }
+
+        .card-audio-wrap audio {
+            width: 100%;
+            outline: none;
+        }
+
+        /* Other file */
+        .card-file-placeholder {
+            height: 190px;
+            background: linear-gradient(135deg, #f3e5f5, #e8d5e8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .card-file-placeholder .file-icon { font-size: 52px; }
+        .card-file-placeholder .file-ext {
+            font-size: 12px;
+            font-weight: 700;
+            color: #7B1E7A;
+            background: rgba(123,30,122,0.1);
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Card footer */
+        .card-footer {
+            padding: 10px 13px 12px;
+            border-top: 1px solid #f0e6f0;
+        }
+
+        .card-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-bottom: 8px;
+        }
+
+        .btn-open {
+            display: block;
+            text-align: center;
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            text-decoration: none;
+            padding: 7px 14px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: opacity 0.2s, transform 0.15s;
+        }
+
+        .btn-open:hover { opacity: 0.85; transform: scale(1.02); }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.93);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .lightbox.open { display: flex; }
+
+        .lightbox-inner {
+            position: relative;
+            max-width: 95vw;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-inner img {
+            max-width: 95vw;
+            max-height: 88vh;
+            border-radius: 10px;
+            object-fit: contain;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+
+        .lightbox-close {
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            background: rgba(255,255,255,0.18);
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 5px 13px;
+            border-radius: 8px;
+            line-height: 1.5;
+            backdrop-filter: blur(4px);
+            transition: background 0.2s;
+            z-index: 1001;
+        }
+
+        .lightbox-close:hover { background: rgba(255,255,255,0.32); }
+
+        @media (max-width: 600px) {
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+            .card-img, .card-video, .card-audio-wrap, .card-file-placeholder { height: 150px; }
+            .page-header h1 { font-size: 1.3em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <div class="header-logos">
+            <img src="logot.png" alt="טכנודע" onerror="this.style.display='none'">
+            <img src="logoastra.png" alt="AstraZeneca" onerror="this.style.display='none'">
+            <img src="clalit.png" alt="כללית" onerror="this.style.display='none'">
+        </div>
+        <h1>🎨 גלריית הקבוצה</h1>
+        <div class="header-meta" id="headerMeta">נשים מובילות מדע</div>
+    </div>
+
+    <div class="gallery-container">
+        <div class="state-box" id="loadingState">
+            <div class="state-icon">⏳</div>
+            <div class="state-text">טוען גלריה...</div>
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid" style="display:none;"></div>
+
+        <div class="state-box" id="emptyState" style="display:none;">
+            <div class="state-icon">📂</div>
+            <div class="state-text">לא נמצאו קבצים בגלריה זו</div>
+        </div>
+
+        <div class="state-box" id="errorState" style="display:none;">
+            <div class="state-icon">❌</div>
+            <div class="state-text error" id="errorMsg"></div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <div class="lightbox-inner" onclick="event.stopPropagation()">
+            <img id="lightboxImg" src="" alt="">
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQdei2zVCXkYh99pLPzr_ZMyi8ohupVhY",
+            authDomain: "forever-4a04b.firebaseapp.com",
+            databaseURL: "https://forever-4a04b-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "forever-4a04b",
+            storageBucket: "forever-4a04b.firebasestorage.app",
+            messagingSenderId: "250928700713",
+            appId: "1:250928700713:web:25d6979fca637b90d42b38"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get('session');
+
+        function showError(msg) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('errorMsg').textContent = msg;
+        }
+
+        function getFileIcon(type) {
+            if (!type) return '📎';
+            if (type.startsWith('image/')) return '🖼️';
+            if (type.startsWith('video/')) return '🎬';
+            if (type.startsWith('audio/')) return '🎵';
+            if (type.includes('pdf')) return '📄';
+            if (type.includes('presentation') || type.includes('powerpoint')) return '📊';
+            if (type.includes('word') || type.includes('document')) return '📝';
+            return '📎';
+        }
+
+        function getFileExt(name) {
+            const parts = name.split('.');
+            return parts.length > 1 ? parts[parts.length - 1] : '';
+        }
+
+        function renderFile(file) {
+            const { name, url, type } = file;
+            const safeUrl = url.replace(/"/g, '%22');
+            const isImage = type && type.startsWith('image/');
+            const isVideo = type && type.startsWith('video/');
+            const isAudio = type && type.startsWith('audio/');
+
+            let previewHtml;
+
+            if (isImage) {
+                previewHtml = `
+                    <img class="card-img" src="${safeUrl}" alt="${name}" loading="lazy"
+                         data-url="${safeUrl}" onclick="openLightbox(this.dataset.url)">`;
+            } else if (isVideo) {
+                previewHtml = `
+                    <video class="card-video" src="${safeUrl}" controls preload="metadata"></video>`;
+            } else if (isAudio) {
+                previewHtml = `
+                    <div class="card-audio-wrap">
+                        <div class="card-audio-icon">🎵</div>
+                        <audio src="${safeUrl}" controls></audio>
+                    </div>`;
+            } else {
+                const ext = getFileExt(name);
+                previewHtml = `
+                    <div class="card-file-placeholder">
+                        <span class="file-icon">${getFileIcon(type)}</span>
+                        ${ext ? `<span class="file-ext">${ext}</span>` : ''}
+                    </div>`;
+            }
+
+            return `
+                <div class="file-card">
+                    ${previewHtml}
+                    <div class="card-footer">
+                        <div class="card-name" title="${name}">${name}</div>
+                        <a class="btn-open" href="${safeUrl}" target="_blank">
+                            ⬇️ פתח / הורד
+                        </a>
+                    </div>
+                </div>`;
+        }
+
+        async function loadSession() {
+            if (!sessionId) {
+                showError('לא צוין קוד גלריה. סרקו את קוד ה-QR שוב.');
+                return;
+            }
+
+            try {
+                const snap = await get(ref(db, `sessions/${sessionId}`));
+                document.getElementById('loadingState').style.display = 'none';
+
+                if (!snap.exists()) {
+                    showError('הגלריה לא נמצאה. ייתכן שהקישור פג תוקף.');
+                    return;
+                }
+
+                const session = snap.val();
+
+                // Update header meta
+                const parts = [session.school, session.group].filter(p => p && p !== 'כללי');
+                if (parts.length) {
+                    document.getElementById('headerMeta').textContent =
+                        parts.join(' · ') + ' | נשים מובילות מדע';
+                }
+
+                // Normalize files (Firebase may convert array to object)
+                const rawFiles = session.files;
+                const files = Array.isArray(rawFiles)
+                    ? rawFiles
+                    : Object.values(rawFiles || {});
+
+                if (!files.length) {
+                    document.getElementById('emptyState').style.display = 'block';
+                    return;
+                }
+
+                const grid = document.getElementById('galleryGrid');
+                grid.innerHTML = files.map(renderFile).join('');
+                grid.style.display = 'grid';
+
+            } catch (err) {
+                showError('שגיאה בטעינה: ' + err.message);
+            }
+        }
+
+        // Lightbox
+        window.openLightbox = function(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeLightbox = function() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.getElementById('lightboxImg').src = '';
+            document.body.style.overflow = '';
+        };
+
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') window.closeLightbox();
+        });
+
+        loadSession();
+    </script>
+</body>
+</html>
