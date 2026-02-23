@@ -354,6 +354,90 @@
             box-shadow: 0 4px 15px rgba(253, 121, 168, 0.4);
         }
 
+        .btn-print-toggle {
+            background: #e9ecef;
+            color: #666;
+            border: 2px dashed #ccc;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .btn-print-toggle:hover {
+            background: #d0f0d0;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .btn-print-toggle.printed {
+            background: linear-gradient(135deg, #43a047, #66bb6a);
+            color: white;
+            border: 2px solid #43a047;
+        }
+
+        .btn-print-toggle.printed:hover {
+            background: linear-gradient(135deg, #e53935, #ef5350);
+            border-color: #e53935;
+        }
+
+        tr.row-printed {
+            background: #f0faf0 !important;
+        }
+
+        tr.row-printed:hover {
+            background: #e6f7e6 !important;
+        }
+
+        .new-badge {
+            display: inline-block;
+            background: #f9d77e;
+            color: #7B1E7A;
+            font-size: 0.72em;
+            font-weight: 900;
+            padding: 2px 9px;
+            border-radius: 10px;
+            margin-left: 8px;
+            vertical-align: middle;
+            animation: pulse-badge 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+
+        @keyframes highlight-new {
+            0%   { background-color: #fff9c4; }
+            100% { background-color: transparent; }
+        }
+
+        tr.new-row {
+            animation: highlight-new 4s ease-out forwards;
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9em;
+            color: #43a047;
+            font-weight: 700;
+            margin-right: 16px;
+            vertical-align: middle;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: #43a047;
+            border-radius: 50%;
+            animation: pulse-dot 1.4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.4; transform: scale(0.75); }
+        }
+
         .empty-state {
             text-align: center;
             padding: 50px;
@@ -464,6 +548,9 @@
 
         <div class="content">
             <button class="refresh-btn" onclick="loadProjects()">🔄 רענן רשימה</button>
+            <span class="live-indicator hidden" id="liveIndicator">
+                <span class="live-dot"></span> עדכון חי
+            </span>
             
             <div class="stats hidden" id="statsSection">
                 <div class="stat-card">
@@ -478,6 +565,10 @@
                     <div class="stat-number" id="latestDate">-</div>
                     <div class="stat-label">עדכון אחרון</div>
                 </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #43a047, #66bb6a);">
+                    <div class="stat-number" id="printedCount">0</div>
+                    <div class="stat-label">✅ הודפסו</div>
+                </div>
             </div>
 
             <div class="loading" id="loadingSection">
@@ -489,8 +580,10 @@
                 <thead>
                     <tr>
                         <th>שם הקבוצה</th>
+                        <th>בית ספר</th>
                         <th>תאריך העלאה</th>
                         <th>גודל קובץ</th>
+                        <th>הדפסה</th>
                         <th>פעולות</th>
                     </tr>
                 </thead>
@@ -526,10 +619,17 @@
 
         // Global variables
         let projects = [];
+        let knownFileNames = new Set();
+        let pollingTimer = null;
 
         // Load projects from Firebase
         async function loadProjects() {
+            console.log('[viewBook] loadProjects started');
             try {
+                // Stop existing polling while reloading
+                if (pollingTimer) clearInterval(pollingTimer);
+                document.getElementById('liveIndicator').classList.add('hidden');
+
                 // Show loading
                 document.getElementById('loadingSection').classList.remove('hidden');
                 document.getElementById('projectsTable').classList.add('hidden');
@@ -538,16 +638,19 @@
 
                 // Clear existing projects
                 projects = [];
+                knownFileNames = new Set();
                 document.getElementById('projectsList').innerHTML = '';
 
                 // Get list of files
-                const listRef = ref(storage, 'foreveryoung/');
+                const listRef = ref(storage, 'foreveryoungBooks/');
+                console.log('[viewBook] calling listAll...');
                 const result = await listAll(listRef);
+                console.log('[viewBook] listAll returned', result.items.length, 'files:', result.items.map(i => i.name));
 
                 if (result.items.length === 0) {
-                    // No projects found
                     document.getElementById('loadingSection').classList.add('hidden');
                     document.getElementById('emptyState').classList.remove('hidden');
+                    startPolling();
                     return;
                 }
 
@@ -556,17 +659,16 @@
                     try {
                         const metadata = await getMetadata(itemRef);
                         const downloadURL = await getDownloadURL(itemRef);
-                        
-                        const projectData = {
+                        projects.push({
                             name: itemRef.name,
                             displayName: itemRef.name.replace('.pdf', ''),
+                            school: metadata.customMetadata?.school || '',
                             size: metadata.size,
                             created: new Date(metadata.timeCreated),
                             downloadURL: downloadURL,
                             ref: itemRef
-                        };
-
-                        projects.push(projectData);
+                        });
+                        knownFileNames.add(itemRef.name);
                     } catch (error) {
                         console.error(`Error processing ${itemRef.name}:`, error);
                     }
@@ -574,6 +676,7 @@
 
                 // Sort by creation date (newest first)
                 projects.sort((a, b) => b.created - a.created);
+                console.log('[viewBook] projects to display:', projects.length);
 
                 // Display projects
                 displayProjects();
@@ -584,51 +687,160 @@
                 document.getElementById('projectsTable').classList.remove('hidden');
                 document.getElementById('statsSection').classList.remove('hidden');
 
+                // Start live polling
+                startPolling();
+
             } catch (error) {
                 console.error('Error loading projects:', error);
-                document.getElementById('loadingSection').innerHTML = 
+                document.getElementById('loadingSection').innerHTML =
                     '<div style="color: #e74c3c;">❌ שגיאה בטעינת העבודות</div>';
             }
         }
 
-        // Display projects in table
+        // Start polling for new files every 15 seconds
+        function startPolling() {
+            document.getElementById('liveIndicator').classList.remove('hidden');
+            pollingTimer = setInterval(checkForNewFiles, 15000);
+        }
+
+        // Check Firebase for new files without reloading the whole page
+        async function checkForNewFiles() {
+            try {
+                const listRef = ref(storage, 'foreveryoungBooks/');
+                const result = await listAll(listRef);
+                const newItems = result.items.filter(item => !knownFileNames.has(item.name));
+                if (newItems.length === 0) return;
+
+                for (const itemRef of newItems) {
+                    try {
+                        const metadata = await getMetadata(itemRef);
+                        const downloadURL = await getDownloadURL(itemRef);
+                        const projectData = {
+                            name: itemRef.name,
+                            displayName: itemRef.name.replace('.pdf', ''),
+                            school: metadata.customMetadata?.school || '',
+                            size: metadata.size,
+                            created: new Date(metadata.timeCreated),
+                            downloadURL: downloadURL,
+                            ref: itemRef
+                        };
+                        projects.unshift(projectData);
+                        knownFileNames.add(itemRef.name);
+
+                        // Add row at top of table with "חדש" highlight
+                        const tbody = document.getElementById('projectsList');
+                        const row = buildProjectRow(projectData, true);
+                        tbody.insertBefore(row, tbody.firstChild);
+
+                        // Remove "חדש" badge after 10 minutes
+                        setTimeout(() => {
+                            row.classList.remove('new-row');
+                            const badge = row.querySelector('.new-badge');
+                            if (badge) badge.remove();
+                        }, 10 * 60 * 1000);
+
+                        // Make sure table is visible (in case it was empty before)
+                        document.getElementById('emptyState').classList.add('hidden');
+                        document.getElementById('projectsTable').classList.remove('hidden');
+                        document.getElementById('statsSection').classList.remove('hidden');
+                    } catch (err) {
+                        console.error(`Error processing new file ${itemRef.name}:`, err);
+                    }
+                }
+                updateStats();
+            } catch (err) {
+                console.error('Polling error:', err);
+            }
+        }
+
+        // Load printed state from localStorage
+        function getPrintedState() {
+            try {
+                return JSON.parse(localStorage.getItem('printedBooks') || '{}');
+            } catch { return {}; }
+        }
+
+        // Toggle printed state for a project
+        function togglePrinted(name) {
+            const state = getPrintedState();
+            state[name] = !state[name];
+            localStorage.setItem('printedBooks', JSON.stringify(state));
+
+            // Update row appearance and button
+            const row = document.getElementById(`row-${name}`);
+            const btn = document.getElementById(`print-btn-${name}`);
+            if (state[name]) {
+                row.classList.add('row-printed');
+                btn.classList.add('printed');
+                btn.textContent = '✅ הודפס';
+            } else {
+                row.classList.remove('row-printed');
+                btn.classList.remove('printed');
+                btn.textContent = '☐ סמן כהודפס';
+            }
+
+            // Update printed count
+            const printed = Object.values(getPrintedState()).filter(Boolean).length;
+            document.getElementById('printedCount').textContent = printed;
+        }
+
+        // Build a single project <tr> element
+        function buildProjectRow(project, isNew = false) {
+            const printedState = getPrintedState();
+            const isPrinted = !!printedState[project.name];
+            const row = document.createElement('tr');
+            row.id = `row-${project.name}`;
+            if (isPrinted) row.classList.add('row-printed');
+            if (isNew) row.classList.add('new-row');
+            const newBadge = isNew ? '<span class="new-badge">חדש!</span>' : '';
+            row.innerHTML = `
+                <td class="project-name">${newBadge}${project.displayName}</td>
+                <td class="project-date">${project.school || '-'}</td>
+                <td class="project-date">${project.created.toLocaleDateString('he-IL')} ${project.created.toLocaleTimeString('he-IL', {hour: '2-digit', minute: '2-digit'})}</td>
+                <td class="project-size">${formatFileSize(project.size)}</td>
+                <td>
+                    <button id="print-btn-${project.name}"
+                            class="btn btn-print-toggle${isPrinted ? ' printed' : ''}"
+                            onclick="togglePrinted('${project.name}')">
+                        ${isPrinted ? '✅ הודפס' : '☐ סמן כהודפס'}
+                    </button>
+                </td>
+                <td>
+                    <div class="actions">
+                        <button class="btn btn-view" onclick="viewPDF('${project.downloadURL}')">
+                            👁️ צפייה
+                        </button>
+                        <button class="btn btn-download" onclick="downloadPDF('${project.downloadURL}', '${project.name}')">
+                            📥 הורדה
+                        </button>
+                        <button class="btn btn-delete" onclick="deleteProject('${project.name}')">
+                            🗑️ מחק
+                        </button>
+                    </div>
+                </td>
+            `;
+            return row;
+        }
+
+        // Display all projects in table
         function displayProjects() {
             const tbody = document.getElementById('projectsList');
             tbody.innerHTML = '';
-
-            projects.forEach((project, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="project-name">${project.displayName}</td>
-                    <td class="project-date">${project.created.toLocaleDateString('he-IL')} ${project.created.toLocaleTimeString('he-IL', {hour: '2-digit', minute: '2-digit'})}</td>
-                    <td class="project-size">${formatFileSize(project.size)}</td>
-                    <td>
-                        <div class="actions">
-                            <button class="btn btn-view" onclick="viewPDF('${project.downloadURL}')">
-                                👁️ צפייה
-                            </button>
-                            <button class="btn btn-download" onclick="downloadPDF('${project.downloadURL}', '${project.name}')">
-                                📥 הורדה
-                            </button>
-                            <button class="btn btn-delete" onclick="deleteProject(${index})">
-                                🗑️ מחק
-                            </button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
+            projects.forEach(project => tbody.appendChild(buildProjectRow(project, false)));
         }
 
         // Update statistics
         function updateStats() {
             const totalSize = projects.reduce((sum, project) => sum + project.size, 0);
             const latestDate = projects.length > 0 ? projects[0].created : null;
+            const printedState = getPrintedState();
+            const printedCount = projects.filter(p => !!printedState[p.name]).length;
 
             document.getElementById('totalProjects').textContent = projects.length;
             document.getElementById('totalSize').textContent = formatFileSize(totalSize);
-            document.getElementById('latestDate').textContent = latestDate ? 
+            document.getElementById('latestDate').textContent = latestDate ?
                 latestDate.toLocaleDateString('he-IL') : '-';
+            document.getElementById('printedCount').textContent = printedCount;
         }
 
         // Format file size
@@ -657,17 +869,27 @@
         }
 
         // Delete project
-        async function deleteProject(index) {
-            const project = projects[index];
-            
+        async function deleteProject(name) {
+            const project = projects.find(p => p.name === name);
+            if (!project) return;
+
             if (!confirm(`האם אתה בטוח שברצונך למחוק את העבודה "${project.displayName}"?`)) {
                 return;
             }
 
             try {
                 await deleteObject(project.ref);
-                alert('העבודה נמחקה בהצלחה! 🗑️');
-                loadProjects(); // Reload the list
+                // Remove from array and DOM without full reload
+                projects = projects.filter(p => p.name !== name);
+                knownFileNames.delete(name);
+                const row = document.getElementById(`row-${name}`);
+                if (row) row.remove();
+                updateStats();
+                if (projects.length === 0) {
+                    document.getElementById('projectsTable').classList.add('hidden');
+                    document.getElementById('statsSection').classList.add('hidden');
+                    document.getElementById('emptyState').classList.remove('hidden');
+                }
             } catch (error) {
                 console.error('Error deleting project:', error);
                 alert('שגיאה במחיקת העבודה. נסה שוב.');
@@ -679,6 +901,8 @@
         window.viewPDF = viewPDF;
         window.downloadPDF = downloadPDF;
         window.deleteProject = deleteProject;
+        window.togglePrinted = togglePrinted;
+        window.checkForNewFiles = checkForNewFiles;
 
         // Load projects on page load
         window.addEventListener('load', loadProjects);

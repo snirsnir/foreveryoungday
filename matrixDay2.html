@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>יום השיא - נשים מובילות מדע</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --proj: #0891b2;
+    --proj-light: #cff3fb;
+    --proj-dark: #0c5f7a;
+    --proto: #ea580c;
+    --proto-light: #fde8d8;
+    --proto-dark: #9c3407;
+    --mkt: #7c3aed;
+    --mkt-light: #ede9fb;
+    --mkt-dark: #5227a8;
+    --dark: #1a1a2e;
+    --dark2: #16162a;
+    --common: #f8f9fa;
+    --common-border: #dee2e6;
+    --meet: #6366f1;
+    --meet-light: #eef2ff;
+    --collect: #0d9488;
+    --collect-light: #ccfbf1;
+    --present: #b45309;
+    --present-light: #fef3c7;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: linear-gradient(145deg, #f0f4f8 0%, #e8ecf2 100%);
+    min-height: 100vh;
+    padding: 32px 16px 44px;
+    direction: rtl;
+  }
+
+  .header { text-align: center; margin-bottom: 22px; }
+  .header h1 { font-size: 24px; font-weight: 800; color: var(--dark); }
+  .header .sub { font-size: 12px; color: #7a8899; margin-top: 4px; }
+
+  .legend {
+    display: flex; justify-content: center; gap: 18px;
+    margin-bottom: 18px; flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #444; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  .wrapper {
+    max-width: 1600px; margin: 0 auto;
+    overflow-x: auto; border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.05);
+    background: #fff;
+  }
+
+  table { width: 100%; border-collapse: collapse; min-width: 1100px; }
+
+  /* TOPIC HEADER */
+  .topic-row th {
+    padding: 11px 4px; text-align: center; color: #fff;
+    border-left: 2px solid rgba(255,255,255,0.2); vertical-align: middle;
+  }
+  .topic-row th:first-child { border-left: none; }
+  .topic-row .th-time  { background: var(--dark); min-width: 108px; border-radius: 16px 0 0 0; }
+  .topic-row .th-proj  { background: var(--proj); }
+  .topic-row .th-proto { background: var(--proto); }
+  .topic-row .th-mkt   { background: var(--mkt); border-radius: 0 16px 0 0; }
+  .topic-row .t-emoji  { font-size: 20px; display: block; margin-bottom: 1px; }
+  .topic-row .t-label  { font-size: 14px; font-weight: 700; display: block; }
+
+  /* LAB SUB-HEADER */
+  .lab-row th {
+    padding: 10px 3px; font-size: 10px; font-weight: 600;
+    color: rgba(255,255,255,0.93); text-align: center;
+    border-left: 1px solid rgba(255,255,255,0.22);
+    border-top: 2px solid rgba(255,255,255,0.15);
+    vertical-align: middle; line-height: 1.5;
+  }
+  .lab-row th:first-child { border-left: none; }
+  .lab-row .lh-time  { background: var(--dark2); }
+  .lab-row .lh-proj  { background: var(--proj-dark); }
+  .lab-row .lh-proto { background: var(--proto-dark); }
+  .lab-row .lh-mkt   { background: var(--mkt-dark); }
+
+  .instructor-badge {
+    display: inline-block; font-size: 11px; font-weight: 800;
+    margin-bottom: 3px; background: #ffeb3b; color: #000;
+    padding: 2px 8px; border-radius: 3px;
+  }
+  .instructor-dynamic {
+    display: inline-block; font-size: 9px; font-weight: 700;
+    margin-bottom: 3px; background: rgba(255,255,255,0.25); color: #fff;
+    padding: 2px 6px; border-radius: 3px; opacity: 0.85;
+  }
+
+  /* TIME CELLS */
+  .time-cell {
+    background: var(--dark); color: #cdd6f4;
+    text-align: center; padding: 14px 6px;
+    border-top: 1px solid #2a2a44; vertical-align: middle;
+  }
+  .time-cell .t-time  { font-size: 14px; font-weight: 800; display: block; color: #eef2ff; }
+  .time-cell .t-badge { font-size: 9.5px; color: #6b7a9e; display: block; margin-top: 2px; font-weight: 500; }
+
+  /* COMMON ROW */
+  .common-row td {
+    background: var(--common);
+    border: 1px solid var(--common-border);
+    padding: 12px 10px;
+    vertical-align: middle;
+  }
+  .common-row .time-cell { background: var(--dark); border: none; }
+  .common-content { text-align: center; font-size: 13px; font-weight: 600; color: #495057; }
+  .common-content .common-title  { font-weight: 700; color: #212529; display: block; }
+  .common-content .common-location { font-size: 11px; color: #6c757d; margin-top: 2px; }
+
+  /* BASE GROUP CELL */
+  .g-cell {
+    padding: 0; vertical-align: top;
+    border: 1px solid rgba(0,0,0,0.07);
+    min-width: 118px;
+  }
+  .g-proj  { background: var(--proj-light); }
+  .g-proto { background: var(--proto-light); }
+  .g-mkt   { background: var(--mkt-light); }
+  .g-meet  { background: var(--meet-light); }
+  .g-collect { background: var(--collect-light); }
+  .g-present { background: var(--present-light); }
+  .g-empty { background: #f4f5f7; border: 1px dashed #d0d4da !important; }
+
+  /* Group name bar */
+  .g-name-bar {
+    font-size: 9.5px; font-weight: 700; text-align: center;
+    padding: 4px 4px 3px; color: #fff;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .g-proj    .g-name-bar { background: var(--proj); }
+  .g-proto   .g-name-bar { background: var(--proto); }
+  .g-mkt     .g-name-bar { background: var(--mkt); }
+  .g-meet    .g-name-bar { background: var(--meet); }
+  .g-collect .g-name-bar { background: var(--collect); }
+  .g-present .g-name-bar { background: var(--present); }
+
+  /* Second name bar for merged groups */
+  .g-name-bar-2 {
+    font-size: 9.5px; font-weight: 700; text-align: center;
+    padding: 4px 4px 3px; color: #fff;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    border-top: 1px solid rgba(255,255,255,0.3);
+  }
+  .g-collect .g-name-bar-2 { background: #0f766e; }
+  .g-present .g-name-bar-2 { background: #92400e; }
+
+  .bracelet-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.7); flex-shrink: 0;
+  }
+
+  /* Content area */
+  .g-content {
+    display: flex; align-items: center; justify-content: center;
+    padding: 7px 5px; min-height: 46px;
+  }
+
+  .slot-instructor {
+    background: rgba(255,255,255,0.62);
+    border-radius: 5px; padding: 5px 8px;
+    font-size: 10.5px; font-weight: 700;
+    text-align: center; width: 100%;
+  }
+  .g-proj  .slot-instructor { color: var(--proj-dark); }
+  .g-proto .slot-instructor { color: var(--proto-dark); }
+  .g-mkt   .slot-instructor { color: var(--mkt-dark); }
+  .g-meet  .slot-instructor { color: #312e81; }
+
+  /* Collect / Present content */
+  .end-content {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 7px 5px; min-height: 60px; gap: 4px;
+  }
+  .end-label {
+    font-size: 10.5px; font-weight: 800;
+    background: rgba(255,255,255,0.65); border-radius: 4px;
+    padding: 4px 8px; text-align: center; width: 100%;
+  }
+  .g-collect .end-label { color: #134e4a; }
+  .g-present .end-label { color: #7c2d12; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🚀 נשים מובילות מדע - יום השיא</h1>
+  <div class="sub"></div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--proj)"></div>📖 ספר פרויקט</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--proto)"></div>🛠️ אב-טיפוס</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--mkt)"></div>📣 שיווק ופרסום</div>
+</div>
+
+<div class="wrapper">
+  <table id="tbl"></table>
+</div>
+
+<script>
+const groups = [
+  'שש שנתי – יש"י',
+  'רב תחומי',
+  'מבשרת',
+  'אתגרי העתיד + מאיר שפיה',
+  'נבון',
+  'אולפנה – מעיין האמונה',
+  'עתידים',
+  'קופטאן',
+];
+
+const bracelets = [
+  { name: 'סגול',     color: '#9b59b6' },
+  { name: 'חום',      color: '#8B4513' },
+  { name: 'צהוב',     color: '#f1c40f' },
+  { name: 'ירוק',     color: '#2ecc71' },
+  { name: 'כחול',     color: '#3498db' },
+  { name: 'אדום',     color: '#e74c3c' },
+  { name: 'ירוק כהה', color: '#1a5c38' },
+  { name: 'כתום',     color: '#e67e22' },
+];
+
+// כל שורה = קבוצה, כל עמודה = רצועה [א,ב,ג]
+const rotation = [
+  ['P','A','M'],   // 0  שש שנתי
+  ['P','A','M'],   // 1  רב תחומי
+  ['P','M','A'],   // 2  מבשרת
+  ['A','P','M'],   // 3  אתגרי העתיד
+  ['A','M','P'],   // 4  נבון
+  ['A','M','P'],   // 5  אולפנה
+  ['M','P','A'],   // 6  עתידים
+  ['M','A','P'],   // 7  קופטאן
+];
+
+// instructors: מחרוזת = קבוע, מערך[3] = לפי רצועה א/ב/ג
+const labs = [
+  // ספר פרויקט (P) — indices 0,1,2
+  { name:'מעבדה 1',   topic:'P', instructors:['עפרי + ענת',    'עפרי + ענת',     'מנאל + זיינב'] },
+  { name:'מעבדה 2',   topic:'P', instructors:'יעל + עזריאל' },
+  { name:'מעבדה 6',   topic:'P', instructors:'מרי + אורטל' },
+  // אב-טיפוס (A) — indices 3,4,5
+  { name:'מעבדה 3',   topic:'A', instructors:'סיוון + חיה' },
+  { name:'מעבדה 4',   topic:'A', instructors:['איציק + לינוי', 'מנאל + זיינב',   'אראל + אבי'] },
+  { name:'מעבדה 5',   topic:'A', instructors:'אראל + אבי' },
+  // שיווק ופרסום (M) — indices 6,7,8
+  { name:'מחשבים 1',  topic:'M', instructors:'יעלה + גילי' },
+  { name:'מחשבים 2',  topic:'M', instructors:['מנאל + זיינב',  'לינוי + איציק',  'איציק + ענת'] },
+  { name:'טכנולוגיה', topic:'M', instructors:'רוני + שי' },
+];
+
+const slots = [
+  { time:'10:45 – 11:45', badge:"רצועה א'" },
+  { time:'11:45 – 12:45', badge:"רצועה ב'" },
+  { time:'12:45 – 13:45', badge:"רצועה ג'" },
+];
+
+const topicCls = { P:'proj', A:'proto', M:'mkt' };
+const labCls   = { P:'lh-proj', A:'lh-proto', M:'lh-mkt' };
+
+function getInstructor(labIdx, si) {
+  const lab = labs[labIdx];
+  return Array.isArray(lab.instructors) ? lab.instructors[si] : lab.instructors;
+}
+
+// בנה גריד [שלוש רצועות][9 מעבדות] → { groupIdx }
+function buildGrid() {
+  const grid = [];
+  for (let si = 0; si < 3; si++) {
+    const byTopic = { P:[], A:[], M:[] };
+    rotation.forEach((row, gi) => byTopic[row[si]].push(gi));
+    const row = new Array(9).fill(null);
+    byTopic.P.forEach((gi, i) => { row[i]   = { groupIdx: gi }; });
+    byTopic.A.forEach((gi, i) => { row[3+i] = { groupIdx: gi }; });
+    byTopic.M.forEach((gi, i) => { row[6+i] = { groupIdx: gi }; });
+    grid.push(row);
+  }
+  return grid;
+}
+
+// קופטאן (gi=7): בכל רצועה שמנאל+זיינב יהיו בה —
+//   M → מחשבים 2 (lab 7) — אוטומטי, אין צורך בהחלפה
+//   A → מעבדה 4  (lab 4) — החלפה
+//   P → מעבדה 1  (lab 0) — החלפה
+function applyKoptanConstraint(grid) {
+  const KOPTAN = 7;
+  for (let si = 0; si < 3; si++) {
+    const topic = rotation[KOPTAN][si];
+    let targetLabIdx = null;
+    if (topic === 'A') targetLabIdx = 4;
+    if (topic === 'P') targetLabIdx = 0;
+    if (targetLabIdx === null) continue; // M already lands at lab 7
+
+    let koptanLabIdx = grid[si].findIndex(c => c && c.groupIdx === KOPTAN);
+    if (koptanLabIdx !== targetLabIdx) {
+      // החלפה בין המעבדה הנוכחית של קופטאן לבין המטרה
+      const tmp = grid[si][koptanLabIdx];
+      grid[si][koptanLabIdx] = grid[si][targetLabIdx];
+      grid[si][targetLabIdx] = tmp;
+    }
+  }
+  return grid;
+}
+
+const grid = applyKoptanConstraint(buildGrid());
+
+// מיפוי סוף יום: לאיזה מעבדה כל קבוצה חוזרת
+// ברירת מחדל = מעבדת רצועה א׳, אחרת override
+const endOfDayOverrideByGroup = { 0:0, 1:1, 6:1, 7:0 };
+// בנה מערך: לכל מעבדה — אילו קבוצות נמצאות שם בסוף יום
+const endOfDayLabGroups = new Array(9).fill(null).map(() => []);
+groups.forEach((_, gi) => {
+  const ovr = endOfDayOverrideByGroup[gi];
+  const targetLabIdx = (ovr !== undefined)
+    ? ovr
+    : grid[0].findIndex(c => c && c.groupIdx === gi);
+  if (targetLabIdx >= 0) endOfDayLabGroups[targetLabIdx].push(gi);
+});
+
+// הצגת תא רגיל (שלוש רצועות)
+function renderCell(si, labIdx) {
+  const cell = grid[si][labIdx];
+  if (!cell) return '<td class="g-cell g-empty"></td>';
+
+  const gi = cell.groupIdx;
+  const topic = labs[labIdx].topic;
+  const cls = topicCls[topic];
+  const bracelet = bracelets[gi];
+  const instructor = getInstructor(labIdx, si);
+
+  return `
+    <td class="g-cell g-${cls}">
+      <div class="g-name-bar">
+        <span class="bracelet-dot" style="background:${bracelet.color}"></span>
+        ${groups[gi]} – ${bracelet.name}
+      </div>
+      <div class="g-content">
+        <div class="slot-instructor">${instructor}</div>
+      </div>
+    </td>`;
+}
+
+// הכרות עם המנטורים — כמו רצועה א׳ אבל בסגנון הכרות
+function renderMeetCell(labIdx) {
+  const cell = grid[0][labIdx];
+  if (!cell) return '<td class="g-cell g-empty"></td>';
+
+  const gi = cell.groupIdx;
+  const bracelet = bracelets[gi];
+  const instructor = getInstructor(labIdx, 0);
+
+  return `
+    <td class="g-cell g-meet">
+      <div class="g-name-bar">
+        <span class="bracelet-dot" style="background:${bracelet.color}"></span>
+        ${groups[gi]} – ${bracelet.name}
+      </div>
+      <div class="g-content">
+        <div class="slot-instructor">${instructor}</div>
+      </div>
+    </td>`;
+}
+
+// תאי סוף יום — איסוף / הצגה
+function renderEndCell(labIdx, type) {
+  const gis = endOfDayLabGroups[labIdx];
+  if (gis.length === 0) return '<td class="g-cell g-empty"></td>';
+
+  const cls = type === 'collect' ? 'g-collect' : 'g-present';
+  const bar2cls = type === 'collect' ? 'g-name-bar-2' : 'g-name-bar-2';
+
+  let h = `<td class="g-cell ${cls}">`;
+  gis.forEach((gi, idx) => {
+    const bracelet = bracelets[gi];
+    const barClass = idx === 0 ? 'g-name-bar' : bar2cls;
+    h += `<div class="${barClass}">
+      <span class="bracelet-dot" style="background:${bracelet.color}"></span>
+      ${groups[gi]} – ${bracelet.name}
+    </div>`;
+  });
+
+  if (type === 'collect') {
+    h += `<div class="end-content">
+      <div class="end-label">🎯 סבב השלמות ודיוקים<br>+ איסוף ממוזיאון המדע</div>
+    </div>`;
+  } else {
+    h += `<div class="end-content">
+      <div class="end-label">⭐ הצגה לפאנל המומחים</div>
+    </div>`;
+  }
+
+  h += '</td>';
+  return h;
+}
+
+// שורת common
+function renderCommonRow(time, badge, title, location) {
+  let h = '<tr class="common-row">';
+  h += `<td class="time-cell">
+    <span class="t-time" dir="ltr">${time}</span>
+    ${badge ? `<span class="t-badge">${badge}</span>` : ''}
+  </td>`;
+  h += `<td colspan="9">
+    <div class="common-content">
+      <span class="common-title">${title}</span>
+      ${location ? `<span class="common-location">${location}</span>` : ''}
+    </div>
+  </td>`;
+  h += '</tr>';
+  return h;
+}
+
+(function render() {
+  const tbl = document.getElementById('tbl');
+  let h = '';
+
+  // === כותרת נושאים ===
+  h += '<tr class="topic-row">';
+  h += '<th class="th-time" rowspan="2"></th>';
+  h += '<th class="th-proj"  colspan="3"><span class="t-emoji">📖</span><span class="t-label">ספר פרויקט</span></th>';
+  h += '<th class="th-proto" colspan="3"><span class="t-emoji">🛠️</span><span class="t-label">אב-טיפוס</span></th>';
+  h += '<th class="th-mkt"   colspan="3"><span class="t-emoji">📣</span><span class="t-label">שיווק ופרסום</span></th>';
+  h += '</tr>';
+
+  // === כותרת מעבדות ===
+  h += '<tr class="lab-row">';
+  labs.forEach(lab => {
+    const isVariable = Array.isArray(lab.instructors);
+    const instructorHTML = isVariable
+      ? `<span class="instructor-dynamic">⟳ לפי רצועה</span><br>`
+      : `<span class="instructor-badge">${lab.instructors}</span><br>`;
+    h += `<th class="${labCls[lab.topic]}">${instructorHTML}${lab.name}</th>`;
+  });
+  h += '</tr>';
+
+  // === COMMON: הגעה ===
+  h += renderCommonRow('09:00 – 09:45', '', '☕ הגעה, התאספות ונשנושים', 'במבואה');
+
+  // === COMMON: פתיחה ===
+  h += renderCommonRow('09:45 – 10:15', '', '🎉 פתיחה', 'ברחבה החיצונית');
+
+  // === הכרות עם המנטורים (slot 0 assignment) ===
+  h += '<tr>';
+  h += `<td class="time-cell">
+    <span class="t-time" dir="ltr">10:15 – 10:45</span>
+    <span class="t-badge">🤝 הכרות עם המנטורים</span>
+  </td>`;
+  labs.forEach((_, labIdx) => { h += renderMeetCell(labIdx); });
+  h += '</tr>';
+
+  // === שלוש רצועות ===
+  slots.forEach((slot, si) => {
+    h += '<tr>';
+    h += `<td class="time-cell">
+      <span class="t-time" dir="ltr">${slot.time}</span>
+      <span class="t-badge">${slot.badge}</span>
+    </td>`;
+    labs.forEach((_, labIdx) => { h += renderCell(si, labIdx); });
+    h += '</tr>';
+  });
+
+  // === COMMON: ארוחת צהריים ===
+  h += renderCommonRow('13:45 – 14:30', '', '🥗 ארוחת צהריים', 'במבואה');
+
+  // === סבב השלמות + איסוף ===
+  h += '<tr>';
+  h += `<td class="time-cell">
+    <span class="t-time" dir="ltr">14:30 – 15:30</span>
+    <span class="t-badge">🎯 סבב השלמות</span>
+  </td>`;
+  labs.forEach((_, labIdx) => { h += renderEndCell(labIdx, 'collect'); });
+  h += '</tr>';
+
+  // === הצגה לפאנל ===
+  h += '<tr>';
+  h += `<td class="time-cell">
+    <span class="t-time" dir="ltr">15:30 – 17:00</span>
+    <span class="t-badge">⭐ הצגה לפאנל</span>
+  </td>`;
+  labs.forEach((_, labIdx) => { h += renderEndCell(labIdx, 'present'); });
+  h += '</tr>';
+
+  // === COMMON: טקס סיכום ===
+  h += renderCommonRow('17:00 – 18:00', '', '🏆 טקס סיכום והכרזה על המנצחות', 'ברחבה החיצונית');
+
+  tbl.innerHTML = h;
+})();
+</script>
+</body>
+</html>

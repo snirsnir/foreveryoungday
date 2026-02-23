@@ -636,8 +636,9 @@
     <div class="book-container">
         <!-- דף בחירת צבעים -->
         <div class="page color-selection-page" id="colorSelectionPage">
-            <h1>ברוכות הבאות להמצאפדיה! 🎨</h1>
+            <h1>ברוכות הבאות לספר הפרויקט! 🎨</h1>
             <div class="subtitle">
+                זכרו: ספר הפרויקט הוא הכרטיס ביקור של ההמצאה שלכן..<br><br>
                 לפני שמתחילות -<br>
                 בחרו 3 צבעים שייהיו הבסיס לעיצוב של ספר הפרויקט שלכן.<br>
                 תחשבו על צבעים שמייצגים את ההמצאה שלכן – מצחיקים? טכנולוגיים? טבעיים? מפתיעים?
@@ -715,12 +716,13 @@
 
         <!-- דף שער -->
         <div class="page cover-page hidden" id="page0">
-            <h1>המצאפדיה</h1>
-            <div class="subtitle">המדריך הסודי של כל ממציאה צעירה</div>
+            <h1>נשים מובילות מדע</h1>
+            <div class="subtitle">ספר פרויקט</div>
             <div class="info-form">
                 <input type="text" class="input-field" placeholder="שם ההמצאה שלכן (משהו קליט ומעניין!)" style="font-size: 1.3em; font-weight: bold; text-align: center; margin-bottom: 20px;">
                 <input type="text" class="input-field" placeholder="שמות הממציאות (כל החברות בקבוצה)">
-                <input type="text" class="input-field" placeholder="תאריך ההמצאה" value="29.05.2025" style="text-align: center;">
+                <input type="text" class="input-field" id="schoolNameField" placeholder="בית ספר">
+                <input type="text" class="input-field" id="todayDateField" placeholder="תאריך ההמצאה" style="text-align: center;">
                 <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; text-align: center;">
                     <strong>פתרון יצירתי לבעיה רפואית</strong><br>
                     נשים מובילות מדע • Forever Young
@@ -743,7 +745,7 @@
             </div>
 
             <div class="form-section">
-                <h3>איך היא עוזרת לחולים/מטופלים?</h3>
+                <h3>איך היא עוזרת ללקוחות שלכם (חולים, מטופלים, נשים וכו')?</h3>
                 <textarea class="input-field text-area" placeholder="איך ההמצאה שלכן תעזור לפתור בעיות רפואיות? למשל: אבחון מהיר יותר, טיפול טוב יותר, חיסכון בזמן..."></textarea>
             </div>
 
@@ -784,8 +786,8 @@
             <h2 class="chapter-title">פרק 3: איך הגענו לרעיון?</h2>
 
             <div class="form-section">
-                <h3>הסיפור שהתחיל הכל:</h3>
-                <textarea class="input-field text-area-large" placeholder="ספרו את הסיפור - איפה הייתן? מה קרה? מה גרם לכן לחשוב על הבעיה הזו? היו ספציפיות ומעניינות!"></textarea>
+                <h3>איך הגעתן לרעיון?</h3>
+                <textarea class="input-field text-area-large" placeholder="ספרו את הסיפור, ישבתן יחד לשוחח ומה קרה? מה גרם לכן לחשוב על הבעיה הזו? היו ספציפיות ומעניינות!"></textarea>
             </div>
 
             <div class="tip-box">
@@ -862,11 +864,11 @@
             <div class="form-section">
                 <h3>השוואה למה שקיים היום:</h3>
                 <div style="margin-bottom: 15px;">
-                    <label style="font-weight: bold;">פתרונות רגילים היום:</label>
+                    <label style="font-weight: bold;">פתרונות רגילים היום (מה כבר קיים?):</label>
                     <textarea class="input-field text-area" placeholder="איך אנשים פותרים את הבעיה הזו היום? מה הבעיות עם הפתרונות הקיימים?"></textarea>
                 </div>
                 <div>
-                    <label style="font-weight: bold;">ההמצאה שלנו:</label>
+                    <label style="font-weight: bold;">ההמצאה שלנו (במה היא שונה ממה שקיים היום?):</label>
                     <textarea class="input-field text-area" placeholder="למה הפתרון שלכן טוב יותר? מה היתרונות?"></textarea>
                 </div>
             </div>
@@ -907,8 +909,8 @@
             </div>
 
             <div class="form-section">
-                <h3>מסר לעתיד:</h3>
-                <textarea class="input-field text-area" placeholder="מה הייתן רוצות לומר לעצמכן בעוד 10 שנים? איזה מסר לעתיד?"></textarea>
+                <h3>התרחיש האופטימי:</h3>
+                <textarea class="input-field text-area" placeholder="דמיינו שחלפו 10 שנים — ההמצאה שלכן הצליחה! 🚀 כמה אנשים נעזרים בה? איך השתנו חייהם? איפה זה קורה — בישראל בלבד, או בכל העולם? מי מדבר עליכן? מה כתבו עליכן בחדשות? חשבו בגדול, חלמו, ותארו את העולם שבו ההמצאה שלכן כבר קיימת ומשנה חיים אמיתיים..."></textarea>
             </div>
         </div>
 
@@ -943,7 +945,7 @@
             <div style="border: 3px solid var(--primary-color); border-radius: 15px; padding: 20px; text-align: center;">
                 <h3 style="color: var(--primary-color); margin-bottom: 15px;">הכנה להצגה:</h3>
                 <p>כעת תוכלנה להציג את ההמצאה שלכן בפני השופטות!</p>
-                <p><strong>זכרו:</strong> המצאפדיה הזו היא הכרטיס ביקור של ההמצאה שלכן</p>
+                <p><strong>זכרו:</strong> ספר הפרויקט הוא הכרטיס ביקור של ההמצאה שלכן</p>
                 <p style="margin-top: 10px; font-size: 0.9em; color: #666;">נשים מובילות מדע • Forever Young</p>
             </div>
         </div>
@@ -1257,6 +1259,14 @@
             // טעינת התקדמות
             loadProgress();
 
+            // הגדרת תאריך היום — אחרי loadProgress כדי לא להידרס
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            const dateField = document.getElementById('todayDateField');
+            if (dateField) dateField.value = `${dd}.${mm}.${yyyy}`;
+
             // הסרת placeholder בעת כתיבה
             const inputs = document.querySelectorAll('input, textarea');
             inputs.forEach(input => {
@@ -1359,7 +1369,7 @@
 
                     // יצירת תמונה מהדף
                     const canvas = await html2canvas(page, {
-                        scale: 2,
+                        scale: 1.5,
                         useCORS: true,
                         allowTaint: false,
                         backgroundColor: '#ffffff',
@@ -1372,7 +1382,7 @@
                         scrollY: 0
                     });
 
-                    const imgData = canvas.toDataURL('image/png');
+                    const imgData = canvas.toDataURL('image/jpeg', 0.75);
 
                     // החזרת ה-textareas המקוריים
                     replacements.forEach(({ div, textarea, parent }) => {
@@ -1509,7 +1519,7 @@
 
                     // יצירת תמונה מהדף
                     const canvas = await html2canvas(page, {
-                        scale: 2,
+                        scale: 1.5,
                         useCORS: true,
                         allowTaint: false,
                         backgroundColor: '#ffffff',
@@ -1522,7 +1532,7 @@
                         scrollY: 0
                     });
 
-                    const imgData = canvas.toDataURL('image/jpeg', 0.8);
+                    const imgData = canvas.toDataURL('image/jpeg', 0.75);
 
                     // החזרת ה-textareas המקוריים
                     replacements.forEach(({ div, textarea, parent }) => {
@@ -1564,19 +1574,26 @@
                 colorPage.style.display = originalColorDisplay;
                 navigation.style.display = originalNavDisplay;
 
-                // קבלת שם הקבוצה
+                // קבלת שם הקבוצה ובית הספר
                 const groupNameField = document.querySelector('input[placeholder*="שמות הממציאות"]');
                 const groupName = groupNameField ? groupNameField.value.trim() : 'המצאפדיה';
                 const fileName = groupName || `המצאפדיה_${Date.now()}`;
+
+                const schoolField = document.getElementById('schoolNameField');
+                const schoolName = schoolField ? schoolField.value.trim() : '';
 
                 // המרת PDF לבייטים
                 const pdfBlob = pdf.output('blob');
 
                 uploadBtn.innerHTML = '⬆️ מעלה לענן...';
 
-                // העלאה ל-Firebase Storage
-                const storageRef = window.firebaseRef(window.firebaseStorage, `books/${fileName}.pdf`);
-                const uploadTask = window.firebaseUpload(storageRef, pdfBlob);
+                // העלאה ל-Firebase Storage עם מטאדטה
+                const uploadMetadata = {
+                    contentType: 'application/pdf',
+                    customMetadata: { school: schoolName }
+                };
+                const storageRef = window.firebaseRef(window.firebaseStorage, `foreveryoungBooks/${fileName}.pdf`);
+                const uploadTask = window.firebaseUpload(storageRef, pdfBlob, uploadMetadata);
 
                 uploadTask.on('state_changed',
                     (snapshot) => {
