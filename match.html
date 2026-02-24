@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שיבוץ מנטורים לקבוצות</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .panel {
+            background: rgba(255,255,255,0.97);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+        }
+
+        .panel-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            padding: 2px 10px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            min-width: 28px;
+        }
+
+        /* ===== Mentor Pool ===== */
+        .mentor-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .mentor-card {
+            padding: 9px 13px;
+            border-radius: 10px;
+            cursor: grab;
+            font-size: 0.82rem;
+            font-weight: 600;
+            user-select: none;
+            transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+            text-align: center;
+            min-width: 110px;
+            line-height: 1.45;
+            border: 2px solid transparent;
+        }
+
+        .mentor-card.single {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .mentor-card.pair {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border-color: rgba(255,255,255,0.25);
+        }
+
+        .mentor-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.28);
+        }
+
+        .mentor-card.dragging {
+            opacity: 0.4;
+            transform: scale(0.94);
+            cursor: grabbing;
+        }
+
+        .mentor-card .org-tag {
+            font-size: 0.69rem;
+            opacity: 0.82;
+            margin-top: 3px;
+        }
+
+        /* ===== Schools ===== */
+        .schools-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .school-btn {
+            padding: 9px 18px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+        }
+
+        .school-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(102,126,234,0.45);
+        }
+
+        .school-btn:hover:not(.active) {
+            background: #f0f0ff;
+        }
+
+        /* ===== Teams ===== */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 16px;
+        }
+
+        .team-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            background: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .team-card.drag-over {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.18);
+        }
+
+        .team-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+
+        .students-list {
+            font-size: 0.78rem;
+            color: #718096;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .mentors-label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #4a5568;
+            margin-bottom: 6px;
+        }
+
+        .drop-zone {
+            min-height: 56px;
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-content: flex-start;
+            transition: border-color 0.2s, background 0.2s;
+            position: relative;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #667eea;
+            background: #f0f0ff;
+        }
+
+        .drop-hint {
+            color: #a0aec0;
+            font-size: 0.78rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        /* Assigned chips */
+        .assigned-chip {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: white;
+            line-height: 1.4;
+        }
+
+        .assigned-chip.single {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .assigned-chip.pair {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .remove-btn {
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.3);
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+            transition: background 0.15s;
+            line-height: 1;
+        }
+
+        .remove-btn:hover { background: rgba(255,255,255,0.55); }
+
+        /* ===== Toast ===== */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(90px);
+            padding: 11px 28px;
+            border-radius: 24px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: white;
+            z-index: 999;
+            transition: transform 0.28s cubic-bezier(.22,1,.36,1);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.success { background: #276749; }
+        .toast.error   { background: #c53030; }
+
+        /* ===== Loading ===== */
+        .loading-msg {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            padding: 70px 0;
+        }
+
+        .pool-hint {
+            font-weight: 400;
+            font-size: 0.82rem;
+            color: #718096;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>שיבוץ מנטורים לקבוצות</h1>
+
+    <div id="loadingMsg" class="loading-msg">טוען נתונים מ-Firebase...</div>
+
+    <div id="app" style="display:none;">
+
+        <!-- Mentor Pool -->
+        <div class="panel">
+            <div class="panel-title">
+                <span>בנק מנטורים</span>
+                <span class="badge" id="poolCount">0</span>
+                <span class="pool-hint">גרור מנטור / זוג לקבוצה</span>
+            </div>
+            <div class="mentor-pool" id="mentorPool"></div>
+        </div>
+
+        <!-- Schools -->
+        <div class="panel">
+            <div class="panel-title">בחר בית ספר</div>
+            <div class="schools-tabs" id="schoolsTabs"></div>
+        </div>
+
+        <!-- Teams -->
+        <div class="panel" id="teamsPanel" style="display:none;">
+            <div class="panel-title" id="teamsTitle"></div>
+            <div class="teams-grid" id="teamsGrid"></div>
+        </div>
+
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQdei2zVCXkYh99pLPzr_ZMyi8ohupVhY",
+            authDomain: "forever-4a04b.firebaseapp.com",
+            databaseURL: "https://forever-4a04b-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "forever-4a04b",
+            storageBucket: "forever-4a04b.firebasestorage.app",
+            messagingSenderId: "250928700713",
+            appId: "1:250928700713:web:25d6979fca637b90d42b38"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db  = getDatabase(app);
+
+        let teamsData = {};   // live local copy of Firebase teams/
+        let blocks    = [];   // mentor blocks (single or pair)
+
+        // ─── Utilities ────────────────────────────────────────────────
+
+        function toast(msg, type = 'success') {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.className = 'toast ' + type + ' show';
+            setTimeout(() => el.classList.remove('show'), 2800);
+        }
+
+        /** Stable Firebase-safe key for a mentor block */
+        function blockKey(block) {
+            return block.mentors
+                .map(m => m.name)
+                .sort()
+                .join('|')
+                .replace(/[.#$[\]/]/g, '_');
+        }
+
+        /** All block keys that are currently assigned across ALL teams */
+        function getAllAssignedKeys() {
+            const keys = new Set();
+            Object.values(teamsData).forEach(school => {
+                if (!school || typeof school !== 'object') return;
+                Object.values(school).forEach(team => {
+                    if (!team || !team.assignedMentors) return;
+                    Object.keys(team.assignedMentors).forEach(k => keys.add(k));
+                });
+            });
+            return keys;
+        }
+
+        // ─── Build mentor blocks ───────────────────────────────────────
+
+        function buildBlocks(mentors) {
+            const list = Array.isArray(mentors) ? mentors : Object.values(mentors);
+            const result    = [];
+            const processed = new Set();
+
+            list.forEach((m, i) => {
+                if (!m || processed.has(m.name)) return;
+
+                if (m.pair) {
+                    const partner = list.find(m2 => m2 && m2.name === m.pair);
+                    if (partner && !processed.has(partner.name)) {
+                        result.push({
+                            type: 'pair',
+                            mentors: [m, partner],
+                            org: m.org || partner.org || ''
+                        });
+                        processed.add(m.name);
+                        processed.add(partner.name);
+                        return;
+                    }
+                }
+
+                result.push({
+                    type: 'single',
+                    mentors: [m],
+                    org: m.org || ''
+                });
+                processed.add(m.name);
+            });
+
+            return result;
+        }
+
+        // ─── Render Pool ───────────────────────────────────────────────
+
+        function renderPool() {
+            const pool        = document.getElementById('mentorPool');
+            const assignedKeys = getAllAssignedKeys();
+            pool.innerHTML    = '';
+            let free = 0;
+
+            blocks.forEach(block => {
+                const key = blockKey(block);
+                if (assignedKeys.has(key)) return;
+                free++;
+
+                const card = document.createElement('div');
+                card.className   = 'mentor-card ' + block.type;
+                card.draggable   = true;
+                card.dataset.key = key;
+
+                const lines = block.mentors.map(m => `<div>${m.name}</div>`).join('');
+                const org   = block.org ? `<div class="org-tag">${block.org}</div>` : '';
+                card.innerHTML = lines + org;
+
+                card.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', key);
+                    e.dataTransfer.effectAllowed = 'move';
+                    setTimeout(() => card.classList.add('dragging'), 0);
+                });
+                card.addEventListener('dragend', () => card.classList.remove('dragging'));
+
+                pool.appendChild(card);
+            });
+
+            document.getElementById('poolCount').textContent = free;
+        }
+
+        // ─── Render Schools ────────────────────────────────────────────
+
+        function renderSchools() {
+            const tabs = document.getElementById('schoolsTabs');
+            tabs.innerHTML = '';
+
+            Object.keys(teamsData).forEach(school => {
+                if (!teamsData[school] || typeof teamsData[school] !== 'object') return;
+
+                const btn = document.createElement('button');
+                btn.className   = 'school-btn';
+                btn.textContent = school;
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.school-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderTeams(school);
+                });
+                tabs.appendChild(btn);
+            });
+        }
+
+        // ─── Render Teams ──────────────────────────────────────────────
+
+        function renderTeams(school) {
+            const panel = document.getElementById('teamsPanel');
+            const title = document.getElementById('teamsTitle');
+            const grid  = document.getElementById('teamsGrid');
+
+            panel.style.display = 'block';
+            title.textContent   = school;
+            grid.innerHTML      = '';
+
+            const schoolData = teamsData[school];
+            if (!schoolData) return;
+
+            // Sort teams numerically if possible
+            const sortedTeams = Object.entries(schoolData).sort(([a], [b]) => {
+                const na = parseInt(a.replace(/\D/g, ''), 10);
+                const nb = parseInt(b.replace(/\D/g, ''), 10);
+                if (!isNaN(na) && !isNaN(nb)) return na - nb;
+                return a.localeCompare(b, 'he');
+            });
+
+            sortedTeams.forEach(([teamName, teamData]) => {
+                if (!teamData || typeof teamData !== 'object') return;
+
+                const students       = teamData.students || [];
+                const assignedMentors = teamData.assignedMentors || {};
+
+                const card = document.createElement('div');
+                card.className = 'team-card';
+
+                const studentArr = Array.isArray(students) ? students : Object.values(students);
+
+                card.innerHTML = `
+                    <div class="team-name">${teamName}</div>
+                    <div class="students-list">${studentArr.join(' · ')}</div>
+                    <div class="mentors-label">מנטורים:</div>
+                    <div class="drop-zone" data-school="${school}" data-team="${teamName}">
+                        <span class="drop-hint">גרור מנטור לכאן</span>
+                    </div>
+                `;
+
+                const zone = card.querySelector('.drop-zone');
+
+                // Restore existing assignments
+                Object.entries(assignedMentors).forEach(([key, data]) => {
+                    appendChip(zone, key, data, school, teamName);
+                });
+                syncHint(zone);
+
+                // Drop events
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    zone.classList.add('drag-over');
+                    card.classList.add('drag-over');
+                });
+                zone.addEventListener('dragleave', e => {
+                    if (!zone.contains(e.relatedTarget)) {
+                        zone.classList.remove('drag-over');
+                        card.classList.remove('drag-over');
+                    }
+                });
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    card.classList.remove('drag-over');
+                    const key = e.dataTransfer.getData('text/plain');
+                    handleDrop(key, school, teamName, zone);
+                });
+
+                grid.appendChild(card);
+            });
+        }
+
+        // ─── Chip helpers ──────────────────────────────────────────────
+
+        function appendChip(zone, key, data, school, teamName) {
+            const chip = document.createElement('div');
+            chip.className  = 'assigned-chip ' + (data.type || 'single');
+            chip.dataset.key = key;
+
+            const names = data.mentors.map(m => m.name).join('\n+ ');
+            chip.innerHTML = `<span style="white-space:pre-line;">${names}</span><button class="remove-btn" title="הסר">×</button>`;
+
+            chip.querySelector('.remove-btn').addEventListener('click', () => {
+                removeAssignment(key, school, teamName, zone, chip);
+            });
+
+            zone.appendChild(chip);
+        }
+
+        function syncHint(zone) {
+            const hint   = zone.querySelector('.drop-hint');
+            const hasChip = zone.querySelectorAll('.assigned-chip').length > 0;
+            if (hint) hint.style.display = hasChip ? 'none' : '';
+        }
+
+        // ─── Drop & Remove ─────────────────────────────────────────────
+
+        async function handleDrop(key, school, teamName, zone) {
+            if (getAllAssignedKeys().has(key)) {
+                toast('המנטור כבר שובץ לקבוצה אחרת', 'error');
+                return;
+            }
+
+            const block = blocks.find(b => blockKey(b) === key);
+            if (!block) return;
+
+            const data = {
+                type:    block.type,
+                org:     block.org,
+                mentors: block.mentors.map(m => ({ name: m.name, org: m.org || '', pair: m.pair || '' }))
+            };
+
+            if (!teamsData[school][teamName].assignedMentors) {
+                teamsData[school][teamName].assignedMentors = {};
+            }
+            teamsData[school][teamName].assignedMentors[key] = data;
+
+            appendChip(zone, key, data, school, teamName);
+            syncHint(zone);
+            renderPool();
+            await saveAssignment(school, teamName);
+        }
+
+        async function removeAssignment(key, school, teamName, zone, chip) {
+            if (teamsData[school]?.[teamName]?.assignedMentors) {
+                delete teamsData[school][teamName].assignedMentors[key];
+            }
+            chip.remove();
+            syncHint(zone);
+            renderPool();
+            await saveAssignment(school, teamName);
+        }
+
+        // ─── Firebase Save ─────────────────────────────────────────────
+
+        async function saveAssignment(school, teamName) {
+            try {
+                const assigned = teamsData[school]?.[teamName]?.assignedMentors || {};
+                const isEmpty  = Object.keys(assigned).length === 0;
+                await set(
+                    ref(db, `teams/${school}/${teamName}/assignedMentors`),
+                    isEmpty ? null : assigned
+                );
+                toast('נשמר בהצלחה ✓');
+            } catch (err) {
+                toast('שגיאה בשמירה: ' + err.message, 'error');
+                console.error(err);
+            }
+        }
+
+        // ─── Init ──────────────────────────────────────────────────────
+
+        async function init() {
+            try {
+                const [teamsSnap, mentorsSnap] = await Promise.all([
+                    get(ref(db, 'teams')),
+                    get(ref(db, 'mentors'))
+                ]);
+
+                teamsData = teamsSnap.val() || {};
+                const mentorsRaw = mentorsSnap.val();
+
+                if (!mentorsRaw) throw new Error('לא נמצאו מנטורים ב-Firebase. יש להעלות אותם קודם ב-deploy.html');
+
+                blocks = buildBlocks(mentorsRaw);
+
+                document.getElementById('loadingMsg').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
+
+                renderPool();
+                renderSchools();
+
+            } catch (err) {
+                document.getElementById('loadingMsg').textContent = 'שגיאה: ' + err.message;
+                console.error(err);
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>העלאת קבוצות לדאטהבייס</title>
+    <title>העלאת נתונים לדאטהבייס</title>
     <style>
         * {
             box-sizing: border-box;
@@ -17,7 +17,7 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             padding: 20px;
         }
 
@@ -25,7 +25,7 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 40px;
-            max-width: 800px;
+            max-width: 980px;
             width: 100%;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
@@ -37,6 +37,48 @@
             font-size: 2rem;
         }
 
+        /* Tab styles */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 12px 22px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #718096;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: #4a5568;
+            background: #f7fafc;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Shared styles */
         .info-box {
             background: #e8f4fd;
             border: 1px solid #bee3f8;
@@ -62,6 +104,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin-bottom: 15px;
+            font-family: inherit;
         }
 
         .btn-primary {
@@ -189,6 +232,8 @@
         .preview-table th {
             background: #edf2f7;
             font-weight: 600;
+            position: sticky;
+            top: 0;
         }
 
         .preview-table tr:nth-child(even) {
@@ -196,7 +241,7 @@
         }
 
         .preview-container {
-            max-height: 300px;
+            max-height: 420px;
             overflow-y: auto;
             margin-top: 20px;
             display: none;
@@ -205,59 +250,162 @@
         .preview-container.show {
             display: block;
         }
+
+        /* Pair badge */
+        .pair-badge {
+            display: inline-block;
+            background: #e9d8fd;
+            color: #6b21a8;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .pair-row td {
+            background: #faf5ff !important;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>העלאת קבוצות לדאטהבייס</h1>
+        <h1>העלאת נתונים לדאטהבייס</h1>
 
-        <div class="info-box">
-            <p>
-                <strong>מבנה הנתונים:</strong><br>
-                teams / [שם בית ספר] / [שם קבוצה] / תלמידות<br><br>
-                לחצי על "טען וצפה בנתונים" כדי לראות את הנתונים לפני ההעלאה,<br>
-                ואז לחצי על "העלה לדאטהבייס" כדי להעלות.
-            </p>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="teams" onclick="switchTab('teams')">קבוצות</button>
+            <button class="tab-btn" data-tab="mentors" onclick="switchTab('mentors')">מנטורים</button>
+            <button class="tab-btn" data-tab="attachees" onclick="switchTab('attachees')">נספחים לאירוע</button>
+            <button class="tab-btn" data-tab="judges" onclick="switchTab('judges')">שופטים</button>
         </div>
 
-        <button class="btn btn-secondary" onclick="loadAndPreview()">טען וצפה בנתונים</button>
-        <button class="btn btn-primary" id="deployBtn" onclick="deployToFirebase()" disabled>העלה לדאטהבייס</button>
+        <!-- ===== Tab: קבוצות ===== -->
+        <div class="tab-content active" id="tab-teams">
+            <div class="info-box">
+                <p>
+                    <strong>מבנה הנתונים:</strong><br>
+                    teams / [שם בית ספר] / [שם קבוצה] / תלמידות<br><br>
+                    לחצי על "טען וצפה בנתונים" כדי לראות את הנתונים לפני ההעלאה,<br>
+                    ואז לחצי על "העלה לדאטהבייס" כדי להעלות.
+                </p>
+            </div>
+            <button class="btn btn-secondary" onclick="loadAndPreview()">טען וצפה בנתונים</button>
+            <button class="btn btn-primary" id="deployBtn" onclick="deployToFirebase()" disabled>העלה לדאטהבייס</button>
 
-        <div class="stats" id="stats" style="display: none;">
-            <div class="stat-box">
-                <div class="stat-number" id="schoolCount">0</div>
-                <div class="stat-label">בתי ספר</div>
+            <div class="stats" id="stats" style="display: none;">
+                <div class="stat-box">
+                    <div class="stat-number" id="schoolCount">0</div>
+                    <div class="stat-label">בתי ספר</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="teamCount">0</div>
+                    <div class="stat-label">קבוצות</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="studentCount">0</div>
+                    <div class="stat-label">תלמידות</div>
+                </div>
             </div>
-            <div class="stat-box">
-                <div class="stat-number" id="teamCount">0</div>
-                <div class="stat-label">קבוצות</div>
+
+            <div class="status" id="status"></div>
+
+            <div class="preview-container" id="previewContainer">
+                <h3 style="margin-bottom: 10px;">תצוגה מקדימה:</h3>
+                <table class="preview-table" id="previewTable">
+                    <thead>
+                        <tr>
+                            <th>בית ספר</th>
+                            <th>שם קבוצה</th>
+                            <th>תלמידות</th>
+                        </tr>
+                    </thead>
+                    <tbody id="previewBody"></tbody>
+                </table>
             </div>
-            <div class="stat-box">
-                <div class="stat-number" id="studentCount">0</div>
-                <div class="stat-label">תלמידות</div>
+
+            <div class="log-container" id="logContainer"></div>
+        </div>
+
+        <!-- ===== Tab: מנטורים ===== -->
+        <div class="tab-content" id="tab-mentors">
+            <div class="info-box">
+                <p>
+                    <strong>מנטוריות.ים</strong> — 50 מנטורים (13 זוגות + יחידנים)<br>
+                    שדות: שם, ארגון, זוג מנטורים<br><br>
+                    נשמר ב-Firebase תחת <strong>mentors/</strong>
+                </p>
+            </div>
+            <button class="btn btn-secondary" onclick="previewMentors()">הצג מנטורים</button>
+            <button class="btn btn-primary" id="mentorsDeployBtn" onclick="deployMentors()">העלה מנטורים לדאטהבייס</button>
+            <div class="status" id="mentorsStatus"></div>
+            <div class="preview-container" id="mentorsPreview">
+                <h3 style="margin-bottom: 10px;">רשימת מנטורים:</h3>
+                <table class="preview-table">
+                    <thead>
+                        <tr><th>#</th><th>שם</th><th>ארגון</th><th>זוג</th></tr>
+                    </thead>
+                    <tbody id="mentorsBody"></tbody>
+                </table>
             </div>
         </div>
 
-        <div class="status" id="status"></div>
-
-        <div class="preview-container" id="previewContainer">
-            <h3 style="margin-bottom: 10px;">תצוגה מקדימה:</h3>
-            <table class="preview-table" id="previewTable">
-                <thead>
-                    <tr>
-                        <th>בית ספר</th>
-                        <th>שם קבוצה</th>
-                        <th>תלמידות</th>
-                    </tr>
-                </thead>
-                <tbody id="previewBody">
-                </tbody>
-            </table>
+        <!-- ===== Tab: נספחים לאירוע ===== -->
+        <div class="tab-content" id="tab-attachees">
+            <div class="info-box">
+                <p>
+                    <strong>נספחים לאירוע</strong> — משתתפים שיגיעו שאינם מנטורים/שופטים<br>
+                    שדות: שם, ארגון<br><br>
+                    נשמר ב-Firebase תחת <strong>attachees/</strong>
+                </p>
+            </div>
+            <button class="btn btn-secondary" onclick="previewAttachees()">הצג נספחים</button>
+            <button class="btn btn-primary" onclick="deployAttachees()">העלה נספחים לדאטהבייס</button>
+            <div class="status" id="attendeesStatus"></div>
+            <div class="preview-container" id="attendeesPreview">
+                <h3 style="margin-bottom: 10px;">רשימת נספחים:</h3>
+                <table class="preview-table">
+                    <thead>
+                        <tr><th>#</th><th>שם</th><th>ארגון</th></tr>
+                    </thead>
+                    <tbody id="attendeesBody"></tbody>
+                </table>
+            </div>
         </div>
 
-        <div class="log-container" id="logContainer">
+        <!-- ===== Tab: שופטים ===== -->
+        <div class="tab-content" id="tab-judges">
+            <div class="info-box">
+                <p>
+                    <strong>שופטות.ים מומחיות.ים</strong> — 12 שופטים ב-6 זוגות שפיטה<br>
+                    שדות: שם, ארגון, תפקיד, זוג שפיטה, מלווה מאסטרהזניקה<br><br>
+                    נשמר ב-Firebase תחת <strong>judges/</strong> ו-<strong>judgeAssignments/</strong>
+                </p>
+            </div>
+            <button class="btn btn-secondary" onclick="previewJudges()">הצג שופטים</button>
+            <button class="btn btn-primary" onclick="deployJudges()">העלה שופטים לדאטהבייס</button>
+            <div class="status" id="judgesStatus"></div>
+            <div class="preview-container" id="judgesPreview">
+                <h3 style="margin-bottom: 10px;">רשימת שופטים:</h3>
+                <table class="preview-table">
+                    <thead>
+                        <tr><th>#</th><th>שם</th><th>ארגון</th><th>תפקיד</th><th>זוג שפיטה</th><th>מלווה</th></tr>
+                    </thead>
+                    <tbody id="judgesBody"></tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+    <script>
+        function switchTab(name) {
+            document.querySelectorAll('.tab-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.tab === name);
+            });
+            document.querySelectorAll('.tab-content').forEach(function(c) {
+                c.classList.remove('active');
+            });
+            document.getElementById('tab-' + name).classList.add('active');
+        }
+    </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
@@ -278,22 +426,19 @@
 
         let parsedData = null;
 
-        // Parse CSV with proper handling of quoted fields
+        // ===== Teams tab (existing logic) =====
+
         function parseCSV(text) {
             const lines = text.split('\n');
             const result = [];
-
-            for (let i = 1; i < lines.length; i++) { // Skip header
+            for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
                 if (!line) continue;
-
                 const fields = [];
                 let field = '';
                 let inQuotes = false;
-
                 for (let j = 0; j < line.length; j++) {
                     const char = line[j];
-
                     if (char === '"') {
                         if (inQuotes && line[j + 1] === '"') {
                             field += '"';
@@ -309,120 +454,84 @@
                     }
                 }
                 fields.push(field.trim());
-
-                if (fields.length >= 11) {
+                if (fields.length >= 6) {
                     result.push(fields);
                 }
             }
-
             return result;
         }
 
-        // Clean string for Firebase path (remove invalid characters)
         function cleanForFirebasePath(str) {
             if (!str) return '';
             return str.replace(/[.#$[\]\/]/g, '_').trim();
         }
 
-        // Process CSV data into structured format
         function processData(csvData) {
             const teams = {};
             let totalStudents = 0;
+            const lastTeamBySchool = {};
 
             csvData.forEach(row => {
-                const teamName = row[1] || '';
-                const student1 = row[2] || '';
-                const student2 = row[4] || '';
-                const student3 = row[6] || '';
-                const student4 = row[8] || '';
-                const school = row[10] || '';
+                const firstName = row[1] || '';
+                const lastName = row[2] || '';
+                let teamName = row[5] || '';
+                const school = row[6] || '';
 
-                if (!school || !teamName) return;
+                if (!school) return;
 
                 const cleanSchool = cleanForFirebasePath(school);
-                let cleanTeam = cleanForFirebasePath(teamName);
 
-                if (!teams[cleanSchool]) {
-                    teams[cleanSchool] = {};
+                if (!teamName && lastTeamBySchool[cleanSchool]) {
+                    teamName = lastTeamBySchool[cleanSchool];
+                } else if (teamName) {
+                    lastTeamBySchool[cleanSchool] = teamName;
                 }
 
-                // Collect all students for this team
-                const students = [student1, student2, student3, student4]
-                    .filter(s => s && s.trim() !== '')
-                    .map(s => s.trim());
+                if (!teamName) return;
 
-                if (students.length > 0) {
-                    // If this team name already exists, increment the number
-                    if (teams[cleanSchool][cleanTeam]) {
-                        // Check if team name ends with a number
-                        const numMatch = cleanTeam.match(/^(.+?)(\d+)$/);
-                        if (numMatch) {
-                            // Has a number at the end - increment it until unique
-                            const baseName = numMatch[1];
-                            let num = parseInt(numMatch[2]);
-                            while (teams[cleanSchool][baseName + num]) {
-                                num++;
-                            }
-                            cleanTeam = baseName + num;
-                        } else {
-                            // No number - add 2, 3, etc.
-                            let num = 2;
-                            while (teams[cleanSchool][cleanTeam + ' ' + num]) {
-                                num++;
-                            }
-                            cleanTeam = cleanTeam + ' ' + num;
-                        }
-                    }
+                const cleanTeam = cleanForFirebasePath(teamName);
+                const studentName = (firstName + ' ' + lastName).trim();
 
-                    teams[cleanSchool][cleanTeam] = {
-                        students: students
-                    };
-                    totalStudents += students.length;
-                }
+                if (!studentName) return;
+
+                if (!teams[cleanSchool]) teams[cleanSchool] = {};
+                if (!teams[cleanSchool][cleanTeam]) teams[cleanSchool][cleanTeam] = { students: [] };
+
+                teams[cleanSchool][cleanTeam].students.push(studentName);
+                totalStudents++;
             });
 
             return { teams, totalStudents };
         }
 
-        // Load and preview data
         window.loadAndPreview = async function() {
             const status = document.getElementById('status');
             status.className = 'status loading';
             status.textContent = 'טוען נתונים...';
 
             try {
-                const response = await fetch('teams.csv');
+                const response = await fetch('teamsRdy.csv');
                 const text = await response.text();
                 const csvData = parseCSV(text);
                 const { teams, totalStudents } = processData(csvData);
 
                 parsedData = teams;
 
-                // Calculate stats
                 const schoolCount = Object.keys(teams).length;
                 let teamCount = 0;
-                Object.values(teams).forEach(school => {
-                    teamCount += Object.keys(school).length;
-                });
+                Object.values(teams).forEach(school => { teamCount += Object.keys(school).length; });
 
-                // Update stats display
                 document.getElementById('stats').style.display = 'grid';
                 document.getElementById('schoolCount').textContent = schoolCount;
                 document.getElementById('teamCount').textContent = teamCount;
                 document.getElementById('studentCount').textContent = totalStudents;
 
-                // Build preview table
                 const tbody = document.getElementById('previewBody');
                 tbody.innerHTML = '';
-
                 Object.entries(teams).forEach(([school, schoolTeams]) => {
                     Object.entries(schoolTeams).forEach(([team, data]) => {
                         const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${school}</td>
-                            <td>${team}</td>
-                            <td>${data.students.join(', ')}</td>
-                        `;
+                        tr.innerHTML = '<td>' + school + '</td><td>' + team + '</td><td>' + data.students.join(', ') + '</td>';
                         tbody.appendChild(tr);
                     });
                 });
@@ -431,21 +540,17 @@
                 document.getElementById('deployBtn').disabled = false;
 
                 status.className = 'status success';
-                status.textContent = `נטענו ${teamCount} קבוצות מ-${schoolCount} בתי ספר (${totalStudents} תלמידות)`;
+                status.textContent = 'נטענו ' + teamCount + ' קבוצות מ-' + schoolCount + ' בתי ספר (' + totalStudents + ' תלמידות)';
 
             } catch (error) {
                 status.className = 'status error';
                 status.textContent = 'שגיאה בטעינת הקובץ: ' + error.message;
                 console.error(error);
             }
-        }
+        };
 
-        // Deploy to Firebase
         window.deployToFirebase = async function() {
-            if (!parsedData) {
-                alert('יש לטעון את הנתונים קודם');
-                return;
-            }
+            if (!parsedData) { alert('יש לטעון את הנתונים קודם'); return; }
 
             const status = document.getElementById('status');
             const logContainer = document.getElementById('logContainer');
@@ -454,13 +559,12 @@
             deployBtn.disabled = true;
             logContainer.classList.add('show');
             logContainer.innerHTML = '';
-
             status.className = 'status loading';
             status.textContent = 'מעלה נתונים לדאטהבייס...';
 
-            const addLog = (message, type = '') => {
+            const addLog = (message, type) => {
                 const entry = document.createElement('div');
-                entry.className = 'log-entry ' + type;
+                entry.className = 'log-entry ' + (type || '');
                 entry.textContent = message;
                 logContainer.appendChild(entry);
                 logContainer.scrollTop = logContainer.scrollHeight;
@@ -468,23 +572,19 @@
 
             try {
                 addLog('מתחיל העלאה...');
-
-                // Upload the entire teams structure at once
                 const teamsRef = ref(database, 'teams');
                 await set(teamsRef, parsedData);
-
                 addLog('הועלו כל הנתונים בהצלחה!', 'success');
 
-                // Log summary
                 let totalTeams = 0;
                 Object.entries(parsedData).forEach(([school, teams]) => {
                     const teamCount = Object.keys(teams).length;
                     totalTeams += teamCount;
-                    addLog(`${school}: ${teamCount} קבוצות`, 'success');
+                    addLog(school + ': ' + teamCount + ' קבוצות', 'success');
                 });
 
                 status.className = 'status success';
-                status.textContent = `ההעלאה הושלמה בהצלחה! הועלו ${totalTeams} קבוצות.`;
+                status.textContent = 'ההעלאה הושלמה בהצלחה! הועלו ' + totalTeams + ' קבוצות.';
 
             } catch (error) {
                 addLog('שגיאה: ' + error.message, 'error');
@@ -493,7 +593,222 @@
                 console.error(error);
                 deployBtn.disabled = false;
             }
-        }
+        };
+
+        // ===== Mentors data (from ref.csv) =====
+
+        const mentors = [
+            { name: "אביטל ווגמן",          org: "אסטרהזניקה",                    pair: "גלי צור" },
+            { name: "גלי צור",               org: "אסטרהזניקה",                    pair: "אביטל ווגמן" },
+            { name: "אולגה בוניס",           org: "אסטרהזניקה",                    pair: "נטע פרחי" },       // שינוי: עכשיו מזוגת עם נטע פרחי
+            { name: "נטע פרחי",             org: "אסטרהזניקה",                    pair: "אולגה בוניס" },     // שינוי: עכשיו מזוגת עם אולגה בוניס
+            { name: "איילת לויט",            org: "אסטרהזניקה",                    pair: "" },
+            { name: "אלה טמיר",             org: "אסטרהזניקה",                    pair: "" },
+            { name: "אלכס רום",             org: "אסטרהזניקה",                    pair: "דיאנה לוין" },      // שינוי: הייתה עם נועה באום
+            { name: "דיאנה לוין",            org: "אסטרהזניקה",                    pair: "אלכס רום" },        // שינוי: עכשיו מזוגת עם אלכס רום
+            { name: "אריאל מימון",           org: "",                               pair: "" },               // שינוי: הוסר ארגון
+            { name: "ג׳ודית אלבז",           org: "אסטרהזניקה",                    pair: "" },
+            { name: "טל גרינפלד",           org: "אסטרהזניקה",                    pair: "" },
+            { name: "הילה שטרן",            org: "אסטרהזניקה",                    pair: "הילי סינגר" },
+            { name: "הילי סינגר",            org: "אסטרהזניקה",                    pair: "הילה שטרן" },
+            { name: "יולי פוקס",             org: "אסטרהזניקה",                    pair: "סיון כספי" },
+            { name: "סיון כספי",             org: "אסטרהזניקה",                    pair: "יולי פוקס" },
+            { name: "יעל זלצמן",             org: "אסטרהזניקה",                    pair: "" },
+            { name: "ליהיא צוקר",            org: "אסטרהזניקה",                    pair: "" },
+            { name: "לין אדלר",              org: "אסטרהזניקה",                    pair: "" },
+            { name: "מאי ברנהיים",           org: "אסטרהזניקה",                    pair: "שירה לניר" },
+            { name: "שירה לניר",             org: "שגרירות בריטניה בישראל",        pair: "מאי ברנהיים" },
+            { name: "מורן מזרחי",            org: "אסטרהזניקה",                    pair: "" },
+            { name: "מזלית פראגיס",          org: "אסטרהזניקה",                    pair: "" },
+            { name: "מיה קול",              org: "אסטרהזניקה",                    pair: "" },
+            { name: "מירב סומך",             org: "אסטרהזניקה",                    pair: "קארין קנבל דובסון" },
+            { name: "קארין קנבל דובסון",     org: "אסטרהזניקה",                    pair: "מירב סומך" },
+            { name: "סאלי חרמוני",           org: "אסטרהזניקה",                    pair: "מירב גליבטר" },    // שינוי: עכשיו מזוגת עם מירב גליבטר
+            { name: "מירב גליבטר",           org: "אסטרהזניקה",                    pair: "סאלי חרמוני" },    // שינוי: עכשיו מזוגת עם סאלי חרמוני
+            { name: "טליה סולומון",          org: "אסטרהזניקה",                    pair: "" },               // שינוי: תוקן שם (היה "סלומון טליה")
+            { name: "עינת קליין",            org: "אסטרהזניקה",                    pair: "" },
+            { name: "עירית הורביץ",          org: "אסטרהזניקה",                    pair: "" },
+            { name: "ענבל בן הרוש",          org: "אסטרהזניקה",                    pair: "" },
+            { name: "קרול בן חמו",           org: "אסטרהזניקה",                    pair: "" },
+            { name: "קרן לוי אבשלום",        org: "אסטרהזניקה",                    pair: "רונית נבון גרצמן" },
+            { name: "רונית נבון גרצמן",      org: "אסטרהזניקה",                    pair: "קרן לוי אבשלום" },
+            { name: "רויטל קריב",            org: "אסטרהזניקה",                    pair: "" },
+            { name: "רוני רחימי",            org: "אסטרהזניקה",                    pair: "" },
+            { name: "רמזי אבו אלהיג׳א",      org: "אסטרהזניקה",                    pair: "" },
+            { name: "שירה אביבי-מינץ",       org: "אסטרהזניקה",                    pair: "" },
+            { name: "שלי גריסרו",            org: "אסטרהזניקה",                    pair: "גל ליימן" },
+            { name: "גל ליימן",              org: "אסטרהזניקה",                    pair: "שלי גריסרו" },
+            { name: "שרית מרקו",             org: "אסטרהזניקה",                    pair: "" },
+            { name: "תמר שליט",             org: "אסטרהזניקה",                    pair: "" },
+            { name: "ליאת חקלאי",            org: "אסטרהזניקה",                    pair: "" },
+            { name: "אתי יוקלר",             org: "אסטרהזניקה",                    pair: "מאור זיו" },
+            { name: "מאור זיו",              org: "אסטרהזניקה",                    pair: "אתי יוקלר" },
+            { name: "דר' נילי אליאור",       org: "כללית שירותי בריאות",           pair: "מירב שנרך וודה" },
+            { name: "מירב שנרך וודה",        org: "כללית שירותי בריאות",           pair: "דר' נילי אליאור" },
+            { name: "שרון מרגלית",           org: "כללית שירותי בריאות",           pair: "מיכל שמש" },       // שינוי: הייתה עם אירית קורדובה
+            { name: "מיכל שמש",             org: "כללית שירותי בריאות",           pair: "שרון מרגלית" },    // חדש: נוספה כמנטורית
+            { name: "אירית קורדובה",         org: "כללית שירותי בריאות",           pair: "" }                // שינוי: עכשיו יחידנית
+        ];
+
+        window.previewMentors = function() {
+            const tbody = document.getElementById('mentorsBody');
+            tbody.innerHTML = '';
+            mentors.forEach(function(m, i) {
+                const tr = document.createElement('tr');
+                if (m.pair) tr.classList.add('pair-row');
+                tr.innerHTML =
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + m.name + '</td>' +
+                    '<td>' + m.org + '</td>' +
+                    '<td>' + (m.pair ? '<span class="pair-badge">🤝 ' + m.pair + '</span>' : '—') + '</td>';
+                tbody.appendChild(tr);
+            });
+            document.getElementById('mentorsPreview').classList.add('show');
+            const status = document.getElementById('mentorsStatus');
+            status.className = 'status success';
+            status.textContent = 'נטענו ' + mentors.length + ' מנטורים (13 זוגות)';
+        };
+
+        window.deployMentors = async function() {
+            const status = document.getElementById('mentorsStatus');
+            const btn = document.getElementById('mentorsDeployBtn');
+            btn.disabled = true;
+            status.className = 'status loading';
+            status.textContent = 'מעלה מנטורים לדאטהבייס...';
+            try {
+                await set(ref(database, 'mentors'), mentors);
+                status.className = 'status success';
+                status.textContent = 'הועלו ' + mentors.length + ' מנטורים בהצלחה!';
+            } catch (err) {
+                status.className = 'status error';
+                status.textContent = 'שגיאה: ' + err.message;
+                btn.disabled = false;
+            }
+        };
+
+        // ===== Attachees data (from ref.csv — "תגי שם למשתתפים") =====
+
+        const attachees = [
+            { name: "ענת טל",           org: "אסטרהזניקה" },
+            { name: "נעמה וינר",         org: "אסטרהזניקה" },
+            { name: "אמה מימון",         org: "אסטרהזניקה" },
+            { name: "ענת בם-כגן",        org: "אסטרהזניקה" },
+            { name: "תותי נאור",         org: "אסטרהזניקה" },
+            { name: "טל קופפרשמיד",      org: "אסטרהזניקה" },
+            { name: "ליבי שמש",          org: "אסטרהזניקה" },
+            { name: "יעל מטר",          org: "אסטרהזניקה" },
+            { name: "עידית זמיר-יפה",    org: "משרד החינוך" },
+            { name: "ירדן הופמן",        org: "משרד החינוך" },
+            { name: "מעיין פלג אבירם",   org: "rtbee" },
+            { name: "עופרי יהב",         org: "rtbee" },
+            { name: "מיכל שמש",         org: "כללית שירותי בריאות" }
+        ];
+
+        window.previewAttachees = function() {
+            const tbody = document.getElementById('attendeesBody');
+            tbody.innerHTML = '';
+            attachees.forEach(function(a, i) {
+                const tr = document.createElement('tr');
+                tr.innerHTML =
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + a.name + '</td>' +
+                    '<td>' + a.org + '</td>';
+                tbody.appendChild(tr);
+            });
+            document.getElementById('attendeesPreview').classList.add('show');
+            const status = document.getElementById('attendeesStatus');
+            status.className = 'status success';
+            status.textContent = 'נטענו ' + attachees.length + ' נספחים';
+        };
+
+        window.deployAttachees = async function() {
+            const status = document.getElementById('attendeesStatus');
+            status.className = 'status loading';
+            status.textContent = 'מעלה נספחים לדאטהבייס...';
+            try {
+                await set(ref(database, 'attachees'), attachees);
+                status.className = 'status success';
+                status.textContent = 'הועלו ' + attachees.length + ' נספחים בהצלחה!';
+            } catch (err) {
+                status.className = 'status error';
+                status.textContent = 'שגיאה: ' + err.message;
+            }
+        };
+
+        // ===== Judges data (from ref.csv) =====
+
+        const judgeAssignments = [
+            { judge1: "קובי צורף",              judge2: "מגר' ויקטוריה פינקל-פקרסקי", escort: "ענת טל" },
+            { judge1: "אוהד גולדברג",            judge2: "רייצ׳ל ברנר שלם",             escort: "ענת בם-כגן" },
+            { judge1: "איה ורטהיימר",            judge2: "דר' רוני ורד",                escort: "נעמה וינר" },
+            { judge1: "לאה מלוב",               judge2: "דר' שרה יניב",                escort: "טל קופפרשמיד / יעל מטר" },
+            { judge1: "שרון גור אריה",           judge2: "דפנה מקובר",                  escort: "אמה מימון" },
+            { judge1: "קרן קלר",                judge2: "איתן ושדי לוי",               escort: "ליבי שמש" }
+        ];
+
+        // Build pair+escort lookup per judge name
+        const judgesMap = {};
+        judgeAssignments.forEach(function(a) {
+            judgesMap[a.judge1] = { pair: a.judge2, escort: a.escort };
+            judgesMap[a.judge2] = { pair: a.judge1, escort: a.escort };
+        });
+
+        const judgesRaw = [
+            { name: "מגר' ויקטוריה פינקל-פקרסקי", org: "משרד הבריאות",              role: "ראש המחלקה לייבוא פרמצבטיקה וסמים" },
+            { name: "לאה מלוב",                    org: "משרד החינוך",               role: "ממונה על הוראת מדע וטכנולוגיה מחוז מרכז משרד החינוך" },
+            { name: "רייצ׳ל ברנר שלם",              org: "משרד הבריאות",              role: "מנהלת אגף בכיר תכנון כוח אדם" },
+            { name: "דפנה מקובר",                  org: "עמותת דרכי נשימה",          role: 'מנכ"לית עמותת דרכי נשימה' },
+            { name: "איה ורטהיימר",                org: "העמותה לזכויות החולה",       role: 'מנכ"לית העמותה לזכויות החולה' },
+            { name: "שרון גור אריה",               org: "Aion Labs",                 role: 'סמנכ"לית שותפויות AION Labs' },
+            { name: "קובי צורף",                   org: "פארמה ישראל",               role: 'מנכ"ל פארמה ישראל' },
+            { name: "דר' שרה יניב",                org: "כללית שירותי בריאות",        role: "מנהלת רפואית מחוז תל אביב כללית שירותי בריאות" },
+            { name: "דר' רוני ורד",                org: "כללית שירותי בריאות",        role: "מנהל מחוז תל אביב כללית שרותי בריאות" },
+            { name: "אוהד גולדברג",                org: "אסטרהזניקה",                role: 'מנכ"ל אסטרהזניקה' },
+            { name: "איתן ושדי לוי",               org: "Bluedot",                   role: 'מנכ"ל Bluedot' },
+            { name: "קרן קלר",                    org: "Bluedot",                   role: 'סמנכ"לית Bluedot' }
+        ];
+
+        const judges = judgesRaw.map(function(j) {
+            const info = judgesMap[j.name] || {};
+            return { name: j.name, org: j.org, role: j.role, pair: info.pair || '', escort: info.escort || '' };
+        });
+
+        window.previewJudges = function() {
+            const tbody = document.getElementById('judgesBody');
+            tbody.innerHTML = '';
+            judges.forEach(function(j, i) {
+                const tr = document.createElement('tr');
+                if (j.pair) tr.classList.add('pair-row');
+                tr.innerHTML =
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + j.name + '</td>' +
+                    '<td>' + j.org + '</td>' +
+                    '<td style="font-size:0.8rem;">' + j.role + '</td>' +
+                    '<td>' + (j.pair ? '<span class="pair-badge">⚖️ ' + j.pair + '</span>' : '—') + '</td>' +
+                    '<td>' + (j.escort || '—') + '</td>';
+                tbody.appendChild(tr);
+            });
+            document.getElementById('judgesPreview').classList.add('show');
+            const status = document.getElementById('judgesStatus');
+            status.className = 'status success';
+            status.textContent = 'נטענו ' + judges.length + ' שופטים ב-' + judgeAssignments.length + ' זוגות שפיטה';
+        };
+
+        window.deployJudges = async function() {
+            const status = document.getElementById('judgesStatus');
+            status.className = 'status loading';
+            status.textContent = 'מעלה שופטים לדאטהבייס...';
+            try {
+                await set(ref(database, 'judges'), judges);
+                await set(ref(database, 'judgeAssignments'), judgeAssignments);
+                status.className = 'status success';
+                status.textContent = 'הועלו ' + judges.length + ' שופטים ו-' + judgeAssignments.length + ' זוגות שפיטה בהצלחה!';
+            } catch (err) {
+                status.className = 'status error';
+                status.textContent = 'שגיאה: ' + err.message;
+            }
+        };
+
     </script>
 </body>
 </html>
