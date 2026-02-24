@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>לוחות זמנים - נשים מובילות מדע</title>
+    <title>לוחות זמנים – יום השיא</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Heebo', sans-serif;
@@ -24,9 +20,7 @@
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 250px;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23f9d77e" fill-opacity="0.3" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,101.3C1248,85,1344,75,1392,69.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat top center;
             background-size: cover;
@@ -36,736 +30,698 @@
         body::after {
             content: '';
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             height: 300px;
             background: #7B1E7A;
             z-index: -2;
             clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1200px; margin: 0 auto; }
 
         .logos-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            padding: 20px;
-            background: white;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            border-radius: 15px;
+            display: flex; justify-content: center; align-items: center;
+            gap: 40px; padding: 20px; background: white; flex-wrap: wrap;
+            margin-bottom: 20px; border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .logo-item {
-            height: 80px;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-item img {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
-        }
+        .logo-item { height: 80px; display: flex; align-items: center; }
+        .logo-item img { height: 100%; width: auto; object-fit: contain; }
 
         .header {
-            text-align: center;
-            color: #7B1E7A;
-            margin-bottom: 30px;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
+            text-align: center; color: #7B1E7A; margin-bottom: 30px;
+            background: white; padding: 30px; border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+        .header h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; color: #7B1E7A; }
+        .header p  { color: #666; font-size: 18px; }
 
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 800;
-            color: #7B1E7A;
+        /* ===== Role selection ===== */
+        #roleSelection {
+            background: white; border-radius: 20px; padding: 40px 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: center;
         }
+        #roleSelection h2 { font-size: 2rem; font-weight: 800; color: #7B1E7A; margin-bottom: 10px; }
+        #roleSelection .subtitle { color: #666; font-size: 1rem; margin-bottom: 35px; }
 
-        .header p {
-            color: #666;
-            font-size: 18px;
+        .role-cards {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; max-width: 900px; margin: 0 auto;
         }
+        .role-card {
+            background: #F8FAFC; border: 3px solid #E2E8F0; border-radius: 18px;
+            padding: 35px 20px; cursor: pointer; transition: all 0.3s ease;
+            display: flex; flex-direction: column; align-items: center; gap: 14px;
+        }
+        .role-card:hover {
+            border-color: #7B1E7A; background: rgba(123, 30, 122, 0.05);
+            transform: translateY(-4px); box-shadow: 0 10px 30px rgba(123, 30, 122, 0.2);
+        }
+        .role-card .role-icon  { font-size: 3rem; line-height: 1; }
+        .role-card .role-label { font-size: 1.2rem; font-weight: 700; color: #4A5568; }
+        .role-card:hover .role-label { color: #7B1E7A; }
 
-        .controls {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
+        /* ===== Back button ===== */
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 20px; background: white; border: 2px solid #7B1E7A;
+            border-radius: 10px; color: #7B1E7A; font-size: 15px; font-weight: 600;
+            font-family: 'Heebo', sans-serif; cursor: pointer; transition: all 0.2s;
+            margin-bottom: 25px;
+        }
+        .back-btn:hover { background: #7B1E7A; color: white; }
+
+        /* ===== Static schedule (mentor / judge) ===== */
+        .static-schedule {
+            background: white; width: 210mm; max-width: 100%;
+            margin: 0 auto 30px auto; padding: 15mm;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            border-radius: 10px; position: relative;
         }
 
+        .role-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(123,30,122,0.08); border: 2px solid #7B1E7A; color: #7B1E7A;
+            border-radius: 20px; padding: 5px 18px; font-size: 14px; font-weight: 700; margin-top: 10px;
+        }
+
+        .info-box {
+            background: #f8f4ff; border: 2px solid #c9a8e8; border-radius: 12px;
+            padding: 14px 18px; margin: 18px 0; font-size: 14px; color: #5a3d82; line-height: 1.7;
+        }
+        .info-box strong { font-weight: 800; }
+
+        /* ===== Guest: matrix iframe ===== */
+        .matrix-frame {
+            width: 100%; height: 85vh; border: none;
+            border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); background: white;
+        }
+
+        /* ===== Controls ===== */
+        .controls {
+            background: white; padding: 20px; border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1); margin-bottom: 30px;
+        }
         .group-selector {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: center;
         }
 
         select {
-            padding: 12px 20px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            background: white;
-            min-width: 250px;
-            font-family: 'Heebo', sans-serif;
+            padding: 12px 20px; border: 2px solid #ddd; border-radius: 8px;
+            font-size: 16px; background: white; min-width: 250px; font-family: 'Heebo', sans-serif;
         }
-
-        select:focus {
-            outline: none;
-            border-color: #7B1E7A;
-            box-shadow: 0 0 0 3px rgba(123, 30, 122, 0.1);
-        }
+        select:focus { outline: none; border-color: #7B1E7A; box-shadow: 0 0 0 3px rgba(123,30,122,0.1); }
 
         .btn {
-            padding: 12px 25px;
-            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            font-family: 'Heebo', sans-serif;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(123, 30, 122, 0.3);
+            padding: 12px 25px; background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white; border: none; border-radius: 12px; cursor: pointer;
+            font-size: 16px; font-weight: 600; font-family: 'Heebo', sans-serif;
+            transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(123,30,122,0.3);
         }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(123,30,122,0.4); }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(123, 30, 122, 0.4);
-        }
-
+        /* ===== Schedule page (student) ===== */
         .schedule-page {
-            background: white;
-            width: 210mm;
-            max-width: 100%;
-            margin: 0 auto 30px auto;
-            padding: 15mm;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            display: none;
-            position: relative;
+            background: white; width: 210mm; max-width: 100%;
+            margin: 0 auto 30px auto; padding: 15mm;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1); border-radius: 10px;
+            display: none; position: relative;
         }
-
-        .schedule-page.active {
-            display: block;
-        }
+        .schedule-page.active { display: block; }
 
         .digital-qr {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            text-align: center;
-            font-size: 10px;
-            color: #7B1E7A;
-            max-width: 90px;
+            position: absolute; top: 15px; left: 15px;
+            text-align: center; font-size: 10px; color: #7B1E7A; max-width: 90px;
         }
-
-        .digital-qr p {
-            margin-bottom: 5px;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-
-        .digital-qr img {
-            width: 70px;
-            height: 70px;
-            border-radius: 6px;
-        }
+        .digital-qr p { margin-bottom: 5px; font-weight: 600; line-height: 1.3; }
+        .digital-qr img { width: 70px; height: 70px; border-radius: 6px; }
 
         .page-header {
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 3px solid #7B1E7A;
-            padding-bottom: 15px;
+            text-align: center; margin-bottom: 25px;
+            border-bottom: 3px solid #7B1E7A; padding-bottom: 15px;
         }
-
-        .page-header h2 {
-            font-size: 1.8rem;
-            color: #7B1E7A;
-            margin-bottom: 8px;
-            font-weight: 800;
-        }
-
-        .page-header .group-name {
-            font-size: 1.4rem;
-            color: #7B1E7A;
-            font-weight: bold;
-        }
+        .page-header h2        { font-size: 1.8rem; color: #7B1E7A; margin-bottom: 8px; font-weight: 800; }
+        .page-header .group-name { font-size: 1.4rem; color: #7B1E7A; font-weight: bold; }
 
         .bracelet-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #f0f0f0;
-            padding: 5px 15px;
-            border-radius: 20px;
-            margin-top: 10px;
-            font-size: 14px;
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #f0f0f0; padding: 5px 15px; border-radius: 20px;
+            margin-top: 10px; font-size: 14px;
         }
+        .bracelet-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.2); }
 
-        .bracelet-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: 2px solid rgba(0,0,0,0.2);
-        }
-
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
+        .schedule-table { width: 100%; border-collapse: collapse; font-size: 14px; }
         .schedule-table th {
             background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
-            color: white;
-            padding: 12px;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 700;
+            color: white; padding: 12px; text-align: center; font-size: 16px; font-weight: 700;
         }
-
-        .schedule-table th:first-child {
-            border-top-right-radius: 10px;
-            width: 120px;
-        }
-
-        .schedule-table th:last-child {
-            border-top-left-radius: 10px;
-        }
+        .schedule-table th:first-child { border-top-right-radius: 10px; width: 120px; }
+        .schedule-table th:last-child  { border-top-left-radius: 10px; }
 
         .schedule-table td {
-            padding: 12px 10px;
-            text-align: center;
-            border: 2px solid #f0f0f0;
-            background: #fafafa;
-            font-weight: 500;
-            color: #333;
-            vertical-align: middle;
+            padding: 12px 10px; text-align: center;
+            border: 2px solid #f0f0f0; background: #fafafa;
+            font-weight: 500; color: #333; vertical-align: middle;
         }
-
-        .schedule-table tr:nth-child(even) td {
-            background: #f8f9ff;
-        }
+        .schedule-table tr:nth-child(even) td { background: #f8f9ff; }
 
         .time-slot {
             font-weight: 700;
             background: linear-gradient(135deg, #7B1E7A, #9B4D9A) !important;
-            color: white !important;
-            font-size: 14px;
-            white-space: nowrap;
+            color: white !important; font-size: 14px; white-space: nowrap;
         }
 
         .activity {
-            min-height: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            line-height: 1.4;
-            gap: 3px;
+            min-height: 40px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; line-height: 1.4; gap: 3px;
         }
-
-        .activity-title {
-            font-weight: 700;
-            font-size: 15px;
-        }
-
-        .activity-location {
-            font-size: 12px;
-            color: #666;
-        }
+        .activity-title    { font-weight: 700; font-size: 15px; }
+        .activity-location { font-size: 12px; color: #666; }
 
         .activity-topic {
-            display: inline-block;
-            padding: 2px 10px;
+            display: inline-block; padding: 2px 10px;
+            border-radius: 12px; font-size: 11px; font-weight: 600; margin-top: 3px;
+        }
+
+        /* Day 2 topic colors */
+        .topic-proj   { background: #cff3fb; color: #0c5f7a; }
+        .topic-proto  { background: #fde8d8; color: #9c3407; }
+        .topic-mkt    { background: #ede9fb; color: #5227a8; }
+        .topic-circles{ background: #fff3e0; color: #e65100; }
+
+        .common-activity { background: #f8f9fa !important; }
+        .common-activity .activity-title { color: #495057; }
+
+        @media print {
+            @page { size: A4; margin: 10mm; margin-top: 5mm; margin-bottom: 5mm; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            html, body { height: auto !important; overflow: visible !important; }
+            body { background: white; padding: 0; margin: 0; }
+            body::before, body::after { display: none !important; }
+            .container { max-width: none; }
+            .logos-container, .header, .controls,
+            #roleSelection, .back-btn { display: none !important; }
+            #schedules { margin: 0; padding: 0; }
+            .schedule-page {
+                width: 100%; height: auto; margin: 0; padding: 12mm 15mm;
+                box-shadow: none; border-radius: 0;
+                page-break-after: auto; page-break-inside: avoid;
+                display: block !important;
+            }
+            .schedule-page:not(.active) { display: none !important; }
+            .static-schedule {
+                width: 100%; height: auto; margin: 0; padding: 10mm;
+                box-shadow: none; border-radius: 0; page-break-inside: avoid;
+            }
+            .digital-qr { position: absolute; top: 5px; left: 5px; max-width: 80px; font-size: 9px; }
+            .digital-qr img { width: 60px; height: 60px; }
+            .schedule-table { font-size: 14px; }
+            .schedule-table th { padding: 10px; font-size: 15px; }
+            .schedule-table td { padding: 8px 10px; }
+            .time-slot { font-size: 13px !important; }
+            .activity { min-height: 35px; gap: 3px; }
+            .activity-title { font-size: 15px; }
+            .activity-location { font-size: 12px; }
+            .activity-topic { padding: 3px 10px; font-size: 11px; margin-top: 3px; }
+            .info-box { font-size: 12px; padding: 10px 14px; }
+        }
+
+        .print-all { margin-right: 15px; }
+
+        /* ===== Judge teams checklist ===== */
+        .teams-checklist-container {
+            margin-top: 16px;
+            padding: 16px;
+            background: #f8f9ff;
+            border: 2px solid #c9a8e8;
             border-radius: 12px;
-            font-size: 11px;
+        }
+
+        .checklist-title {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+
+        .teams-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .team-check-row {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            transition: all 0.22s;
+        }
+
+        .team-check-row.judged {
+            background: #f0fff4;
+            border-color: #68d391;
+        }
+
+        .team-time-badge {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #5227a8;
+            background: rgba(82,39,168,0.09);
+            padding: 4px 9px;
+            border-radius: 7px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .team-check-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2.5px solid #cbd5e0;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            color: transparent;
+            font-family: 'Heebo', sans-serif;
+        }
+
+        .team-check-btn:hover { border-color: #48bb78; background: #f0fff4; }
+
+        .team-check-row.judged .team-check-btn {
+            background: #48bb78;
+            border-color: #48bb78;
+            color: white;
+        }
+
+        .team-info {
+            flex: 1;
+            font-size: 0.88rem;
+            color: #2d3748;
             font-weight: 600;
-            margin-top: 3px;
+            transition: all 0.2s;
         }
 
-        .topic-lung {
-            background: #d4eeeb;
-            color: #1a6b5f;
+        .team-check-row.judged .team-info {
+            text-decoration: line-through;
+            color: #a0aec0;
         }
 
-        .topic-cardio {
-            background: #fde4e9;
-            color: #b8455c;
-        }
-
-        .topic-brain {
-            background: #ece3f4;
-            color: #5a3d82;
-        }
-
-        .topic-circles {
-            background: #fff3e0;
-            color: #e65100;
-        }
-
-        .common-activity {
-            background: #f8f9fa !important;
-        }
-
-        .common-activity .activity-title {
-            color: #495057;
+        .judged-label {
+            font-size: 0.75rem;
+            color: #38a169;
+            font-weight: 700;
+            flex-shrink: 0;
         }
 
         @media print {
-            @page {
-                size: A4;
-                margin: 10mm;
-                margin-top: 5mm;
-                margin-bottom: 5mm;
-            }
+            .teams-checklist-container { break-inside: avoid; }
+            .team-check-btn { border-width: 2px !important; }
 
-            /* Hide browser default headers and footers */
-            @page {
-                @top-left { content: none; }
-                @top-center { content: none; }
-                @top-right { content: none; }
-                @bottom-left { content: none; }
-                @bottom-center { content: none; }
-                @bottom-right { content: none; }
-            }
+            /* ===== Judge compact print — fit one page ===== */
+            .judge-static { padding: 8mm 10mm !important; }
+            .judge-static .page-header { margin-bottom: 10px; padding-bottom: 8px; }
+            .judge-static .page-header h2 { font-size: 1.3rem; margin-bottom: 4px; }
+            .judge-static .page-header .group-name { font-size: 1.1rem; }
+            .judge-static .info-box { font-size: 10px; padding: 7px 10px; margin: 8px 0; }
+            .judge-static .schedule-table { font-size: 11px; }
+            .judge-static .schedule-table th { padding: 7px; font-size: 12px; }
+            .judge-static .schedule-table td { padding: 5px 8px; }
+            .judge-static .activity { min-height: 24px; gap: 2px; }
+            .judge-static .activity-title { font-size: 12px; }
+            .judge-static .activity-location { font-size: 10px; }
+            .judge-static .activity-topic { font-size: 9px; padding: 2px 7px; }
+            .judge-static .teams-checklist-container { margin-top: 8px; padding: 9px 12px; }
+            .judge-static .checklist-title { font-size: 0.8rem; margin-bottom: 7px; }
+            .judge-static .teams-checklist { gap: 5px; }
+            .judge-static .team-check-row { padding: 6px 10px; gap: 8px; }
+            .judge-static .team-time-badge { font-size: 0.68rem; padding: 3px 6px; min-width: 82px; }
+            .judge-static .team-check-btn { width: 22px; height: 22px; font-size: 0.8rem; }
+            .judge-static .team-info { font-size: 0.76rem; }
+        }
 
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
+        /* ===== Print-all area ===== */
+        #print-all-area { display: none; }
 
-            html, body {
-                height: auto !important;
-                overflow: visible !important;
+        @media print {
+            body.print-all-mode .container { display: none !important; }
+            body.print-all-mode #print-all-area { display: block !important; }
+            body.print-all-mode #print-all-area .static-schedule {
+                width: 100%; margin: 0; padding: 10mm;
+                box-shadow: none; border-radius: 0;
+                page-break-after: always; page-break-inside: avoid;
             }
-
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-
-            body::before,
-            body::after {
-                display: none !important;
-            }
-
-            .container {
-                max-width: none;
-            }
-
-            .logos-container,
-            .header,
-            .controls {
-                display: none !important;
-            }
-
-            #schedules {
-                margin: 0;
-                padding: 0;
-            }
-
-            .schedule-page {
-                width: 100%;
-                height: auto;
-                margin: 0;
-                padding: 0;
-                box-shadow: none;
-                border-radius: 0;
+            body.print-all-mode #print-all-area .static-schedule:last-child {
                 page-break-after: auto;
-                page-break-inside: avoid;
-                display: block !important;
-            }
-
-            .schedule-page:not(.active) {
-                display: none !important;
-            }
-
-            .page-header {
-                margin-bottom: 15px;
-                padding-bottom: 10px;
-                border-bottom-width: 2px;
-            }
-
-            .page-header h2 {
-                font-size: 1.6rem;
-                margin-bottom: 6px;
-            }
-
-            .page-header .group-name {
-                font-size: 1.3rem;
-            }
-
-            .bracelet-badge {
-                padding: 5px 14px;
-                margin-top: 8px;
-                font-size: 13px;
-            }
-
-            .bracelet-dot {
-                width: 15px;
-                height: 15px;
-            }
-
-            .schedule-table {
-                font-size: 14px;
-            }
-
-            .schedule-table th {
-                padding: 10px;
-                font-size: 15px;
-            }
-
-            .schedule-table td {
-                padding: 8px 10px;
-            }
-
-            .time-slot {
-                font-size: 13px !important;
-            }
-
-            .activity {
-                min-height: 35px;
-                gap: 3px;
-            }
-
-            .activity-title {
-                font-size: 15px;
-            }
-
-            .activity-location {
-                font-size: 12px;
-            }
-
-            .activity-topic {
-                padding: 3px 10px;
-                font-size: 11px;
-                margin-top: 3px;
-            }
-
-            .print-note {
-                margin-top: 12px !important;
-                font-size: 12px !important;
-            }
-
-            .print-qr-section {
-                margin-top: 15px !important;
-                padding: 15px !important;
-            }
-
-            .print-qr-section p {
-                font-size: 14px !important;
-                margin-bottom: 12px !important;
-            }
-
-            .print-qr-section img {
-                max-width: 120px !important;
-            }
-
-            .digital-qr {
-                position: absolute;
-                top: 5px;
-                left: 5px;
-                max-width: 80px;
-                font-size: 9px;
-            }
-
-            .digital-qr img {
-                width: 60px;
-                height: 60px;
-            }
-        }
-
-        .print-all {
-            margin-right: 15px;
-        }
-
-        @media screen {
-            .print-mode .schedule-page {
-                display: block !important;
             }
         }
 
         @media screen and (max-width: 768px) {
-            .schedule-page {
-                width: 100%;
-                padding: 10px;
-            }
-
-            .schedule-table {
-                font-size: 12px;
-            }
-
-            .time-slot {
-                font-size: 11px;
-            }
+            .schedule-page { width: 100%; padding: 10px; }
+            .schedule-table { font-size: 12px; }
+            .time-slot { font-size: 11px; }
+            .role-cards { grid-template-columns: 1fr 1fr; }
+        }
+        @media screen and (max-width: 480px) {
+            .role-cards { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
+
+        <!-- Logos -->
         <div class="logos-container">
-            <div class="logo-item">
-                <img src="logot.png" alt="טכנולוג">
-            </div>
-            <div class="logo-item">
-                <img src="logoastra.png" alt="AstraZeneca">
-            </div>
-            <div class="logo-item">
-                <img src="logonashim.png" alt="נשים מובילות מדע">
-            </div>
+            <div class="logo-item"><img src="logot.png" alt="טכנולוג"></div>
+            <div class="logo-item"><img src="logoastra.png" alt="AstraZeneca"></div>
+            <div class="logo-item"><img src="logonashim.png" alt="נשים מובילות מדע"></div>
         </div>
 
+        <!-- Header -->
         <div class="header">
             <h1>📅 מערכת לוחות זמנים</h1>
-            <p>נשים מובילות מדע • Forever Young</p>
+            <p>נשים מובילות מדע • Forever Young – יום השיא</p>
         </div>
 
-        <div class="controls">
-            <div class="group-selector">
-                <label for="groupSelect" style="font-weight: bold; color: #333;">בחרי בית ספר:</label>
-                <select id="groupSelect">
-                    <option value="">-- בחרי בית ספר --</option>
-                </select>
-                <button class="btn print-all" onclick="printAll()">🖨️ הדפס הכל</button>
-                <button class="btn" onclick="printCurrent()">🖨️ הדפס לוז נוכחי</button>
+        <!-- ===== שאלת זיהוי ===== -->
+        <div id="roleSelection">
+            <h2>מי אני?</h2>
+            <p class="subtitle">בחרי את תפקידך כדי לראות את לוח הזמנים המתאים</p>
+            <div class="role-cards">
+                <div class="role-card" onclick="selectRole('student')">
+                    <span class="role-icon">🎓</span>
+                    <span class="role-label">תלמיד/ה</span>
+                </div>
+                <div class="role-card" onclick="selectRole('mentor')">
+                    <span class="role-icon">👩‍🏫</span>
+                    <span class="role-label">מנטור/ית</span>
+                </div>
+                <div class="role-card" onclick="selectRole('judge')">
+                    <span class="role-icon">⚖️</span>
+                    <span class="role-label">שופט/ת</span>
+                </div>
+                <div class="role-card" onclick="selectRole('guest')">
+                    <span class="role-icon">🎟️</span>
+                    <span class="role-label">מוזמנ/ת לאירוע</span>
+                </div>
             </div>
         </div>
 
-        <div id="schedules"></div>
-    </div>
+        <!-- ===== תלמיד/ה ===== -->
+        <div id="content-student" class="role-content" style="display:none;">
+            <button class="back-btn" onclick="goBack()">← חזרה לבחירה</button>
+            <div class="controls">
+                <div class="group-selector">
+                    <label for="groupSelect" style="font-weight:bold; color:#333;">בחרי קבוצה:</label>
+                    <select id="groupSelect">
+                        <option value="">-- בחרי קבוצה --</option>
+                    </select>
+                    <button class="btn print-all" onclick="printAll()">🖨️ הדפס הכל</button>
+                    <button class="btn" onclick="printCurrent()">🖨️ הדפס לוז נוכחי</button>
+                </div>
+            </div>
+            <div id="schedules"></div>
+        </div>
+
+        <!-- ===== מנטור/ית ===== -->
+        <div id="content-mentor" class="role-content" style="display:none;">
+            <button class="back-btn" onclick="goBack()">← חזרה לבחירה</button>
+            <div class="controls">
+                <div class="group-selector" style="flex-direction:column; align-items:stretch; max-width:500px; margin:0 auto; gap:10px;">
+                    <label style="font-weight:bold; color:#333;">בחרי שם מנטורית:</label>
+                    <input type="text" id="mentorSearch" placeholder="🔍 חיפוש לפי שם..." oninput="filterMentors(this.value)"
+                        style="padding:10px 14px; border:2px solid #ddd; border-radius:8px; font-size:15px; font-family:'Heebo',sans-serif; width:100%;">
+                    <select id="mentorSelect" size="8" onchange="showMentorSchedule(this.value)"
+                        style="width:100%; border:2px solid #ddd; border-radius:8px; font-size:15px; font-family:'Heebo',sans-serif; padding:4px;">
+                        <option disabled>⏳ טוען שמות מהשרת...</option>
+                    </select>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button class="btn" onclick="printMentorSchedule()">🖨️ הדפס נוכחית</button>
+                        <button class="btn print-all" onclick="printAllMentors()">🖨️ הדפס הכל</button>
+                    </div>
+                </div>
+            </div>
+            <div id="mentor-schedule-page"></div>
+        </div>
+
+        <!-- ===== שופט/ת ===== -->
+        <div id="content-judge" class="role-content" style="display:none;">
+            <button class="back-btn" onclick="goBack()">← חזרה לבחירה</button>
+            <div class="controls">
+                <div class="group-selector">
+                    <label for="judgeSelect" style="font-weight:bold; color:#333;">בחרי שם שופט/ת:</label>
+                    <select id="judgeSelect" onchange="showJudgeSchedule(this.value)">
+                        <option value="" disabled selected>⏳ טוען שמות מהשרת...</option>
+                    </select>
+                    <button class="btn" onclick="printJudgeSchedule()">🖨️ הדפס נוכחי</button>
+                    <button class="btn print-all" onclick="printAllJudges()">🖨️ הדפס הכל</button>
+                </div>
+            </div>
+            <div id="judge-schedule-page"></div>
+        </div>
+
+        <!-- ===== מוזמנ/ת לאירוע ===== -->
+        <div id="content-guest" class="role-content" style="display:none;">
+            <button class="back-btn" onclick="goBack()">← חזרה לבחירה</button>
+            <iframe class="matrix-frame" id="matrixFrame" src="" title="מטריצת יום האירוע"></iframe>
+        </div>
+
+    </div><!-- /container -->
+
+    <div id="print-all-area"></div>
 
     <script>
-        // נתוני הקבוצות - מתוך day1Teams
+        // ===== Role selection =====
+        function selectRole(role) {
+            document.getElementById('roleSelection').style.display = 'none';
+            document.querySelectorAll('.role-content').forEach(el => { el.style.display = 'none'; });
+            const content = document.getElementById('content-' + role);
+            if (content) content.style.display = 'block';
+            if (role === 'guest') {
+                const frame = document.getElementById('matrixFrame');
+                if (!frame.src || frame.src === window.location.href) {
+                    frame.src = 'day2Teams.html';
+                }
+            }
+        }
+
+        function goBack() {
+            document.querySelectorAll('.role-content').forEach(el => { el.style.display = 'none'; });
+            document.getElementById('roleSelection').style.display = 'block';
+        }
+
+        // ===== Day 2 data =====
         const groups = [
-            'שש שנתי – יש"י',
-            'רב תחומי',
+            'אולפנת חריש + אתגרי העתיד חריש',
+            'הרב תחומי + מאיר שפיה',
             'מבשרת',
-            'אתגרי העתיד + מאיר שפיה',
-            'נבון',
-            'אולפנה – מעיין האמונה',
-            'עתידים',
-            'קופטאן',
+            'נבון 1-4',
+            'נבון 5-8',
+            'עתידים אור עקיבא',
+            'קופטאן דליה',
+            'שש שנתי ישי',
         ];
 
         const bracelets = [
-            { name: 'סגול', color: '#9b59b6' },
-            { name: 'חום', color: '#8B4513' },
-            { name: 'צהוב', color: '#f1c40f' },
-            { name: 'ירוק', color: '#2ecc71' },
-            { name: 'כחול', color: '#3498db' },
-            { name: 'אדום', color: '#e74c3c' },
-            { name: 'ירוק כהה', color: '#1a5c38' },
-            { name: 'כתום', color: '#e67e22' },
+            { name: 'סגול',      color: '#9b59b6' },
+            { name: 'חום',       color: '#8B4513' },
+            { name: 'צהוב',      color: '#f1c40f' },
+            { name: 'ירוק בהיר', color: '#2ecc71' },
+            { name: 'כחול',      color: '#3498db' },
+            { name: 'אדום',      color: '#e74c3c' },
+            { name: 'לבן',       color: '#f0f0f0' },
+            { name: 'כתום',      color: '#e67e22' },
         ];
 
         const rotation = [
-            ['L','C','B'],
-            ['L','C','B'],
-            ['L','B','C'],
-            ['C','L','B'],
-            ['C','B','L'],
-            ['C','B','L'],
-            ['B','L','C'],
-            ['B','C','L'],
+            ['P','A','M'],  // 0 אולפנת חריש + אתגרי
+            ['P','A','M'],  // 1 הרב תחומי + מאיר שפיה
+            ['P','M','A'],  // 2 מבשרת + שש שנתי
+            ['A','P','M'],  // 3 נבון 1-4
+            ['A','M','P'],  // 4 נבון 5-8
+            ['A','M','P'],  // 5 עתידים
+            ['M','P','A'],  // 6 קופטאן
+            ['M','A','P'],  // 7 שש שנתי
         ];
 
         const labs = [
-            { name:'מעבדה 1', topic:'L', floor:'קומה 1' },
-            { name:'מעבדה 2', topic:'L', floor:'קומה 1' },
-            { name:'מעבדה 3', topic:'L', floor:'קומה 1' },
-            { name:'מעבדה 4', topic:'C', floor:'קומה 1' },
-            { name:'מעבדה 5', topic:'C', floor:'קומה 1' },
-            { name:'מעבדה 6', topic:'C', floor:'קומה 1' },
-            { name:'יחידה רפואית א\'', topic:'B', floor:'קומת קרקע' },
-            { name:'יחידה רפואית ב\'', topic:'B', floor:'קומה 1' },
-            { name:'מעבדת אלקטרוניקה', topic:'B', floor:'קומת קרקע' },
+            { name:'מעבדה 1',   topic:'P', instructors:['עפרי + ענת',    'עפרי + ענת',    'מנאל + זיינב'] },
+            { name:'מעבדה 2',   topic:'P', instructors:'יעל + עזריאל' },
+            { name:'מעבדה 6',   topic:'P', instructors:['לידור + אורטל', 'מרי + אורטל',   'לידור + אורטל'] },
+            { name:'מעבדה 3',   topic:'A', instructors:'סיוון + חיה' },
+            { name:'מעבדה 4',   topic:'A', instructors:['איציק + יעלה',  'מנאל + זיינב',  'אראל + אבי'] },
+            { name:'מעבדה 5',   topic:'A', instructors:'אראל + אבי' },
+            { name:'מחשבים 1',  topic:'M', instructors:['מרי + גילי',    'יעלה + גילי',   'יעלה + גילי'] },
+            { name:'מחשבים 2',  topic:'M', instructors:['מנאל + זיינב',  'מרי + איציק',   'איציק + ענת'] },
+            { name:'טכנולוגיה', topic:'M', instructors:'רוני + שי' },
         ];
 
-        const topicNames = {
-            L: '🫁 אור ונשימה',
-            C: '💖 קרדיולוגיה',
-            B: '🧠 המוח'
-        };
+        const topicNames   = { P:'ספר פרויקט', A:'אב-טיפוס', M:'שיווק ופרסום' };
+        const topicEmoji   = { P:'📖', A:'🛠️', M:'📣' };
+        const topicClasses = { P:'topic-proj', A:'topic-proto', M:'topic-mkt' };
 
-        const topicClasses = {
-            L: 'topic-lung',
-            C: 'topic-cardio',
-            B: 'topic-brain'
-        };
-
-        const museumTimes = [
-            ['10:00-10:15', '10:15-10:30', '10:30-10:45'],
-            ['10:50-11:05', '11:05-11:20', '11:20-11:35'],
-            ['11:40-11:55', '11:55-12:10', '12:10-12:25'],
-        ];
-
-        const musLabel = { L:'ריאות', C:'לב', B:'מוח' };
-
-        // בניית לוח הזמנים לכל קבוצה
-        function buildGroupSchedule() {
-            const schedule = groups.map(() => []);
-
+        // ===== Build lab grid (same logic as matrixDay2.html) =====
+        function buildGrid() {
+            const grid = [];
             for (let si = 0; si < 3; si++) {
-                const byTopic = { L:[], C:[], B:[] };
+                const byTopic = { P:[], A:[], M:[] };
                 rotation.forEach((row, gi) => byTopic[row[si]].push(gi));
-
-                byTopic.L.forEach((gi, i) => {
-                    schedule[gi][si] = { labIdx: i, topic: 'L', museumSub: i };
-                });
-                byTopic.C.forEach((gi, i) => {
-                    schedule[gi][si] = { labIdx: 3 + i, topic: 'C', museumSub: i };
-                });
-                byTopic.B.forEach((gi, i) => {
-                    schedule[gi][si] = { labIdx: 6 + i, topic: 'B', museumSub: i };
-                });
+                const row = new Array(9).fill(null);
+                byTopic.P.forEach((gi, i) => { row[i]   = { groupIdx: gi }; });
+                byTopic.A.forEach((gi, i) => { row[3+i] = { groupIdx: gi }; });
+                byTopic.M.forEach((gi, i) => { row[6+i] = { groupIdx: gi }; });
+                grid.push(row);
             }
-
-            return schedule;
+            return grid;
         }
 
-        const groupSchedule = buildGroupSchedule();
+        function applyKoptanConstraint(grid) {
+            const KOPTAN = 7;
+            for (let si = 0; si < 3; si++) {
+                const topic = rotation[KOPTAN][si];
+                let targetLabIdx = null;
+                if (topic === 'A') targetLabIdx = 4;
+                if (topic === 'P') targetLabIdx = 0;
+                if (targetLabIdx === null) continue;
+                let koptanLabIdx = grid[si].findIndex(c => c && c.groupIdx === KOPTAN);
+                if (koptanLabIdx !== targetLabIdx) {
+                    const tmp = grid[si][koptanLabIdx];
+                    grid[si][koptanLabIdx] = grid[si][targetLabIdx];
+                    grid[si][targetLabIdx] = tmp;
+                }
+            }
+            return grid;
+        }
 
+        const grid = applyKoptanConstraint(buildGrid());
+        const endOfDayOverrideByGroup = { 0:0, 1:1, 2:3, 3:4, 4:5, 5:2, 6:3, 7:5 };
+
+        function getGroupLabIdx(gi, si) {
+            return grid[si].findIndex(c => c && c.groupIdx === gi);
+        }
+
+        function getEndOfDayLabIdx(gi) {
+            const ovr = endOfDayOverrideByGroup[gi];
+            if (ovr !== undefined) return ovr;
+            return grid[0].findIndex(c => c && c.groupIdx === gi);
+        }
+
+        function getInstructor(labIdx, si) {
+            const lab = labs[labIdx];
+            return Array.isArray(lab.instructors) ? lab.instructors[si] : lab.instructors;
+        }
+
+        // ===== Student schedule =====
         function initializeApp() {
             const select = document.getElementById('groupSelect');
             const schedulesDiv = document.getElementById('schedules');
-
-            // מילוי הרשימה הנפתחת
             groups.forEach((group, index) => {
                 const option = document.createElement('option');
                 option.value = index;
-                option.textContent = group;
+                option.textContent = group + ' – ' + bracelets[index].name;
                 select.appendChild(option);
             });
-
-            // יצירת כל הלוחות
             groups.forEach((group, index) => {
-                const schedulePage = createSchedulePage(group, index);
-                schedulesDiv.appendChild(schedulePage);
+                schedulesDiv.appendChild(createSchedulePage(group, index));
             });
-
-            // מאזין לשינוי בחירה
-            select.addEventListener('change', function() {
-                showSchedule(this.value);
-            });
+            select.addEventListener('change', function() { showSchedule(this.value); });
         }
 
-        function createSchedulePage(groupName, groupIndex) {
+        function createSchedulePage(groupName, gi) {
             const page = document.createElement('div');
             page.className = 'schedule-page';
-            page.id = `schedule-${groupIndex}`;
+            page.id = 'schedule-' + gi;
 
-            const bracelet = bracelets[groupIndex];
-            const schedule = groupSchedule[groupIndex];
+            const bracelet = bracelets[gi];
+            const slotTimes = ['10:45 – 11:45', '11:45 – 12:45', '12:45 – 13:45'];
+            const slotNames = ["רצועה א'", "רצועה ב'", "רצועה ג'"];
 
-            // בניית שורות הלוז
-            let tableRows = '';
+            // Lab for הכרות = same as slot א'
+            const meetLabIdx = getGroupLabIdx(gi, 0);
+            const meetLab = labs[meetLabIdx];
 
-            // התאספות ונשנושים
-            tableRows += `
+            let tableRows = `
                 <tr>
-                    <td class="time-slot">09:00 - 09:30</td>
-                    <td class="common-activity">
-                        <div class="activity">
-                            <span class="activity-title">☕ התאספות ונשנושים</span>
-                            <span class="activity-location">בכניסה לאודיטוריום</span>
-                        </div>
-                    </td>
-                </tr>`;
-
-            // פתיחה
-            tableRows += `
+                    <td class="time-slot">09:00 – 09:45</td>
+                    <td class="common-activity"><div class="activity">
+                        <span class="activity-title">☕ הגעה, התאספות ונשנושים</span>
+                        <span class="activity-location">במבואה</span>
+                    </div></td>
+                </tr>
                 <tr>
-                    <td class="time-slot">09:30 - 10:00</td>
-                    <td class="common-activity">
-                        <div class="activity">
-                            <span class="activity-title">🎤 פתיחה</span>
-                            <span class="activity-location">באודיטוריום</span>
-                        </div>
-                    </td>
+                    <td class="time-slot">09:45 – 10:15</td>
+                    <td class="common-activity"><div class="activity">
+                        <span class="activity-title">🎉 פתיחה</span>
+                        <span class="activity-location">ברחבה החיצונית</span>
+                    </div></td>
+                </tr>
+                <tr>
+                    <td class="time-slot">10:15 – 10:45</td>
+                    <td class="common-activity"><div class="activity">
+                        <span class="activity-title">🤝 הכרות עם המנטורים</span>
+                        <span class="activity-location">${meetLab.name}</span>
+                    </div></td>
                 </tr>`;
-
-            // שלוש רצועות
-            const slotTimes = ['10:00 - 10:50', '10:50 - 11:40', '11:40 - 12:30'];
-            const slotNames = ['רצועה א\'', 'רצועה ב\'', 'רצועה ג\''];
 
             slotTimes.forEach((time, si) => {
-                const info = schedule[si];
-                const topic = info.topic;
-                const lab = labs[info.labIdx];
-                const labName = lab.name;
-                const labFloor = lab.floor ? ` (${lab.floor})` : '';
-                const musTime = museumTimes[si][info.museumSub];
-
+                const labIdx = getGroupLabIdx(gi, si);
+                const lab = labs[labIdx];
+                const instructor = getInstructor(labIdx, si);
                 tableRows += `
-                    <tr>
-                        <td class="time-slot">${time}<br><small>${slotNames[si]}</small></td>
-                        <td>
-                            <div class="activity">
-                                <span class="activity-title">${topicNames[topic]}</span>
-                                <span class="activity-location">${labName}${labFloor}</span>
-                                <span class="activity-topic ${topicClasses[topic]}">🏥 מוזיאון רפואה (${musLabel[topic]}): ${musTime}</span>
-                            </div>
-                        </td>
-                    </tr>`;
+                <tr>
+                    <td class="time-slot">${time}<br><small>${slotNames[si]}</small></td>
+                    <td><div class="activity">
+                        <span class="activity-title">${topicEmoji[lab.topic]} ${topicNames[lab.topic]}</span>
+                        <span class="activity-location">${lab.name}</span>
+                        <span class="activity-topic ${topicClasses[lab.topic]}">מדריכות: ${instructor}</span>
+                    </div></td>
+                </tr>`;
             });
 
-            // ארוחת צהריים
-            tableRows += `
-                <tr>
-                    <td class="time-slot">12:30 - 13:00</td>
-                    <td class="common-activity">
-                        <div class="activity">
-                            <span class="activity-title">🍽️ ארוחת צהריים קלה</span>
-                        </div>
-                    </td>
-                </tr>`;
-
-            // מעגלי חשיבה - אותה מעבדה כמו רצועה ראשונה
-            const circlesInfo = schedule[0];
-            const circlesLab = labs[circlesInfo.labIdx];
-            const circlesLabName = circlesLab.name;
-            const circlesFloor = circlesLab.floor ? ` (${circlesLab.floor})` : '';
+            const endLabIdx = getEndOfDayLabIdx(gi);
+            const endLab = labs[endLabIdx];
 
             tableRows += `
                 <tr>
-                    <td class="time-slot">13:00 - 14:15</td>
-                    <td>
-                        <div class="activity">
-                            <span class="activity-title">💭 מעגלי חשיבה</span>
-                            <span class="activity-location">${circlesLabName}${circlesFloor}</span>
-                            <span class="activity-topic topic-circles">פעילות סיכום</span>
-                        </div>
-                    </td>
-                </tr>`;
-
-            // סיכום היום
-            tableRows += `
+                    <td class="time-slot">13:45 – 14:30</td>
+                    <td class="common-activity"><div class="activity">
+                        <span class="activity-title">🥗 ארוחת צהריים</span>
+                        <span class="activity-location">במבואה</span>
+                    </div></td>
+                </tr>
                 <tr>
-                    <td class="time-slot">14:15 - 14:30</td>
-                    <td class="common-activity">
-                        <div class="activity">
-                            <span class="activity-title">✨ סיכום היום וצידה לדרך</span>
-                            <span class="activity-location">באודיטוריום</span>
-                        </div>
-                    </td>
+                    <td class="time-slot">14:30 – 15:30</td>
+                    <td><div class="activity">
+                        <span class="activity-title">🎯 סבב השלמות ודיוקים</span>
+                        <span class="activity-location">איסוף התוצרים ממוזיאון המדע אל ${endLab.name}</span>
+                    </div></td>
+                </tr>
+                <tr>
+                    <td class="time-slot">15:30 – 17:00</td>
+                    <td><div class="activity">
+                        <span class="activity-title">⭐ הצגה לפאנל המומחים</span>
+                        <span class="activity-location">${endLab.name}</span>
+                    </div></td>
+                </tr>
+                <tr>
+                    <td class="time-slot">17:00 – 18:00</td>
+                    <td class="common-activity"><div class="activity">
+                        <span class="activity-title">🏆 טקס סיכום והכרזה על המנצחות</span>
+                        <span class="activity-location">ברחבה החיצונית</span>
+                    </div></td>
                 </tr>`;
 
             page.innerHTML = `
@@ -773,90 +729,482 @@
                     <p>צריכות את לוח הזמנים בדיגיטל? סרקו!</p>
                     <img src="qr2.png" alt="QR Code ללוז דיגיטלי">
                 </div>
-
                 <div class="page-header">
-                    <h2>📚 לוח זמנים יומי</h2>
+                    <h2>📅 לוח זמנים – יום השיא</h2>
                     <div class="group-name">${groupName}</div>
                     <div class="bracelet-badge">
                         <span class="bracelet-dot" style="background: ${bracelet.color}"></span>
                         <span>צמיד ${bracelet.name}</span>
                     </div>
                 </div>
-
                 <table class="schedule-table">
-                    <thead>
-                        <tr>
-                            <th>שעות</th>
-                            <th>פעילויות</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${tableRows}
-                    </tbody>
-                </table>
-
-                <div class="print-note" style="margin-top: 15px; text-align: center; color: #666; font-size: 12px;">
-                    <p>👣 לא מוצאות את המעבדה? חפשו את כפות הרגליים על הרצפה, הן יעזרו לכן למצוא את היעד</p>
-                </div>
-
-                <div class="print-qr-section" style="margin-top: 12px; text-align: center; padding: 12px; background: #fff5f5; border: 2px solid #e53e3e; border-radius: 10px;">
-                    <p style="color: #c53030; font-weight: 800; font-size: 14px; margin-bottom: 10px;">
-                        ⚠️ יש לענות על השאלון הבא לפני שמתחילים את הפעילות
-                    </p>
-                    <img src="qrForm.png" alt="QR Code לשאלון" style="max-width: 120px; height: auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.12);">
-                </div>
-            `;
+                    <thead><tr><th>שעות</th><th>פעילויות</th></tr></thead>
+                    <tbody>${tableRows}</tbody>
+                </table>`;
 
             return page;
         }
 
         function showSchedule(index) {
-            // הסתרת כל הלוחות
-            document.querySelectorAll('.schedule-page').forEach(page => {
-                page.classList.remove('active');
-            });
-
-            // הצגת הלוח הנבחר
-            if (index !== '') {
-                document.getElementById(`schedule-${index}`).classList.add('active');
-            }
+            document.querySelectorAll('.schedule-page').forEach(p => p.classList.remove('active'));
+            if (index !== '') document.getElementById('schedule-' + index).classList.add('active');
         }
 
         function printCurrent() {
             const select = document.getElementById('groupSelect');
-            if (select.value === '') {
-                alert('אנא בחרי בית ספר קודם');
-                return;
-            }
-
-            // The active class already shows the right page
-            // Just print directly
+            if (select.value === '') { alert('אנא בחרי קבוצה קודם'); return; }
             window.print();
         }
 
         function printAll() {
             const currentValue = document.getElementById('groupSelect').value;
-
-            // Temporarily show all pages for printing
-            document.querySelectorAll('.schedule-page').forEach(page => {
-                page.classList.add('active');
-            });
-
+            document.querySelectorAll('.schedule-page').forEach(p => p.classList.add('active'));
             window.print();
-
-            // Restore after print - show only the previously selected page
             setTimeout(() => {
-                document.querySelectorAll('.schedule-page').forEach(page => {
-                    page.classList.remove('active');
-                });
-                if (currentValue !== '') {
-                    document.getElementById(`schedule-${currentValue}`).classList.add('active');
-                }
+                document.querySelectorAll('.schedule-page').forEach(p => p.classList.remove('active'));
+                if (currentValue !== '') document.getElementById('schedule-' + currentValue).classList.add('active');
             }, 100);
         }
 
-        // אתחול האפליקציה
         document.addEventListener('DOMContentLoaded', initializeApp);
+
+        // Populated by Firebase module
+        var mentorItems = [];
+        var judgeItems  = [];
+
+        // For mentor group lookup
+        var groupSchoolMapping = [
+            [{ school: 'אולפנת חריש',      teams: null }, { school: 'אתגרי העתיד חריש', teams: null }],
+            [{ school: 'הרב תחומי',         teams: null }, { school: 'מאיר שפיה',         teams: null }],
+            [{ school: 'מבשרת חדרה',        teams: null }],
+            [{ school: 'נבון חדרה',          teams: [1,2,3,4] }],
+            [{ school: 'נבון חדרה',          teams: [5,6,7,8] }],
+            [{ school: 'עתידים אור עקיבא',  teams: null }],
+            [{ school: 'קופטאן דליה',        teams: null }],
+            [{ school: 'שש שנתי ישי',        teams: null }],
+        ];
+
+        function findMentorGroup(mentorName, teamsData) {
+            for (var gi = 0; gi < groupSchoolMapping.length; gi++) {
+                for (var si = 0; si < groupSchoolMapping[gi].length; si++) {
+                    var school = groupSchoolMapping[gi][si].school;
+                    var teams  = groupSchoolMapping[gi][si].teams;
+                    var schoolData = teamsData[school];
+                    if (!schoolData) continue;
+                    for (var teamName in schoolData) {
+                        var teamData = schoolData[teamName];
+                        if (!teamData || !teamData.assignedMentors) continue;
+                        if (teams) {
+                            var n = parseInt(teamName.replace(/\D/g, ''));
+                            if (teams.indexOf(n) === -1) continue;
+                        }
+                        for (var key in teamData.assignedMentors) {
+                            var asgn = teamData.assignedMentors[key];
+                            if (asgn.mentors && asgn.mentors.some(function(m) { return m.name === mentorName; })) {
+                                var students = Array.isArray(teamData.students)
+                                    ? teamData.students : Object.values(teamData.students || {});
+                                var leader = students.length > 0 ? students[0].split(' ')[0] : '—';
+                                return {
+                                    gi: gi, groupName: groups[gi], bracelet: bracelets[gi],
+                                    school: school, teamName: teamName, leader: leader
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        function initMentorSelector() { populateMentorList(''); }
+
+        function populateMentorList(filter) {
+            var select = document.getElementById('mentorSelect');
+            var lower = filter.trim().toLowerCase();
+            select.innerHTML = '';
+            mentorItems.forEach(function(item, i) {
+                if (lower && item.label.toLowerCase().indexOf(lower) === -1) return;
+                var opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = item.label;
+                select.appendChild(opt);
+            });
+        }
+
+        function filterMentors(val) {
+            var prev = document.getElementById('mentorSelect').value;
+            populateMentorList(val);
+            var select = document.getElementById('mentorSelect');
+            for (var i = 0; i < select.options.length; i++) {
+                if (select.options[i].value === prev) { select.value = prev; break; }
+            }
+        }
+
+        function initJudgeSelector() {
+            var select = document.getElementById('judgeSelect');
+            select.innerHTML = '<option value="">-- בחרי שם --</option>';
+            judgeItems.forEach(function(item, i) {
+                var opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = item.label;
+                select.appendChild(opt);
+            });
+        }
+
+        function showMentorSchedule(idx) {
+            var container = document.getElementById('mentor-schedule-page');
+            if (idx === '') { container.innerHTML = ''; return; }
+            var item = mentorItems[parseInt(idx)];
+            var nameDisplay = item.isPair
+                ? '<div class="group-name">' + item.names[0] + '</div><div class="group-name" style="font-size:1.1rem;margin-top:4px;">&amp; ' + item.names[1] + '</div>'
+                : '<div class="group-name">' + item.names[0] + '</div>';
+            var groupData = null;
+            if (window.teamsData) {
+                groupData = findMentorGroup(item.names[0], window.teamsData);
+                if (!groupData && item.isPair) groupData = findMentorGroup(item.names[1], window.teamsData);
+            }
+            container.innerHTML = buildMentorScheduleHTML(nameDisplay, item.org, groupData);
+        }
+
+        function buildMentorScheduleHTML(nameDisplay, org, groupData) {
+            var slotTimes = ['10:45 – 11:45', '11:45 – 12:45', '12:45 – 13:45'];
+            var slotNames = ["רצועה א'", "רצועה ב'", "רצועה ג'"];
+            var groupBadge = '';
+            var meetRow    = '';
+            var slotRows   = '';
+            var endRows    = '';
+
+            if (groupData) {
+                var gi = groupData.gi;
+                var b  = groupData.bracelet;
+                groupBadge = '<div class="bracelet-badge" style="margin-top:8px;">' +
+                    '<span class="bracelet-dot" style="background:' + b.color + '"></span>' +
+                    '<span>בית ספר ' + groupData.school + ' ' + groupData.teamName + ' – ' + groupData.leader + ' (צמיד ' + b.name + ')</span></div>';
+
+                var meetLabIdx = getGroupLabIdx(gi, 0);
+                var meetLab = labs[meetLabIdx];
+                meetRow = '<tr><td class="time-slot">10:15 – 10:45</td>' +
+                    '<td class="common-activity"><div class="activity">' +
+                    '<span class="activity-title">🤝 הכרות עם הקבוצה שלך</span>' +
+                    '<span class="activity-location">' + meetLab.name + '</span>' +
+                    '</div></td></tr>';
+
+                for (var sIdx = 0; sIdx < 3; sIdx++) {
+                    var labIdx = getGroupLabIdx(gi, sIdx);
+                    var lab = labs[labIdx];
+                    var instructor = getInstructor(labIdx, sIdx);
+                    slotRows += '<tr><td class="time-slot">' + slotTimes[sIdx] + '<br><small>' + slotNames[sIdx] + '</small></td>' +
+                        '<td><div class="activity">' +
+                        '<span class="activity-title">🔬 ליווי קבוצה – ' + slotNames[sIdx] + '</span>' +
+                        '<span class="activity-location">' + lab.name + ' (' + topicEmoji[lab.topic] + ' ' + topicNames[lab.topic] + ')</span>' +
+                        '<span class="activity-topic topic-circles">מדריכות: ' + instructor + '</span>' +
+                        '</div></td></tr>';
+                }
+
+                var endLabIdx = getEndOfDayLabIdx(gi);
+                var endLab = labs[endLabIdx];
+                endRows =
+                    '<tr><td class="time-slot">14:30 – 15:30</td><td><div class="activity">' +
+                    '<span class="activity-title">🎯 ליווי קבוצה – סבב השלמות</span>' +
+                    '<span class="activity-location">' + endLab.name + '</span>' +
+                    '</div></td></tr>' +
+                    '<tr><td class="time-slot">15:30 – 17:00</td><td><div class="activity">' +
+                    '<span class="activity-title">⭐ הצגה לפאנל – ליווי קבוצה</span>' +
+                    '<span class="activity-location">' + endLab.name + '</span>' +
+                    '</div></td></tr>';
+            } else {
+                meetRow = '<tr><td class="time-slot">10:15 – 10:45</td>' +
+                    '<td class="common-activity"><div class="activity">' +
+                    '<span class="activity-title">🤝 הכרות עם הקבוצה שלך</span>' +
+                    '</div></td></tr>';
+                for (var sIdx = 0; sIdx < 3; sIdx++) {
+                    slotRows += '<tr><td class="time-slot">' + slotTimes[sIdx] + '<br><small>' + slotNames[sIdx] + '</small></td>' +
+                        '<td><div class="activity">' +
+                        '<span class="activity-title">🔬 ליווי קבוצת תלמידות – ' + slotNames[sIdx] + '</span>' +
+                        '<span class="activity-location">המעבדה של הקבוצה שלך</span>' +
+                        '</div></td></tr>';
+                }
+                endRows =
+                    '<tr><td class="time-slot">14:30 – 15:30</td><td><div class="activity">' +
+                    '<span class="activity-title">🎯 ליווי קבוצה – סבב השלמות</span>' +
+                    '<span class="activity-location">המעבדה של הקבוצה שלך</span>' +
+                    '</div></td></tr>' +
+                    '<tr><td class="time-slot">15:30 – 17:00</td><td><div class="activity">' +
+                    '<span class="activity-title">⭐ הצגה לפאנל – ליווי קבוצה</span>' +
+                    '</div></td></tr>';
+            }
+
+            return '<div class="static-schedule" id="mentor-print-area">' +
+                '<div class="digital-qr"><p>לוז דיגיטלי – סרקו!</p><img src="qr2.png" alt="QR Code"></div>' +
+                '<div class="page-header">' +
+                    '<h2>📅 לוח זמנים – יום השיא</h2>' +
+                    nameDisplay +
+                    '<div class="role-badge">👩‍🏫 מנטורית • ' + org + '</div>' +
+                    groupBadge +
+                '</div>' +
+                '<div class="info-box"><strong>תפקיד המנטורית:</strong> ליווי קבוצת תלמידות לאורך כל היום – הכרת הקבוצה, עידוד, מענה על שאלות ותמיכה.</div>' +
+                '<table class="schedule-table"><thead><tr><th>שעות</th><th>פעילויות</th></tr></thead><tbody>' +
+                '<tr><td class="time-slot">09:00 – 09:45</td><td class="common-activity"><div class="activity"><span class="activity-title">☕ הגעה, התאספות ונשנושים</span><span class="activity-location">במבואה</span></div></td></tr>' +
+                '<tr><td class="time-slot">09:45 – 10:15</td><td class="common-activity"><div class="activity"><span class="activity-title">🎉 טקס פתיחה</span><span class="activity-location">ברחבה החיצונית</span></div></td></tr>' +
+                meetRow +
+                slotRows +
+                '<tr><td class="time-slot">13:45 – 14:30</td><td class="common-activity"><div class="activity"><span class="activity-title">🥗 ארוחת צהריים</span><span class="activity-location">במבואה</span></div></td></tr>' +
+                endRows +
+                '<tr><td class="time-slot">17:00 – 18:00</td><td class="common-activity"><div class="activity"><span class="activity-title">🏆 טקס סיכום והכרזה על המנצחות</span><span class="activity-location">ברחבה החיצונית</span></div></td></tr>' +
+                '</tbody></table></div>';
+        }
+
+        var judgeLabs = ['מעבדה 1', 'מעבדה 2', 'מעבדה 3', 'מעבדה 4', 'מעבדה 5', 'מעבדה 6'];
+
+        function getJudgeTeamsList(judgeIdx) {
+            if (!window.teamsData) return [];
+            var lab = judgeLabs[judgeIdx];
+            // Find labIdx in labs array
+            var labIdx = -1;
+            for (var i = 0; i < labs.length; i++) {
+                if (labs[i].name === lab) { labIdx = i; break; }
+            }
+            if (labIdx === -1) return [];
+            // Find which groups present at this lab
+            var result = [];
+            for (var gi = 0; gi < groups.length; gi++) {
+                if (getEndOfDayLabIdx(gi) !== labIdx) continue;
+                for (var si = 0; si < groupSchoolMapping[gi].length; si++) {
+                    var school = groupSchoolMapping[gi][si].school;
+                    var teams  = groupSchoolMapping[gi][si].teams;
+                    var schoolData = window.teamsData[school];
+                    if (!schoolData) continue;
+                    var entries = Object.entries(schoolData)
+                        .filter(function(e) {
+                            if (!teams) return true;
+                            return teams.indexOf(parseInt(e[0].replace(/\D/g, ''))) !== -1;
+                        })
+                        .sort(function(a, b) {
+                            return parseInt(a[0].replace(/\D/g,'')) - parseInt(b[0].replace(/\D/g,''));
+                        });
+                    entries.forEach(function(e) {
+                        var teamData = e[1];
+                        if (!teamData || typeof teamData !== 'object') return;
+                        var students = Array.isArray(teamData.students)
+                            ? teamData.students : Object.values(teamData.students || {});
+                        var leader = students.length > 0 ? students[0].split(' ')[0] : '—';
+                        result.push({ school: school, teamName: e[0], leader: leader });
+                    });
+                }
+            }
+            return result;
+        }
+
+        function toggleJudged(judgeIdx, teamIdx) {
+            var key = 'judged_' + judgeIdx + '_' + teamIdx;
+            var row = document.getElementById('tcr-' + judgeIdx + '-' + teamIdx);
+            if (!row) return;
+            var btn  = row.querySelector('.team-check-btn');
+            var isJudged = localStorage.getItem(key) === '1';
+            if (isJudged) {
+                localStorage.removeItem(key);
+                row.classList.remove('judged');
+                btn.textContent = '';
+                var lbl = row.querySelector('.judged-label');
+                if (lbl) lbl.remove();
+            } else {
+                localStorage.setItem(key, '1');
+                row.classList.add('judged');
+                btn.textContent = '✓';
+                if (!row.querySelector('.judged-label')) {
+                    var lbl = document.createElement('span');
+                    lbl.className   = 'judged-label';
+                    lbl.textContent = 'נשפטו ✓';
+                    row.appendChild(lbl);
+                }
+            }
+        }
+
+        function showJudgeSchedule(idx) {
+            var container = document.getElementById('judge-schedule-page');
+            if (idx === '') { container.innerHTML = ''; return; }
+            var i = parseInt(idx);
+            container.innerHTML = buildJudgeScheduleHTML(judgeItems[i], i);
+        }
+
+        function buildJudgeScheduleHTML(item, judgeIdx) {
+            var lab = judgeLabs[judgeIdx] || 'מעבדה ' + (judgeIdx + 1);
+
+            // Build teams checklist with time slots
+            var teamsList = getJudgeTeamsList(judgeIdx);
+            var teamsHtml = '';
+            if (teamsList.length > 0) {
+                var startMin = 15 * 60 + 30; // 15:30
+                var endMin   = 17 * 60;       // 17:00
+                var perTeam  = Math.floor((endMin - startMin) / teamsList.length);
+
+                teamsHtml = '<div class="teams-checklist-container">' +
+                    '<div class="checklist-title">📋 קבוצות לשיפוט ב' + lab + ' (15:30 – 17:00):</div>' +
+                    '<div class="teams-checklist">';
+
+                teamsList.forEach(function(t, idx) {
+                    var sMin = startMin + idx * perTeam;
+                    var eMin = sMin + perTeam;
+                    var sFmt = Math.floor(sMin / 60) + ':' + String(sMin % 60).padStart(2, '0');
+                    var eFmt = Math.floor(eMin / 60) + ':' + String(eMin % 60).padStart(2, '0');
+                    var key  = 'judged_' + judgeIdx + '_' + idx;
+                    var isJudged = false;
+                    try { isJudged = localStorage.getItem(key) === '1'; } catch(e) {}
+
+                    teamsHtml += '<div class="team-check-row' + (isJudged ? ' judged' : '') +
+                        '" id="tcr-' + judgeIdx + '-' + idx + '">' +
+                        '<span class="team-time-badge">' + sFmt + ' – ' + eFmt + '</span>' +
+                        '<button class="team-check-btn" onclick="toggleJudged(' + judgeIdx + ',' + idx + ')" title="סמן כנשפטו">' +
+                        (isJudged ? '✓' : '') + '</button>' +
+                        '<span class="team-info">' + t.school + ' – ' + t.teamName + ' – ' + t.leader + '</span>' +
+                        (isJudged ? '<span class="judged-label">נשפטו ✓</span>' : '') +
+                        '</div>';
+                });
+
+                teamsHtml += '</div></div>';
+            }
+
+            return '<div class="static-schedule judge-static" id="judge-print-area">' +
+                '<div class="digital-qr"><p>לוז דיגיטלי – סרקו!</p><img src="qr2.png" alt="QR Code"></div>' +
+                '<div class="page-header">' +
+                    '<h2>📅 לוח זמנים – יום השיא</h2>' +
+                    '<div class="group-name">' + item.judge1 + ' &amp; ' + item.judge2 + '</div>' +
+                    '<div class="role-badge">⚖️ שופטים מומחים</div>' +
+                '</div>' +
+                '<div class="info-box">' +
+                    '<strong>' + item.judge1 + '</strong> — ' + item.role1 + '<br>' +
+                    '<strong>' + item.judge2 + '</strong> — ' + item.role2 + '<br><br>' +
+                    '👤 <strong>מלווה מאסטרהזניקה:</strong> ' + item.escort +
+                '</div>' +
+                '<table class="schedule-table"><thead><tr><th>שעות</th><th>פעילויות</th></tr></thead><tbody>' +
+                '<tr><td class="time-slot">14:30 – 15:30</td><td class="common-activity"><div class="activity"><span class="activity-title">☕ התכנסות בחדר הישיבות</span><span class="activity-location">קבלת הסבר על תהליך השיפוט</span></div></td></tr>' +
+                '<tr><td class="time-slot">15:30 – 17:00</td><td><div class="activity"><span class="activity-title">⚖️ שיפוט הקבוצות</span><span class="activity-location"><strong style="font-size:1.2em; color:#1a1a2e;">' + lab + '</strong></span><span class="activity-topic topic-mkt">הקבוצות מציגות את פרויקטן בפניכם</span></div></td></tr>' +
+                '<tr><td class="time-slot">17:00 – 18:00</td><td class="common-activity"><div class="activity"><span class="activity-title">🏆 טקס סיכום והכרזה על המנצחות</span><span class="activity-location">ברחבה החיצונית</span></div></td></tr>' +
+                '</tbody></table>' +
+                teamsHtml +
+                '</div>';
+        }
+
+        function printMentorSchedule() {
+            if (!document.getElementById('mentor-print-area')) { alert('אנא בחרי מנטורית קודם'); return; }
+            window.print();
+        }
+
+        function printAllMentors() {
+            if (!window.mentorItems || mentorItems.length === 0) { alert('המנטורות עוד לא טענו, נסי שוב בעוד שנייה'); return; }
+            var area = document.getElementById('print-all-area');
+            area.innerHTML = '';
+            mentorItems.forEach(function(item) {
+                var nameDisplay = item.isPair
+                    ? '<div class="group-name">' + item.names[0] + '</div><div class="group-name" style="font-size:1.1rem;margin-top:4px;">&amp; ' + item.names[1] + '</div>'
+                    : '<div class="group-name">' + item.names[0] + '</div>';
+                var groupData = null;
+                if (window.teamsData) {
+                    groupData = findMentorGroup(item.names[0], window.teamsData);
+                    if (!groupData && item.isPair) groupData = findMentorGroup(item.names[1], window.teamsData);
+                }
+                area.innerHTML += buildMentorScheduleHTML(nameDisplay, item.org, groupData);
+            });
+            document.body.classList.add('print-all-mode');
+            window.print();
+            document.body.classList.remove('print-all-mode');
+            area.innerHTML = '';
+        }
+
+        function printJudgeSchedule() {
+            if (!document.getElementById('judge-print-area')) { alert('אנא בחרי שופט/ת קודם'); return; }
+            window.print();
+        }
+
+        function printAllJudges() {
+            if (!window.judgeItems || judgeItems.length === 0) { alert('השופטים עוד לא טענו, נסי שוב בעוד שנייה'); return; }
+            var area = document.getElementById('print-all-area');
+            area.innerHTML = '';
+            judgeItems.forEach(function(item, i) {
+                area.innerHTML += buildJudgeScheduleHTML(item, i);
+            });
+            document.body.classList.add('print-all-mode');
+            window.print();
+            document.body.classList.remove('print-all-mode');
+            area.innerHTML = '';
+        }
+    </script>
+
+    <!-- ===== Firebase: load mentor, judge & teams data ===== -->
+    <script type="module">
+        import { initializeApp }           from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getDatabase, ref, get }   from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQdei2zVCXkYh99pLPzr_ZMyi8ohupVhY",
+            authDomain: "forever-4a04b.firebaseapp.com",
+            databaseURL: "https://forever-4a04b-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "forever-4a04b",
+            storageBucket: "forever-4a04b.firebasestorage.app",
+            messagingSenderId: "250928700713",
+            appId: "1:250928700713:web:25d6979fca637b90d42b38"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db  = getDatabase(app);
+
+        function toArray(val) {
+            if (!val) return [];
+            return Array.isArray(val) ? val : Object.values(val);
+        }
+
+        async function loadMentors() {
+            const snap = await get(ref(db, 'mentors'));
+            const mentors = toArray(snap.val());
+            const seen  = {};
+            const items = [];
+            mentors.forEach(function(m) {
+                if (!m || !m.name || seen[m.name]) return;
+                seen[m.name] = true;
+                if (m.pair) {
+                    seen[m.pair] = true;
+                    items.push({ label: m.name + ' ו-' + m.pair, names: [m.name, m.pair], org: m.org || '', isPair: true });
+                } else {
+                    items.push({ label: m.name, names: [m.name], org: m.org || '', isPair: false });
+                }
+            });
+            items.sort(function(a, b) { return a.label.localeCompare(b.label, 'he'); });
+            window.mentorItems = items;
+            window.initMentorSelector();
+        }
+
+        async function loadTeams() {
+            const snap = await get(ref(db, 'teams'));
+            window.teamsData = snap.val() || {};
+        }
+
+        async function loadJudges() {
+            const [judgesSnap, assignSnap] = await Promise.all([
+                get(ref(db, 'judges')),
+                get(ref(db, 'judgeAssignments'))
+            ]);
+            const judges      = toArray(judgesSnap.val());
+            const assignments = toArray(assignSnap.val());
+            const roleMap = {};
+            judges.forEach(function(j) { if (j && j.name) roleMap[j.name] = j.role || ''; });
+            const items = assignments
+                .filter(Boolean)
+                .map(function(a) {
+                    return {
+                        label:   a.judge1 + ' ו-' + a.judge2,
+                        judge1:  a.judge1,  role1: roleMap[a.judge1] || '',
+                        judge2:  a.judge2,  role2: roleMap[a.judge2] || '',
+                        escort:  a.escort  || ''
+                    };
+                });
+            items.sort(function(a, b) { return a.label.localeCompare(b.label, 'he'); });
+            window.judgeItems = items;
+            window.initJudgeSelector();
+        }
+
+        Promise.all([loadMentors(), loadTeams(), loadJudges()]).catch(function(err) {
+            console.error('Firebase load error:', err);
+        });
     </script>
 </body>
 </html>

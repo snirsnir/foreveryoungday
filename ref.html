@@ -7,11 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap');
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Heebo', sans-serif;
@@ -25,9 +21,7 @@
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 250px;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23f9d77e" fill-opacity="0.3" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,101.3C1248,85,1344,75,1392,69.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat top center;
             background-size: cover;
@@ -37,9 +31,7 @@
         body::after {
             content: '';
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             height: 300px;
             background: #7B1E7A;
             z-index: -2;
@@ -57,14 +49,8 @@
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .form-header {
@@ -78,31 +64,14 @@
         .form-header::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="30" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="70" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="80" r="2.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>');
         }
 
-        .form-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
+        .form-title   { font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; position: relative; z-index: 1; }
+        .form-subtitle { font-size: 1.1rem; opacity: 0.9; position: relative; z-index: 1; }
 
-        .form-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        .form-content {
-            padding: 40px 30px;
-        }
+        .form-content { padding: 40px 30px; }
 
         .form-group {
             margin-bottom: 35px;
@@ -117,12 +86,9 @@
         .form-group:nth-child(5) { animation-delay: 0.5s; }
         .form-group:nth-child(6) { animation-delay: 0.6s; }
         .form-group:nth-child(7) { animation-delay: 0.7s; }
+        .form-group:nth-child(8) { animation-delay: 0.8s; }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
+        @keyframes fadeIn { to { opacity: 1; } }
 
         .form-label {
             display: block;
@@ -130,13 +96,9 @@
             font-weight: 600;
             color: #333;
             margin-bottom: 15px;
-            position: relative;
         }
 
-        .required {
-            color: #e91e63;
-            margin-right: 5px;
-        }
+        .required { color: #e91e63; margin-right: 5px; }
 
         .form-select, .form-input {
             width: 100%;
@@ -152,100 +114,105 @@
         .form-select:focus, .form-input:focus {
             outline: none;
             border-color: #7B1E7A;
-            box-shadow: 0 0 0 3px rgba(123, 30, 122, 0.1);
+            box-shadow: 0 0 0 3px rgba(123,30,122,0.1);
             transform: translateY(-2px);
         }
 
-        .form-select:hover, .form-input:hover {
-            border-color: #9B4D9A;
+        .form-select:hover, .form-input:hover { border-color: #9B4D9A; }
+
+        /* ===== Instructor row ===== */
+        .instructor-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
+        .instructor-row .form-select { flex: 1; }
+
+        .instructor-separator {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #7B1E7A;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* ===== Star rating ===== */
         .rating-container {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
+            gap: 6px;
             margin-top: 15px;
+            justify-content: center;
+            direction: rtl;
         }
 
-        .rating-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .star {
+            font-size: 38px;
+            color: #ddd;
             cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 8px;
-            border-radius: 12px;
-            min-width: 45px;
+            transition: color 0.15s ease, transform 0.15s ease;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.08));
+            user-select: none;
+            line-height: 1;
         }
 
-        .rating-item:hover {
-            background: rgba(123, 30, 122, 0.1);
-            transform: translateY(-3px);
+        .star.active {
+            color: #ffd700;
+            filter: drop-shadow(0 3px 6px rgba(255,215,0,0.45));
         }
 
-        .rating-number {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 8px;
+        .star.hover {
+            transform: scale(1.15);
         }
 
-        .rating-star {
-            width: 35px;
-            height: 35px;
+        /* ===== Phrases list ===== */
+        .phrases-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .phrase-item { display: flex; gap: 8px; align-items: center; }
+
+        .phrase-item .form-input {
+            flex: 1;
+            padding: 10px 15px;
+            font-size: 0.95rem;
+        }
+
+        .phrase-remove {
+            background: none;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: #999;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            position: relative;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .phrase-remove:hover { border-color: #e91e63; color: #e91e63; }
+
+        .phrase-add-btn {
+            margin-top: 10px;
+            background: none;
+            border: 2px dashed #9B4D9A;
+            color: #9B4D9A;
+            padding: 10px 20px;
+            border-radius: 10px;
             cursor: pointer;
+            font-size: 0.95rem;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.2s;
+            width: 100%;
         }
 
-        .star-icon {
-            font-size: 28px;
-            color: #ddd;
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
+        .phrase-add-btn:hover { background: #f3e5f3; border-style: solid; }
 
-        .rating-item input[type="radio"] {
-            display: none;
-        }
-
-        .rating-item input[type="radio"]:checked + .rating-star .star-icon {
-            color: #ffd700;
-            transform: scale(1.2);
-            filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.4));
-            animation: starGlow 0.5s ease-out;
-        }
-
-        @keyframes starGlow {
-            0% {
-                transform: scale(1);
-                filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-            }
-            50% {
-                transform: scale(1.3);
-                filter: drop-shadow(0 6px 12px rgba(255, 215, 0, 0.6));
-            }
-            100% {
-                transform: scale(1.2);
-                filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.4));
-            }
-        }
-
-        .rating-item input[type="radio"]:checked ~ .rating-number {
-            color: #ffd700;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
-        }
-
-        .rating-item:hover .star-icon {
-            color: #ffeb3b;
-            transform: scale(1.1);
-        }
-
+        /* ===== Submit ===== */
         .submit-container {
             text-align: center;
             margin-top: 40px;
@@ -263,7 +230,7 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(123, 30, 122, 0.3);
+            box-shadow: 0 8px 25px rgba(123,30,122,0.3);
             position: relative;
             overflow: hidden;
         }
@@ -271,32 +238,16 @@
         .submit-btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.5s;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(123, 30, 122, 0.4);
-        }
-
-        .submit-btn:hover::before {
-            left: 100%;
-        }
-
-        .submit-btn:active {
-            transform: translateY(-1px);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(123,30,122,0.4); }
+        .submit-btn:hover::before { left: 100%; }
+        .submit-btn:active { transform: translateY(-1px); }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
         .clear-btn {
             background: transparent;
@@ -310,64 +261,9 @@
             margin-left: 15px;
         }
 
-        .clear-btn:hover {
-            border-color: #7B1E7A;
-            color: #7B1E7A;
-            transform: translateY(-2px);
-        }
+        .clear-btn:hover { border-color: #7B1E7A; color: #7B1E7A; transform: translateY(-2px); }
 
-        .form-note {
-            text-align: center;
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        @media print {
-            body::before,
-            body::after {
-                display: none;
-            }
-
-            .logos-container {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .form-container {
-                margin: 10px;
-                border-radius: 15px;
-            }
-
-            .form-header {
-                padding: 30px 20px;
-            }
-
-            .form-title {
-                font-size: 1.8rem;
-            }
-
-            .form-content {
-                padding: 30px 20px;
-            }
-
-            .rating-container {
-                gap: 8px;
-            }
-
-            .rating-star {
-                width: 30px;
-                height: 30px;
-            }
-
-            .star-icon {
-                font-size: 24px;
-            }
-        }
+        .form-note { text-align: center; color: #666; font-size: 0.9rem; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; }
 
         .success-message {
             display: none;
@@ -382,43 +278,25 @@
         }
 
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .error-message {
-            color: #e91e63;
-            font-size: 0.9rem;
-            margin-top: 5px;
-            display: none;
-        }
+        .error-message { color: #e91e63; font-size: 0.9rem; margin-top: 8px; display: none; }
 
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
+        .loading { display: none; text-align: center; padding: 20px; }
 
         .spinner {
             border: 3px solid #f3f3f3;
             border-top: 3px solid #7B1E7A;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 30px; height: 30px;
             animation: spin 1s linear infinite;
             margin: 0 auto 15px;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         .logos-container {
             display: flex;
             justify-content: center;
@@ -427,37 +305,47 @@
             padding: 20px;
             background: white;
             flex-wrap: wrap;
-            margin-bottom: 20px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             max-width: 800px;
             margin: 0 auto 20px auto;
         }
 
-        .logo-item {
-            height: 80px;
+        .logo-item { height: 80px; display: flex; align-items: center; }
+        .logo-item img { height: 100%; width: auto; object-fit: contain; }
+
+        .rating-label {
+            font-size: 0.82rem;
+            color: #888;
+            text-align: center;
+            margin-top: 6px;
+            direction: ltr;
             display: flex;
-            align-items: center;
+            justify-content: space-between;
+            padding: 0 4px;
         }
 
-        .logo-item img {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
+        @media (max-width: 768px) {
+            .form-container { margin: 10px; border-radius: 15px; }
+            .form-header { padding: 30px 20px; }
+            .form-title { font-size: 1.8rem; }
+            .form-content { padding: 30px 20px; }
+            .star { font-size: 30px; }
+            .instructor-row { flex-direction: column; align-items: stretch; }
+            .instructor-separator { text-align: center; }
+        }
+
+        @media print {
+            body::before, body::after { display: none; }
+            .logos-container { display: none; }
         }
     </style>
 </head>
 <body>
     <div class="logos-container">
-        <div class="logo-item">
-            <img src="logot.png" alt="טכנולוג">
-        </div>
-        <div class="logo-item">
-            <img src="logoastra.png" alt="AstraZeneca">
-        </div>
-        <div class="logo-item">
-            <img src="logonashim.png" alt="נשים מובילות מדע">
-        </div>
+        <div class="logo-item"><img src="logot.png" alt="טכנולוג"></div>
+        <div class="logo-item"><img src="logoastra.png" alt="AstraZeneca"></div>
+        <div class="logo-item"><img src="logonashim.png" alt="נשים מובילות מדע"></div>
     </div>
 
     <div class="form-container">
@@ -465,400 +353,134 @@
             <h1 class="form-title">מחוון ניקוד בסדנאות</h1>
             <p class="form-subtitle">נשים מובילות מדע • Forever Young</p>
         </div>
-        
+
         <div class="form-content">
             <form id="ratingForm">
+
+                <!-- ① שמות המדריכים -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="required">*</span>שמות המדריכים
+                    </label>
+                    <div class="instructor-row">
+                        <select class="form-select" id="instructor1" name="instructor1" required>
+                            <option value="">בחר/י שם ראשון</option>
+                        </select>
+                        <span class="instructor-separator">ו</span>
+                        <select class="form-select" id="instructor2" name="instructor2">
+                            <option value="">בחר/י שם שני</option>
+                        </select>
+                    </div>
+                    <div class="error-message" id="instructor1-error">נא לבחור שם מדריך/ה</div>
+                </div>
+
+                <!-- ② שם הסדנה -->
                 <div class="form-group">
                     <label class="form-label" for="workshop">
                         <span class="required">*</span>שם הסדנה
                     </label>
                     <select class="form-select" id="workshop" name="workshop" required>
                         <option value="">בחירה</option>
-                        <option value="מייקרס - בניית אב-טיפוס">מייקרס - בניית אב-טיפוס</option>
-                        <option value="ספר פרויקט - המצאפדיה">ספר פרויקט - המצאפדיה</option>
-                        <option value="שיווק ההמצאה">שיווק ההמצאה</option>
+                        <option value="סדנת אב-טיפוס">סדנת אב-טיפוס</option>
+                        <option value="ספר פרויקט">ספר פרויקט</option>
+                        <option value="שיווק ופרסום (מחשבים)">שיווק ופרסום (מחשבים)</option>
                     </select>
                     <div class="error-message" id="workshop-error">נא לבחור סדנה</div>
                 </div>
 
+                <!-- ③ שם בית ספר -->
+                <div class="form-group">
+                    <label class="form-label" for="school">
+                        <span class="required">*</span>שם בית ספר
+                    </label>
+                    <select class="form-select" id="school" name="school" required>
+                        <option value="">בחירה</option>
+                    </select>
+                    <div class="error-message" id="school-error">נא לבחור בית ספר</div>
+                </div>
+
+                <!-- ④ שם הקבוצה -->
                 <div class="form-group">
                     <label class="form-label" for="group">
                         <span class="required">*</span>שם הקבוצה
                     </label>
-                    <select class="form-select" id="group" name="group" required>
-                        <option value="">בחירה</option>
-                        <option value="אור לטף - ינאי">אור לטף - ינאי</option>
-<option value="קמפוס - אידו">קמפוס - אידו</option>
-<option value="מצוינות 1 - יערה">מצוינות 1 - יערה</option>
-<option value="מצוינות 2 - רעי">מצוינות 2 - רעי</option>
-<option value="מצוינות 4 - בקי">מצוינות 4 - בקי</option>
-<option value="כוכבי הלכת - מיכל">כוכבי הלכת - מיכל</option>
-                        <option value="ארלוזורוב האלופים - אגם">ארלוזורוב האלופים - אגם</option>
-                        <option value="ארלוזורוב ו׳3 - איתן">ארלוזורוב ו׳3 - איתן</option>
-                        <option value="קבוצה א נבון - אורי">קבוצה א נבון - אורי</option>
-                        <option value="קבוצה ב נבון - שקד">קבוצה ב נבון - שקד</option>
-                        <option value="בירב - נועם">בירב - נועם</option>
-                        <option value="בירב ו - מוריה">בירב ו - מוריה</option>
-                        <option value="נפתלי - פלג">נפתלי - פלג</option>
-                        <option value="הייטקיסטים - שון">הייטקיסטים - שון</option>
-                        <option value="D.N.A-E - ארז">D.N.A-E - ארז</option>
-                        <option value="מנצחים בדרך - שחר">מנצחים בדרך - שחר</option>
-                        <option value="המעופפות בדרך - שחר">המעופפות בדרך - שחר</option>
-                        <option value="הווינרים בדרך - גיא">הווינרים בדרך - גיא</option>
-                        <option value="האיינשטנים - אור">האיינשטנים - אור</option>
-                        <option value="הגאונים מהנדיב - אבישג">הגאונים מהנדיב - אבישג</option>
-                        <option value="החיטה פותרים - יותם">החיטה פותרים - יותם</option>
-                        <option value="הניוטונים - אושר">הניוטונים - אושר</option>
-                        <option value="הדרדסונים - נועם">הדרדסונים - נועם</option>
-                        <option value="מדענים תמרי - מאיה">מדענים תמרי - מאיה</option>
-                        <option value="ממציאי המחר - אורי">ממציאי המחר - אורי</option>
-                        <option value="ממציאות צעירות - ליאל">ממציאות צעירות - ליאל</option>
-                        <option value="הבנות של חופית - לוטם">הבנות של חופית - לוטם</option>
-                        <option value="קבוצת ביוטי - אמי">קבוצת ביוטי - אמי</option>
-                        <option value="הנסיכות - מאיה">הנסיכות - מאיה</option>
-                        <option value="קבוצה 1 ניצני - גיא">קבוצה 1 ניצני - גיא</option>
-                        <option value="קבוצה 2 ניצני - יאיר">קבוצה 2 ניצני - יאיר</option>
-                        <option value="קבוצה 3 ניצני - לוטם">קבוצה 3 ניצני - לוטם</option>
-                        <option value="עמק יזרעאל - איתי">עמק יזרעאל - איתי</option>
-                        <option value="קדם ה׳1 - יהלי">קדם ה׳1 - יהלי</option>
-                        <option value="קדם ה׳2 - יהונתן">קדם ה׳2 - יהונתן</option>
-                        <option value="שדות 1 - הילה">שדות 1 - הילה</option>
-                        <option value="שדות 4 - עידו">שדות 4 - עידו</option>
-                        <option value="שדות טכנודע - ענבר">שדות טכנודע - ענבר</option>
-                        <option value="שרת פתרונים - נהטי">שרת פתרונים - נהטי</option>
-                        <option value="שרת ממציאים - אלמה">שרת ממציאים - אלמה</option>
-                        <option value="תלמי רון 1 - נועם">תלמי רון 1 - נועם</option>
-                        <option value="תלמי רון 2 - מיה">תלמי רון 2 - מיה</option>
-                        <option value="תלמי רון 3 - שחף">תלמי רון 3 - שחף</option>
-                        <option value="תלמי רון 4 - נעם">תלמי רון 4 - נעם</option>
-                        <option value="תלמי רון 5 - גלי">תלמי רון 5 - גלי</option>
-                        <option value="תלמי רון 6 - איתן">תלמי רון 6 - איתן</option>
-                        <option value="עמק יזרעאל 2 - מור">עמק יזרעאל 2 - מור</option>
-                        <option value="שדות 2 - אלון">שדות 2 - אלון</option>
+                    <select class="form-select" id="group" name="group" required disabled>
+                        <option value="">בחר בית ספר תחילה</option>
                     </select>
                     <div class="error-message" id="group-error">נא לבחור קבוצה</div>
                 </div>
 
+                <!-- ⑤ דירוג: מילוי המשימה -->
                 <div class="form-group">
                     <label class="form-label">
                         <span class="required">*</span>דרגו: מילוי המשימה
                     </label>
-                    <div class="rating-container">
-                        <label class="rating-item">
-                            <input type="radio" name="task_completion" value="1" required>
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">1</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="task_completion" value="2">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">2</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="task_completion" value="3">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">3</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="task_completion" value="4">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">4</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="task_completion" value="5">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">5</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="task_completion" value="6">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">6</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="task_completion" value="7">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">7</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="task_completion" value="8">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">8</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="task_completion" value="9">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">9</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="task_completion" value="10">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">10</div>
-                        </label>
+                    <div class="rating-container" id="stars-task_completion">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
                     </div>
+                    <input type="hidden" name="task_completion" id="val-task_completion">
                     <div class="error-message" id="task_completion-error">נא לדרג את מילוי המשימה</div>
                 </div>
 
+                <!-- ⑥ דירוג: עבודת צוות -->
                 <div class="form-group">
                     <label class="form-label">
                         <span class="required">*</span>דרגו: עבודת צוות
                     </label>
-                    <div class="rating-container">
-                        <label class="rating-item">
-                            <input type="radio" name="teamwork" value="1" required>
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">1</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="teamwork" value="2">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">2</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="teamwork" value="3">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">3</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="teamwork" value="4">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">4</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="teamwork" value="5">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">5</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="teamwork" value="6">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">6</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="teamwork" value="7">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">7</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="teamwork" value="8">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">8</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="teamwork" value="9">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">9</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="teamwork" value="10">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">10</div>
-                        </label>
+                    <div class="rating-container" id="stars-teamwork">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
                     </div>
+                    <input type="hidden" name="teamwork" id="val-teamwork">
                     <div class="error-message" id="teamwork-error">נא לדרג את עבודת הצוות</div>
                 </div>
 
+                <!-- ⑦ דירוג: חשיבה יצירתית -->
                 <div class="form-group">
                     <label class="form-label">
                         <span class="required">*</span>דרגו: חשיבה יצירתית
                     </label>
-                    <div class="rating-container">
-                        <label class="rating-item">
-                            <input type="radio" name="creativity" value="1" required>
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">1</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="creativity" value="2">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">2</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="creativity" value="3">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">3</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="creativity" value="4">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">4</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="creativity" value="5">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">5</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="creativity" value="6">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">6</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="creativity" value="7">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">7</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="creativity" value="8">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">8</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="creativity" value="9">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">9</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="creativity" value="10">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">10</div>
-                        </label>
+                    <div class="rating-container" id="stars-creativity">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
                     </div>
-                    <div class="error-message" id="creativity-error">נא לדרג את החשיבה היצירתית</div></div>
+                    <input type="hidden" name="creativity" id="val-creativity">
+                    <div class="error-message" id="creativity-error">נא לדרג את החשיבה היצירתית</div>
+                </div>
 
+                <!-- ⑧ דירוג: עבודה עצמאית -->
                 <div class="form-group">
                     <label class="form-label">
                         <span class="required">*</span>דרגו: עבודה עצמאית
                     </label>
-                    <div class="rating-container">
-                        <label class="rating-item">
-                            <input type="radio" name="independence" value="1" required>
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">1</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="independence" value="2">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">2</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="independence" value="3">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">3</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="independence" value="4">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">4</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="independence" value="5">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">5</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="independence" value="6">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">6</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="independence" value="7">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">7</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="independence" value="8">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">8</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="independence" value="9">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">9</div>
-                        </label>
-                        <label class="rating-item">
-                            <input type="radio" name="independence" value="10">
-                            <div class="rating-star">
-                                <span class="star-icon">★</span>
-                            </div>
-                            <div class="rating-number">10</div>
-                        </label>
+                    <div class="rating-container" id="stars-independence">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
                     </div>
+                    <input type="hidden" name="independence" id="val-independence">
                     <div class="error-message" id="independence-error">נא לדרג את העבודה העצמאית</div>
                 </div>
 
+                <!-- משפטים מהתלמידים -->
                 <div class="form-group">
-                    <label class="form-label" for="comments">
-                        הערות נוספות על הקבוצה? (אופציונלי)
+                    <label class="form-label">
+                        משפטים ששמעתי מהתלמידים במהלך הסדנא
                     </label>
-                    <textarea class="form-input" id="comments" name="comments" rows="4" placeholder="כתבו כאן הערות נוספות..."></textarea>
+                    <div class="phrases-list" id="phrases-list"></div>
+                    <button type="button" class="phrase-add-btn" id="addPhrase">+ הוסף משפט</button>
                 </div>
 
                 <div class="loading" id="loading">
@@ -875,21 +497,17 @@
                     <button type="button" class="clear-btn" id="clearBtn">ניקוי הטופס</button>
                 </div>
 
-                <div class="form-note">
-                    * שדות חובה
-                </div>
+                <div class="form-note">* שדות חובה</div>
             </form>
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
     <script type="module">
-        // Import Firebase functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-        
-        // Firebase configuration
-        const firebaseConfig = {
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+
+        // ── Firebase for submissions ──────────────────────────────────
+        const submitApp = initializeApp({
             apiKey: "AIzaSyCe24QH6BXEWtF2zJWcP8WhV8qKj-3l-00",
             authDomain: "gaash-2ea82.firebaseapp.com",
             databaseURL: "https://gaash-2ea82-default-rtdb.firebaseio.com/",
@@ -897,162 +515,310 @@
             storageBucket: "gaash-2ea82.firebasestorage.app",
             messagingSenderId: "1054252503536",
             appId: "1:1054252503536:web:4b7c546bd737de696e4d35"
-        };
+        }, "submit");
+        const submitDb = getDatabase(submitApp);
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
+        // ── Firebase for teams data ───────────────────────────────────
+        const teamsApp = initializeApp({
+            apiKey: "AIzaSyCQdei2zVCXkYh99pLPzr_ZMyi8ohupVhY",
+            authDomain: "forever-4a04b.firebaseapp.com",
+            databaseURL: "https://forever-4a04b-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "forever-4a04b",
+            storageBucket: "forever-4a04b.firebasestorage.app",
+            messagingSenderId: "250928700713",
+            appId: "1:250928700713:web:25d6979fca637b90d42b38"
+        }, "teams");
+        const teamsDb = getDatabase(teamsApp);
 
-        // Form elements
-        const form = document.getElementById('ratingForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const loading = document.getElementById('loading');
-        const successMessage = document.getElementById('successMessage');
+        // ── Instructor names ──────────────────────────────────────────
+        const instructorNames = [
+            "עפרי","זינב","יעל","עזריאל","מרי","אורטל","סיון",
+            "חיה","מנאל","לינוי","אראל","אבי","יעלה","גילי",
+            "איציק","ענת","רוני","שי"
+        ];
 
-        // Form validation
-        function validateForm() {
-            let isValid = true;
-            const requiredFields = ['workshop', 'group', 'task_completion', 'teamwork', 'creativity', 'independence'];
-            
-            requiredFields.forEach(field => {
-                const element = document.querySelector(`[name="${field}"]`);
-                const errorElement = document.getElementById(`${field}-error`);
-                
-                if (field === 'workshop' || field === 'group') {
-                    if (!element.value) {
-                        errorElement.style.display = 'block';
-                        isValid = false;
-                    } else {
-                        errorElement.style.display = 'none';
-                    }
-                } else {
-                    const radioButtons = document.querySelectorAll(`[name="${field}"]`);
-                    const isChecked = Array.from(radioButtons).some(radio => radio.checked);
-                    
-                    if (!isChecked) {
-                        errorElement.style.display = 'block';
-                        isValid = false;
-                    } else {
-                        errorElement.style.display = 'none';
-                    }
-                }
+        const sel1 = document.getElementById('instructor1');
+        const sel2 = document.getElementById('instructor2');
+
+        function populateInstructors() {
+            instructorNames.forEach(name => {
+                sel1.appendChild(new Option(name, name));
+                sel2.appendChild(new Option(name, name));
             });
-            
-            return isValid;
         }
 
-        // Submit form
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!validateForm()) {
-                return;
+        function syncInstructorDropdowns() {
+            const chosen   = sel1.value;
+            const prevSel2 = sel2.value;
+            sel2.innerHTML = '<option value="">בחר/י שם שני</option>';
+            instructorNames.forEach(name => {
+                if (name !== chosen) sel2.appendChild(new Option(name, name));
+            });
+            if (prevSel2 && prevSel2 !== chosen) sel2.value = prevSel2;
+        }
+
+        function resetInstructors() {
+            sel1.value = '';
+            syncInstructorDropdowns();
+        }
+
+        sel1.addEventListener('change', syncInstructorDropdowns);
+        populateInstructors();
+
+        // ── Load schools & teams from Firebase ───────────────────────
+        let teamsData = {};
+
+        async function loadTeams() {
+            try {
+                const snap = await get(ref(teamsDb, 'teams'));
+                teamsData = snap.val() || {};
+                const schoolSel = document.getElementById('school');
+                Object.keys(teamsData).sort().forEach(school => {
+                    if (!teamsData[school] || typeof teamsData[school] !== 'object') return;
+                    schoolSel.appendChild(new Option(school, school));
+                });
+            } catch (err) {
+                console.error('שגיאה בטעינת קבוצות:', err);
+            }
+        }
+
+        document.getElementById('school').addEventListener('change', function () {
+            const school = this.value;
+            const groupSel = document.getElementById('group');
+            groupSel.innerHTML = '<option value="">בחירה</option>';
+            groupSel.disabled = !school;
+            if (!school || !teamsData[school]) return;
+
+            const schoolData = teamsData[school];
+            const sorted = Object.entries(schoolData).sort(([a], [b]) => {
+                const na = parseInt(a.replace(/\D/g, ''), 10);
+                const nb = parseInt(b.replace(/\D/g, ''), 10);
+                if (!isNaN(na) && !isNaN(nb)) return na - nb;
+                return a.localeCompare(b, 'he');
+            });
+
+            // build team list with students
+            const teamItems = sorted.map(([teamName, teamData]) => {
+                if (!teamData) return null;
+                const students = Array.isArray(teamData.students)
+                    ? teamData.students
+                    : Object.values(teamData.students || {});
+                return { teamName, students };
+            }).filter(Boolean);
+
+            teamItems.forEach(({ teamName, students }) => {
+                const displayName = students.length > 0 ? students[0].split(' ')[0] : '';
+                const label = displayName ? `${teamName} - ${displayName}` : teamName;
+                groupSel.appendChild(new Option(label, label));
+            });
+        });
+
+        loadTeams();
+
+        // ── Star ratings ─────────────────────────────────────────────
+        const ratingFields = ['task_completion', 'teamwork', 'creativity', 'independence'];
+
+        ratingFields.forEach(field => {
+            const container  = document.getElementById('stars-' + field);
+            const hiddenInput = document.getElementById('val-' + field);
+            const stars      = container.querySelectorAll('.star');
+
+            function setFill(upTo) {
+                stars.forEach((s, i) => s.classList.toggle('active', i < upTo));
             }
 
-            // Show loading
+            container.addEventListener('mousemove', e => {
+                const star = e.target.closest('.star');
+                if (!star) return;
+                const val = parseInt(star.dataset.value, 10);
+                setFill(val);
+                stars.forEach(s => s.classList.remove('hover'));
+                star.classList.add('hover');
+            });
+
+            container.addEventListener('mouseleave', () => {
+                setFill(parseInt(hiddenInput.value) || 0);
+                stars.forEach(s => s.classList.remove('hover'));
+            });
+
+            container.addEventListener('click', e => {
+                const star = e.target.closest('.star');
+                if (!star) return;
+                const val = parseInt(star.dataset.value, 10);
+                hiddenInput.value = val;
+                setFill(val);
+                const err = document.getElementById(field + '-error');
+                if (err) err.style.display = 'none';
+            });
+        });
+
+        // ── Phrase list ──────────────────────────────────────────────
+        const phrasesList  = document.getElementById('phrases-list');
+        const addPhraseBtn = document.getElementById('addPhrase');
+
+        function addPhraseInput(value) {
+            const item = document.createElement('div');
+            item.className = 'phrase-item';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'form-input phrase-input';
+            input.placeholder = 'כתבו משפט שנאמר...';
+            if (value) input.value = value;
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'phrase-remove';
+            removeBtn.textContent = '×';
+            removeBtn.addEventListener('click', () => {
+                if (phrasesList.querySelectorAll('.phrase-item').length > 1) {
+                    item.remove();
+                } else {
+                    input.value = '';
+                }
+            });
+
+            item.appendChild(input);
+            item.appendChild(removeBtn);
+            phrasesList.appendChild(item);
+            if (value === undefined) input.focus();
+        }
+
+        addPhraseBtn.addEventListener('click', () => addPhraseInput());
+        addPhraseInput(''); // initial empty field — no focus on load
+
+        // ── Validation ───────────────────────────────────────────────
+        function validateForm() {
+            let ok = true;
+
+            const inst1Err = document.getElementById('instructor1-error');
+            if (!sel1.value) { inst1Err.style.display = 'block'; ok = false; }
+            else inst1Err.style.display = 'none';
+
+            ['workshop', 'school', 'group'].forEach(id => {
+                const el  = document.getElementById(id);
+                const err = document.getElementById(id + '-error');
+                if (!el.value) { err.style.display = 'block'; ok = false; }
+                else err.style.display = 'none';
+            });
+
+            ratingFields.forEach(field => {
+                const val = document.getElementById('val-' + field).value;
+                const err = document.getElementById(field + '-error');
+                if (!val) { err.style.display = 'block'; ok = false; }
+                else err.style.display = 'none';
+            });
+
+            return ok;
+        }
+
+        // ── Submit ───────────────────────────────────────────────────
+        const form           = document.getElementById('ratingForm');
+        const submitBtn      = document.getElementById('submitBtn');
+        const clearBtn       = document.getElementById('clearBtn');
+        const loading        = document.getElementById('loading');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
+            if (!validateForm()) return;
+
             loading.style.display = 'block';
             submitBtn.disabled = true;
 
             try {
-                // Get form data
-                const formData = new FormData(form);
-                const groupName = formData.get('group');
-                const workshopName = formData.get('workshop');
-                
+                const inst1Val = sel1.value;
+                const inst2Val = sel2.value;
+                const instructorStr = inst2Val ? `${inst1Val} ו${inst2Val}` : inst1Val;
+
+                const groupName    = document.getElementById('group').value;
+                const workshopName = document.getElementById('workshop').value;
+
+                const phrases = Array.from(document.querySelectorAll('.phrase-input'))
+                    .map(i => i.value.trim())
+                    .filter(v => v.length > 0);
+
                 const data = {
-                    workshop: workshopName,
+                    instructor:  instructorStr,
+                    instructor1: inst1Val,
+                    instructor2: inst2Val || '',
+                    school:      document.getElementById('school').value,
+                    workshop:    workshopName,
                     ratings: {
-                        task_completion: parseInt(formData.get('task_completion')),
-                        teamwork: parseInt(formData.get('teamwork')),
-                        creativity: parseInt(formData.get('creativity')),
-                        independence: parseInt(formData.get('independence'))
+                        task_completion: parseInt(document.getElementById('val-task_completion').value),
+                        teamwork:        parseInt(document.getElementById('val-teamwork').value),
+                        creativity:      parseInt(document.getElementById('val-creativity').value),
+                        independence:    parseInt(document.getElementById('val-independence').value)
                     },
-                    comments: formData.get('comments') || '',
+                    phrases:   phrases,
                     timestamp: new Date().toISOString(),
-                    date: new Date().toLocaleDateString('he-IL')
+                    date:      new Date().toLocaleDateString('he-IL')
                 };
 
-                // Save to Firebase
-                // Structure: groupName -> workshopName -> data
-                const groupRef = ref(database, `groupName/${groupName}/${workshopName}`);
+                const groupRef = ref(submitDb, `ref1/${groupName}/${workshopName}`);
                 await set(groupRef, data);
 
-                // Hide loading and show success
                 loading.style.display = 'none';
                 successMessage.style.display = 'block';
-                
-                // Reset form after 3 seconds
+
                 setTimeout(() => {
+                    const savedInst1 = sel1.value;
+                    const savedInst2 = sel2.value;
                     form.reset();
                     successMessage.style.display = 'none';
                     submitBtn.disabled = false;
+                    ratingFields.forEach(field => {
+                        document.getElementById('val-' + field).value = '';
+                        document.getElementById('stars-' + field)
+                            .querySelectorAll('.star')
+                            .forEach(s => s.classList.remove('active', 'hover'));
+                    });
+                    // restore instructor names
+                    sel1.value = savedInst1;
+                    syncInstructorDropdowns();
+                    if (savedInst2 && savedInst2 !== savedInst1) sel2.value = savedInst2;
+                    phrasesList.innerHTML = '';
+                    addPhraseInput();
+                    const gSel = document.getElementById('group');
+                    gSel.innerHTML = '<option value="">בחר בית ספר תחילה</option>';
+                    gSel.disabled = true;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 }, 3000);
 
-            } catch (error) {
-                console.error('Error saving data:', error);
+            } catch (err) {
+                console.error(err);
                 loading.style.display = 'none';
                 submitBtn.disabled = false;
                 alert('שגיאה בשליחת הטופס. נסה שוב.');
             }
         });
 
-        // Clear form
+        // ── Clear ────────────────────────────────────────────────────
         clearBtn.addEventListener('click', () => {
-            if (confirm('האם אתה בטוח שברצונך לנקות את הטופס?')) {
-                form.reset();
-                
-                // Hide all error messages
-                document.querySelectorAll('.error-message').forEach(error => {
-                    error.style.display = 'none';
-                });
-                
-                // Hide success message
-                successMessage.style.display = 'none';
-                
-                // Re-enable submit button
-                submitBtn.disabled = false;
-            }
+            if (!confirm('האם אתה בטוח שברצונך לנקות את הטופס?')) return;
+            form.reset();
+            document.querySelectorAll('.error-message').forEach(e => e.style.display = 'none');
+            successMessage.style.display = 'none';
+            submitBtn.disabled = false;
+            ratingFields.forEach(field => {
+                document.getElementById('val-' + field).value = '';
+                document.getElementById('stars-' + field)
+                    .querySelectorAll('.star')
+                    .forEach(s => s.classList.remove('active', 'hover'));
+            });
+            resetInstructors();
+            phrasesList.innerHTML = '';
+            addPhraseInput();
+            const gSel = document.getElementById('group');
+            gSel.innerHTML = '<option value="">בחר בית ספר תחילה</option>';
+            gSel.disabled = true;
         });
 
-        // Add star hover effects
-        document.querySelectorAll('.rating-item').forEach(item => {
-            const input = item.querySelector('input[type="radio"]');
-            const star = item.querySelector('.star-icon');
-            
-            item.addEventListener('mouseenter', () => {
-                if (!input.checked) {
-                    star.style.color = '#ffeb3b';
-                    star.style.transform = 'scale(1.1)';
-                }
-            });
-            
-            item.addEventListener('mouseleave', () => {
-                if (!input.checked) {
-                    star.style.color = '#ddd';
-                    star.style.transform = 'scale(1)';
-                }
-            });
-        });
-
-        // Real-time validation
-        document.querySelectorAll('select, input[type="radio"]').forEach(element => {
-            element.addEventListener('change', () => {
-                const fieldName = element.name;
-                const errorElement = document.getElementById(`${fieldName}-error`);
-                
-                if (element.type === 'radio') {
-                    const radioButtons = document.querySelectorAll(`[name="${fieldName}"]`);
-                    const isChecked = Array.from(radioButtons).some(radio => radio.checked);
-                    
-                    if (isChecked && errorElement) {
-                        errorElement.style.display = 'none';
-                    }
-                } else {
-                    if (element.value && errorElement) {
-                        errorElement.style.display = 'none';
-                    }
-                }
+        // ── Real-time validation on selects ─────────────────────────
+        document.querySelectorAll('select').forEach(el => {
+            el.addEventListener('change', () => {
+                const err = document.getElementById(el.id + '-error');
+                if (err && el.value) err.style.display = 'none';
             });
         });
     </script>

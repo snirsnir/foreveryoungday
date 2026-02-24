@@ -7,11 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap');
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Heebo', sans-serif;
@@ -23,30 +19,22 @@
             overflow-x: hidden;
         }
 
-        /* Background inspired by bg.png */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background:
-                radial-gradient(circle at 15% 25%, rgba(249, 215, 126, 0.3) 0%, transparent 25%),
-                radial-gradient(circle at 85% 35%, rgba(123, 30, 122, 0.2) 0%, transparent 30%),
-                radial-gradient(circle at 50% 80%, rgba(249, 215, 126, 0.25) 0%, transparent 35%),
+                radial-gradient(circle at 15% 25%, rgba(249,215,126,0.3) 0%, transparent 25%),
+                radial-gradient(circle at 85% 35%, rgba(123,30,122,0.2) 0%, transparent 30%),
+                radial-gradient(circle at 50% 80%, rgba(249,215,126,0.25) 0%, transparent 35%),
                 linear-gradient(180deg, #f5f0e8 0%, #fef9f0 50%, #f5f0e8 100%);
             z-index: -2;
         }
 
-        /* Dotted wave lines inspired by bg.png */
         body::after {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image:
                 radial-gradient(circle, #f9d77e 1.5px, transparent 1.5px),
                 radial-gradient(circle, #7B1E7A 1px, transparent 1px);
@@ -57,20 +45,15 @@
             pointer-events: none;
         }
 
-        /* Purple wave at bottom inspired by bg.png */
         .purple-wave {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 180px;
+            bottom: 0; left: 0; width: 100%; height: 180px;
             background: linear-gradient(135deg, #7B1E7A 0%, #9B4D9A 100%);
             clip-path: ellipse(120% 100% at 50% 100%);
             z-index: -1;
             opacity: 0.9;
         }
 
-        /* Yellow decorative circles */
         .decorative-circle {
             position: fixed;
             border: 3px dashed #f9d77e;
@@ -78,142 +61,78 @@
             opacity: 0.4;
             z-index: -1;
         }
+        .circle-1 { width: 100px; height: 100px; top: 15%; right: 10%; }
+        .circle-2 { width: 60px;  height: 60px;  top: 35%; left: 15%; border-color: #7B1E7A; }
+        .circle-3 { width: 80px;  height: 80px;  bottom: 25%; right: 8%; }
 
-        .circle-1 {
-            width: 100px;
-            height: 100px;
-            top: 15%;
-            right: 10%;
-        }
+        .star-decoration { position: fixed; color: #f9d77e; opacity: 0.6; z-index: 1; animation: twinkle 3s infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+        .star-1 { top: 12%; left: 20%; font-size: 20px; animation-delay: 0s; }
+        .star-2 { top: 28%; right: 25%; font-size: 16px; animation-delay: 1s; }
+        .star-3 { top: 45%; left: 12%; font-size: 18px; animation-delay: 2s; }
+        .star-4 { top: 60%; right: 18%; font-size: 14px; animation-delay: 1.5s; }
 
-        .circle-2 {
-            width: 60px;
-            height: 60px;
-            top: 35%;
-            left: 15%;
-            border-color: #7B1E7A;
-        }
-
-        .circle-3 {
-            width: 80px;
-            height: 80px;
-            bottom: 25%;
-            right: 8%;
-        }
-
-        /* Logos container at the top */
+        /* ── Logos ── */
         .logos-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 30px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255,255,255,0.95);
             border-radius: 20px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            margin: 0 auto 30px;
             max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
             flex-wrap: wrap;
             position: relative;
             z-index: 10;
         }
+        .logo { height: 70px; object-fit: contain; transition: all 0.3s ease; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.15)); }
+        .logo:hover { transform: scale(1.08) rotate(1deg); }
 
-        .logo {
-            height: 70px;
-            object-fit: contain;
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.15));
-        }
+        /* ── Container ── */
+        .container { max-width: 1200px; margin: 0 auto; position: relative; z-index: 10; }
 
-        .logo:hover {
-            transform: scale(1.08) rotate(1deg);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
-        }
-
+        /* ── Header ── */
         .header {
             background: linear-gradient(135deg, #7B1E7A 0%, #B57FB4 50%, #f9d77e 100%);
             color: white;
             padding: 50px 30px;
             text-align: center;
             border-radius: 25px 25px 0 0;
-            box-shadow: 0 15px 40px rgba(123, 30, 122, 0.3);
+            box-shadow: 0 15px 40px rgba(123,30,122,0.3);
             position: relative;
             overflow: hidden;
         }
-
         .header::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255,255,255,0.08) 10px,
-                rgba(255,255,255,0.08) 20px
-            );
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.08) 10px, rgba(255,255,255,0.08) 20px);
             animation: shimmer 4s infinite linear;
         }
+        @keyframes shimmer { 0% { transform: translateX(-100%) translateY(-100%); } 100% { transform: translateX(100%) translateY(100%); } }
+        .main-title  { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; position: relative; z-index: 1; }
+        .subtitle    { font-size: 1.2rem; opacity: 0.9; position: relative; z-index: 1; }
+        .trophy-animation { display: inline-block; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
 
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%); }
-            100% { transform: translateX(100%) translateY(100%); }
-        }
-
-        .main-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
+        /* ── Stats ── */
         .stats-bar {
             background: white;
             padding: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+        .stat-item { text-align: center; padding: 15px; border-radius: 10px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); }
+        .stat-number { font-size: 2rem; font-weight: 700; color: #7B1E7A; margin-bottom: 5px; }
+        .stat-label  { color: #666; font-size: 0.9rem; }
 
-        .stat-item {
-            text-align: center;
-            padding: 15px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #7B1E7A;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
+        /* ── Leaderboard ── */
         .leaderboard {
             background: white;
             border-radius: 0 0 20px 20px;
@@ -221,314 +140,286 @@
             overflow: hidden;
         }
 
-        .loading {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-
+        .loading { text-align: center; padding: 60px 20px; color: #666; }
         .spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #7B1E7A;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        /* column header */
+        .leaderboard-header {
+            display: grid;
+            grid-template-columns: 70px 1fr 110px 110px 130px 38px;
+            gap: 12px;
+            padding: 12px 25px;
+            background: #f5f0f5;
+            border-bottom: 2px solid #e8d5e8;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #7B1E7A;
+            text-align: center;
         }
+        .leaderboard-header > :nth-child(2) { text-align: right; }
 
+        /* team row */
         .team-row {
             display: grid;
-            grid-template-columns: 80px 1fr 120px 120px 120px;
-            gap: 15px;
-            padding: 20px 25px;
+            grid-template-columns: 70px 1fr 110px 110px 130px 38px;
+            gap: 12px;
+            padding: 18px 25px;
             align-items: center;
             border-bottom: 1px solid #f0f0f0;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             animation: slideIn 0.6s ease-out forwards;
             opacity: 0;
+            cursor: pointer;
         }
-
         .team-row:hover {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            transform: translateX(-5px);
-            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #fdf6fd 0%, #f3e8f3 100%);
+            transform: translateX(-4px);
+            box-shadow: 4px 0 12px rgba(123,30,122,0.08);
         }
-
-        .team-row:nth-child(1) { animation-delay: 0.1s; }
-        .team-row:nth-child(2) { animation-delay: 0.2s; }
-        .team-row:nth-child(3) { animation-delay: 0.3s; }
-        .team-row:nth-child(4) { animation-delay: 0.4s; }
-        .team-row:nth-child(5) { animation-delay: 0.5s; }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
 
         .rank {
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            padding: 15px;
             border-radius: 50%;
             color: white;
-            position: relative;
-            width: 60px;
-            height: 60px;
+            width: 55px; height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+        }
+        .rank.gold   { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #7a5c00; box-shadow: 0 8px 25px rgba(255,215,0,0.5); animation: pulse 2s infinite; }
+        .rank.regular{ background: linear-gradient(135deg, #7B1E7A, #9B4D9A); box-shadow: 0 4px 15px rgba(123,30,122,0.3); }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .rank.gold::before { content: '👑'; position: absolute; top: -12px; right: -10px; font-size: 1.15rem; }
+
+        /* winner row highlight (top 5) */
+        .team-row.winner {
+            background: linear-gradient(135deg, #fffbea 0%, #fff8d6 100%);
+            border-right: 4px solid #ffd700;
+        }
+        .team-row.winner:hover {
+            background: linear-gradient(135deg, #fff6c0 0%, #fff0a0 100%);
         }
 
-        .rank.gold {
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-            animation: pulse 2s infinite;
-        }
+        .team-name { font-size: 1.05rem; font-weight: 600; color: #333; line-height: 1.3; }
+        .team-school { font-size: 0.76rem; color: #999; font-weight: 400; display: block; margin-top: 2px; }
 
-        .rank.silver {
-            background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
-            box-shadow: 0 6px 20px rgba(192, 192, 192, 0.4);
-        }
+        .score-item { text-align: center; padding: 8px 10px; border-radius: 8px; background: #f8f9fa; }
+        .score-value { font-size: 1.15rem; font-weight: 700; margin-bottom: 2px; }
+        .score-label { font-size: 0.75rem; color: #666; }
 
-        .rank.bronze {
-            background: linear-gradient(135deg, #cd7f32, #daa520);
-            box-shadow: 0 6px 20px rgba(205, 127, 50, 0.4);
-        }
+        .final-score   { background: linear-gradient(135deg, #28a745, #20c997) !important; color: white !important; }
+        .judging-score { background: linear-gradient(135deg, #ff6b6b, #ee5a24) !important; color: white !important; }
+        .lab-score     { background: linear-gradient(135deg, #7B1E7A, #9B4D9A) !important; color: white !important; }
+        .final-score .score-label, .judging-score .score-label, .lab-score .score-label { color: rgba(255,255,255,0.9) !important; }
 
-        .rank.regular {
-            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
-            box-shadow: 0 4px 15px rgba(123, 30, 122, 0.3);
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .rank.gold::before {
-            content: '👑';
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            font-size: 1.2rem;
-        }
-
-        .team-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #333;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .score-item {
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            background: #f8f9fa;
-        }
-
-        .score-value {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-
-        .score-label {
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        .final-score {
-            background: linear-gradient(135deg, #28a745, #20c997) !important;
-            color: white !important;
-        }
-
-        .final-score .score-label {
-            color: rgba(255, 255, 255, 0.9) !important;
-        }
-
-        .judging-score {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24) !important;
-            color: white !important;
-        }
-
-        .judging-score .score-label {
-            color: rgba(255, 255, 255, 0.9) !important;
-        }
-
-        .lab-score {
-            background: linear-gradient(135deg, #7B1E7A, #9B4D9A) !important;
-            color: white !important;
-        }
-
-        .lab-score .score-label {
-            color: rgba(255, 255, 255, 0.9) !important;
-        }
-
-        .no-data {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-            font-size: 1.1rem;
-        }
-
-        .last-updated {
-            text-align: center;
-            padding: 15px;
-            background: #f8f9fa;
-            color: #666;
-            font-size: 0.9rem;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .refresh-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: #28a745;
-            font-weight: 600;
-        }
-
-        .refresh-dot {
-            width: 8px;
-            height: 8px;
-            background: #28a745;
+        .expand-btn {
+            width: 30px; height: 30px;
             border-radius: 50%;
-            animation: blink 1s infinite;
+            border: 2px solid #c8a0c8;
+            background: none;
+            color: #7B1E7A;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
         }
+        .expand-btn:hover { background: #ede0ed; border-color: #7B1E7A; }
 
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0.3; }
-        }
+        .no-data { text-align: center; padding: 60px 20px; color: #666; font-size: 1.1rem; }
 
-        /* Small decorative stars */
-        .star-decoration {
+        .last-updated { text-align: center; padding: 15px; background: #f8f9fa; color: #666; font-size: 0.9rem; border-top: 1px solid #e9ecef; }
+        .refresh-indicator { display: inline-flex; align-items: center; gap: 5px; color: #28a745; font-weight: 600; }
+        .refresh-dot { width: 8px; height: 8px; background: #28a745; border-radius: 50%; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0.3; } }
+
+        /* ── Detail overlay ── */
+        .detail-overlay {
+            display: none;
             position: fixed;
-            color: #f9d77e;
-            opacity: 0.6;
-            z-index: 1;
-            animation: twinkle 3s infinite;
+            inset: 0;
+            background: rgba(0,0,0,0.58);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 30px 16px 40px;
+        }
+        .detail-overlay.open { display: block; }
+
+        .detail-panel {
+            background: white;
+            border-radius: 20px;
+            max-width: 680px;
+            width: 100%;
+            margin: 0 auto;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+            overflow: hidden;
+            animation: panelIn 0.32s ease-out;
+        }
+        @keyframes panelIn { from { opacity: 0; transform: translateY(36px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        .panel-header {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            padding: 22px 24px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .panel-header-info { flex: 1; min-width: 0; }
+        .panel-team-name { font-size: 1.4rem; font-weight: 700; line-height: 1.3; }
+        .panel-score-summary { font-size: 0.9rem; opacity: 0.88; margin-top: 5px; }
+
+        .panel-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+        .panel-close:hover { background: rgba(255,255,255,0.38); }
+
+        .panel-body { padding: 22px; }
+
+        .panel-section { margin-bottom: 26px; }
+
+        .panel-section-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #7B1E7A;
+            padding-bottom: 9px;
+            border-bottom: 2px solid #e8d5e8;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-badge {
+            font-size: 0.76rem;
+            font-weight: 700;
+            background: #7B1E7A;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+        /* entry cards */
+        .entry-card {
+            border: 1.5px solid #e8d5e8;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .entry-card-header {
+            background: #faf6fa;
+            padding: 9px 14px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #5a1a5a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .entry-avg-badge {
+            margin-right: auto;
+            font-size: 0.78rem;
+            color: #888;
+            font-weight: 400;
+        }
+        .entry-card-body { padding: 13px 14px; }
+
+        .instructor-line {
+            font-size: 0.84rem;
+            color: #555;
+            margin-bottom: 11px;
+        }
+        .instructor-line strong { color: #333; }
+
+        /* mini rating bar */
+        .mini-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+        .mini-rating-label { font-size: 0.81rem; color: #555; min-width: 115px; flex-shrink: 0; }
+        .mini-rating-track { flex: 1; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+        .mini-rating-fill  { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+        .fill-lab     { background: linear-gradient(90deg, #9B4D9A, #7B1E7A); }
+        .fill-judging { background: linear-gradient(90deg, #ff8a80, #ff4444); }
+        .mini-rating-value { font-size: 0.81rem; font-weight: 700; color: #333; min-width: 30px; text-align: left; flex-shrink: 0; }
+
+        /* phrases */
+        .phrases-section { margin-top: 11px; border-top: 1px dashed #e0d0e0; padding-top: 10px; }
+        .phrases-title { font-size: 0.81rem; font-weight: 700; color: #888; margin-bottom: 7px; }
+        .phrase-quote {
+            background: #fdf6fd;
+            border-right: 3px solid #9B4D9A;
+            padding: 6px 11px;
+            margin-bottom: 5px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.86rem;
+            color: #444;
+            font-style: italic;
         }
 
-        .star-1 { top: 12%; left: 20%; font-size: 20px; animation-delay: 0s; }
-        .star-2 { top: 28%; right: 25%; font-size: 16px; animation-delay: 1s; }
-        .star-3 { top: 45%; left: 12%; font-size: 18px; animation-delay: 2s; }
-        .star-4 { top: 60%; right: 18%; font-size: 14px; animation-delay: 1.5s; }
+        .no-data-text { color: #bbb; font-size: 0.88rem; text-align: center; padding: 14px; }
 
+        /* ── Mobile ── */
         @media (max-width: 768px) {
-            .logos-container {
-                gap: 15px;
-                padding: 15px;
-            }
+            .logos-container { gap: 15px; padding: 15px; }
+            .logo { height: 50px; }
+            .decorative-circle, .star-decoration { display: none; }
+            .purple-wave { height: 120px; }
+            .container { margin: 0; }
+            .header { padding: 30px 20px; border-radius: 15px 15px 0 0; }
+            .main-title { font-size: 1.8rem; }
 
-            .logo {
-                height: 50px;
-            }
+            .leaderboard-header,
+            .team-row { grid-template-columns: 55px 1fr 110px 34px; gap: 8px; padding: 14px 14px; }
 
-            .decorative-circle,
-            .star-decoration {
-                display: none;
-            }
+            .leaderboard-header > :nth-child(3),
+            .leaderboard-header > :nth-child(4),
+            .team-row .lab-score,
+            .team-row .judging-score { display: none; }
 
-            .purple-wave {
-                height: 120px;
-            }
-
-            .container {
-                margin: 10px;
-            }
-
-            .header {
-                padding: 30px 20px;
-                border-radius: 15px 15px 0 0;
-            }
-
-            .main-title {
-                font-size: 2rem;
-            }
-            
-            .team-row {
-                grid-template-columns: 60px 1fr;
-                gap: 10px;
-                padding: 15px;
-            }
-            
-            .rank {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-            
-            .score-item {
-                display: none;
-            }
-            
-            .team-row .final-score {
-                display: block !important;
-                grid-column: 2;
-                justify-self: end;
-                min-width: 80px;
-            }
-            
-            .stats-bar {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-                padding: 15px;
-            }
-        }
-
-        .trophy-animation {
-            display: inline-block;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+            .rank { width: 45px; height: 45px; font-size: 1.1rem; }
+            .stats-bar { grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
+            .detail-panel { border-radius: 14px; }
+            .mini-rating-label { min-width: 90px; font-size: 0.78rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Purple wave background -->
     <div class="purple-wave"></div>
-
-    <!-- Decorative circles -->
     <div class="decorative-circle circle-1"></div>
     <div class="decorative-circle circle-2"></div>
     <div class="decorative-circle circle-3"></div>
-
-    <!-- Decorative stars -->
     <div class="star-decoration star-1">✨</div>
     <div class="star-decoration star-2">⭐</div>
     <div class="star-decoration star-3">✨</div>
     <div class="star-decoration star-4">⭐</div>
 
-    <!-- Logos -->
     <div class="logos-container">
-        <img src="logot.png" alt="טכנולוג" class="logo">
-        <img src="logoastra.png" alt="AstraZeneca" class="logo">
+        <img src="logot.png"      alt="טכנולוג"          class="logo">
+        <img src="logoastra.png"  alt="AstraZeneca"       class="logo">
         <img src="logonashim.png" alt="נשים מובילות מדע" class="logo">
     </div>
 
@@ -539,26 +430,14 @@
                 לוח תוצאות
                 <span class="trophy-animation">🏆</span>
             </h1>
-            <p class="subtitle">נשים מובילות מדע • Forever Young - תוצאות בזמן אמת</p>
+            <p class="subtitle">נשים מובילות מדע • Forever Young — תוצאות בזמן אמת</p>
         </div>
 
         <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-number" id="totalTeams">-</div>
-                <div class="stat-label">קבוצות משתתפות</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="completedJudging">-</div>
-                <div class="stat-label">שופטו</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="avgScore">-</div>
-                <div class="stat-label">ממוצע ציון</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="topScore">-</div>
-                <div class="stat-label">ציון מוביל</div>
-            </div>
+            <div class="stat-item"><div class="stat-number" id="totalTeams">—</div><div class="stat-label">קבוצות</div></div>
+            <div class="stat-item"><div class="stat-number" id="completedJudging">—</div><div class="stat-label">שופטו</div></div>
+            <div class="stat-item"><div class="stat-number" id="avgScore">—</div><div class="stat-label">ממוצע ציון</div></div>
+            <div class="stat-item"><div class="stat-number" id="topScore">—</div><div class="stat-label">ציון מוביל</div></div>
         </div>
 
         <div class="leaderboard">
@@ -567,13 +446,21 @@
                 <p>טוען נתונים מהמערכת...</p>
             </div>
 
-            <div id="leaderboardContent" style="display: none;">
-                <!-- Teams will be populated here -->
+            <div id="leaderboardContent" style="display:none">
+                <div class="leaderboard-header">
+                    <span>#</span>
+                    <span style="text-align:right">קבוצה</span>
+                    <span>מעבדות</span>
+                    <span>שיפוט</span>
+                    <span>ציון סופי</span>
+                    <span></span>
+                </div>
+                <div id="teamsList"></div>
             </div>
 
-            <div class="no-data" id="noData" style="display: none;">
+            <div class="no-data" id="noData" style="display:none">
                 <h3>🤔 אין נתונים זמינים</h3>
-                <p>נתונים יוצגו כאן ברגע שקבוצות יתחילו להשתתף במעבדות ובשיפוט</p>
+                <p>נתונים יוצגו כאן ברגע שקבוצות יתחילו להשתתף</p>
             </div>
 
             <div class="last-updated">
@@ -586,187 +473,283 @@
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
+    <!-- ── Detail modal ── -->
+    <div class="detail-overlay" id="detailOverlay">
+        <div class="detail-panel">
+            <div class="panel-header">
+                <div class="panel-header-info">
+                    <div class="panel-team-name" id="panelTeamName"></div>
+                    <div id="panelSchool" style="font-size:0.85rem;opacity:0.75;margin-top:2px;display:none"></div>
+                    <div class="panel-score-summary" id="panelScoreSummary"></div>
+                </div>
+                <button class="panel-close" id="panelClose">✕</button>
+            </div>
+            <div class="panel-body" id="panelBody"></div>
+        </div>
+    </div>
+
     <script type="module">
-        // Import Firebase functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-        
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCe24QH6BXEWtF2zJWcP8WhV8qKj-3l-00",
-            authDomain: "gaash-2ea82.firebaseapp.com",
-            databaseURL: "https://gaash-2ea82-default-rtdb.firebaseio.com/",
-            projectId: "gaash-2ea82",
-            storageBucket: "gaash-2ea82.firebasestorage.app",
-            messagingSenderId: "1054252503536",
-            appId: "1:1054252503536:web:4b7c546bd737de696e4d35"
-        };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
+        const app = initializeApp({
+            apiKey:            "AIzaSyCe24QH6BXEWtF2zJWcP8WhV8qKj-3l-00",
+            authDomain:        "gaash-2ea82.firebaseapp.com",
+            databaseURL:       "https://gaash-2ea82-default-rtdb.firebaseio.com/",
+            projectId:         "gaash-2ea82",
+            storageBucket:     "gaash-2ea82.firebasestorage.app",
+            messagingSenderId: "1054252503536",
+            appId:             "1:1054252503536:web:4b7c546bd737de696e4d35"
+        });
         const database = getDatabase(app);
 
-        // DOM elements
-        const loading = document.getElementById('loading');
-        const leaderboardContent = document.getElementById('leaderboardContent');
-        const noData = document.getElementById('noData');
-        const lastUpdate = document.getElementById('lastUpdate');
-        const totalTeams = document.getElementById('totalTeams');
-        const completedJudging = document.getElementById('completedJudging');
-        const avgScore = document.getElementById('avgScore');
-        const topScore = document.getElementById('topScore');
+        // ── Hebrew labels ─────────────────────────────────────────────
+        const LAB_LABELS = {
+            task_completion: 'מילוי המשימה',
+            teamwork:        'עבודת צוות',
+            creativity:      'חשיבה יצירתית',
+            independence:    'עבודה עצמאית'
+        };
+        const JUDGE_LABELS = {
+            problem:      'הבעיה / צורך',
+            audience:     'קהל יעד',
+            market:       'מחקר שוק',
+            solution:     'הפתרון',
+            product:      'מוצר / אב-טיפוס',
+            business:     'מודל עסקי',
+            presentation: 'הצגה והצוות'
+        };
 
-        let teamsData = [];
+        // ── State ────────────────────────────────────────────────────
+        let ref1Data   = {};
+        let ref2Data   = {};
+        let ref1Loaded = false;
+        let ref2Loaded = false;
+        let allTeams   = [];
 
-        // Calculate average lab score for a team
-        function calculateLabScore(teamData) {
-            const workshops = Object.keys(teamData).filter(key => key !== 'finalGrade');
-            if (workshops.length === 0) return 0;
+        // ── Helpers ──────────────────────────────────────────────────
+        function avg(obj) {
+            const vals = Object.values(obj || {}).filter(v => typeof v === 'number');
+            return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+        }
+        function fmt(n) { return (n && n > 0) ? n.toFixed(2) : '—'; }
+        function esc(s) {
+            return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        }
+        function getRankClass(p) { return p <= 5 ? 'gold' : 'regular'; }
 
-            let totalScore = 0;
-            let workshopCount = 0;
+        // ── Build groups ─────────────────────────────────────────────
+        function buildGroups() {
+            const groups = {};
 
-            workshops.forEach(workshop => {
-                const ratings = teamData[workshop]?.ratings;
-                if (ratings) {
-                    const ratingValues = Object.values(ratings).filter(val => typeof val === 'number');
-                    if (ratingValues.length > 0) {
-                        const avgRating = ratingValues.reduce((a, b) => a + b, 0) / ratingValues.length;
-                        totalScore += avgRating;
-                        workshopCount++;
-                    }
-                }
+            // ref1 — labs (מעבדות)
+            Object.entries(ref1Data).forEach(([groupName, workshopMap]) => {
+                if (!workshopMap || typeof workshopMap !== 'object') return;
+                if (!groups[groupName]) groups[groupName] = { name: groupName, school: '', labEntries: [], judgingEntries: [] };
+                Object.entries(workshopMap).forEach(([workshopName, entry]) => {
+                    if (!entry?.ratings) return;
+                    if (!groups[groupName].school && entry.school) groups[groupName].school = entry.school;
+                    groups[groupName].labEntries.push({ workshopName, ...entry });
+                });
             });
 
-            return workshopCount > 0 ? totalScore / workshopCount : 0;
+            // ref2 — judging (שיפוט)
+            Object.values(ref2Data).forEach(judgesMap => {
+                if (!judgesMap || typeof judgesMap !== 'object') return;
+                Object.values(judgesMap).forEach(entry => {
+                    if (!entry?.group) return;
+                    const gn = entry.group;
+                    if (!groups[gn]) groups[gn] = { name: gn, school: '', labEntries: [], judgingEntries: [] };
+                    if (!groups[gn].school && entry.school) groups[gn].school = entry.school;
+                    groups[gn].judgingEntries.push(entry);
+                });
+            });
+
+            return groups;
         }
 
-        // Get rank class for styling
-        function getRankClass(position) {
-            switch(position) {
-                case 1: return 'gold';
-                case 2: return 'silver';
-                case 3: return 'bronze';
-                default: return 'regular';
-            }
+        function processTeams(groups) {
+            return Object.values(groups).map(g => {
+                const labScore     = g.labEntries.length     ? g.labEntries.reduce((s, e) => s + avg(e.ratings), 0)     / g.labEntries.length     : 0;
+                const judgingScore = g.judgingEntries.length ? g.judgingEntries.reduce((s, e) => s + avg(e.ratings), 0) / g.judgingEntries.length : 0;
+
+                let finalScore = 0;
+                if      (g.labEntries.length && g.judgingEntries.length) finalScore = 0.3 * labScore + 0.7 * judgingScore;
+                else if (g.judgingEntries.length)                        finalScore = judgingScore;
+                else if (g.labEntries.length)                            finalScore = labScore;
+
+                return { ...g, labScore, judgingScore, finalScore };
+            }).sort((a, b) => (b.finalScore || 0) - (a.finalScore || 0));
         }
 
-        // Format score display
-        function formatScore(score) {
-            return score ? Math.round(score * 100) / 100 : '0.00';
-        }
-
-        // Render leaderboard
+        // ── Render leaderboard ────────────────────────────────────────
         function renderLeaderboard(teams) {
-            if (teams.length === 0) {
-                loading.style.display = 'none';
-                noData.style.display = 'block';
-                leaderboardContent.style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
+
+            if (!teams.length) {
+                document.getElementById('noData').style.display          = 'block';
+                document.getElementById('leaderboardContent').style.display = 'none';
                 return;
             }
+            document.getElementById('noData').style.display          = 'none';
+            document.getElementById('leaderboardContent').style.display = 'block';
 
-            // Sort teams by final score (descending)
-            teams.sort((a, b) => (b.finalScore || 0) - (a.finalScore || 0));
-
-            let html = '';
-            teams.forEach((team, index) => {
-                const position = index + 1;
-                const rankClass = getRankClass(position);
-                
-                html += `
-                    <div class="team-row" style="animation-delay: ${index * 0.1}s">
-                        <div class="rank ${rankClass}">${position}</div>
-                        <div class="team-name">${team.name}</div>
+            const list = document.getElementById('teamsList');
+            list.innerHTML = teams.map((t, i) => {
+                const pos = i + 1;
+                return `
+                    <div class="team-row${pos <= 5 ? ' winner' : ''}" data-idx="${i}" style="animation-delay:${i * 0.08}s">
+                        <div class="rank ${getRankClass(pos)}">${pos}</div>
+                        <div class="team-name">
+                            ${esc(t.name)}
+                            ${t.school ? `<span class="team-school">${esc(t.school)}</span>` : ''}
+                        </div>
                         <div class="score-item lab-score">
-                            <div class="score-value">${formatScore(team.labScore)}</div>
+                            <div class="score-value">${fmt(t.labScore)}</div>
                             <div class="score-label">מעבדות</div>
                         </div>
                         <div class="score-item judging-score">
-                            <div class="score-value">${formatScore(team.judgingScore)}</div>
+                            <div class="score-value">${fmt(t.judgingScore)}</div>
                             <div class="score-label">שיפוט</div>
                         </div>
                         <div class="score-item final-score">
-                            <div class="score-value">${formatScore(team.finalScore)}</div>
+                            <div class="score-value">${fmt(t.finalScore)}</div>
                             <div class="score-label">ציון סופי</div>
                         </div>
-                    </div>
-                `;
+                        <button class="expand-btn" title="פרטים">›</button>
+                    </div>`;
+            }).join('');
+
+            list.querySelectorAll('.team-row').forEach(row => {
+                row.addEventListener('click', () => openDetail(allTeams[parseInt(row.dataset.idx)]));
             });
 
-            leaderboardContent.innerHTML = html;
-            loading.style.display = 'none';
-            leaderboardContent.style.display = 'block';
-            noData.style.display = 'none';
-
-            // Update statistics
-            updateStatistics(teams);
+            // stats
+            const scores = teams.map(t => t.finalScore).filter(s => s > 0);
+            document.getElementById('totalTeams').textContent        = teams.length;
+            document.getElementById('completedJudging').textContent  = teams.filter(t => t.judgingEntries.length > 0).length;
+            document.getElementById('avgScore').textContent          = scores.length ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2) : '—';
+            document.getElementById('topScore').textContent          = scores.length ? Math.max(...scores).toFixed(2) : '—';
         }
 
-        // Update statistics
-        function updateStatistics(teams) {
-            const total = teams.length;
-            const judged = teams.filter(team => team.finalScore > 0).length;
-            const scores = teams.map(team => team.finalScore || 0).filter(score => score > 0);
-            const average = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
-            const top = scores.length > 0 ? Math.max(...scores) : 0;
+        // ── Detail panel ──────────────────────────────────────────────
+        function openDetail(team) {
+            document.getElementById('panelTeamName').textContent = team.name;
 
-            totalTeams.textContent = total;
-            completedJudging.textContent = judged;
-            avgScore.textContent = formatScore(average);
-            topScore.textContent = formatScore(top);
-        }
+            const hasLab     = team.labEntries.length     > 0;
+            const hasJudging = team.judgingEntries.length > 0;
 
-        // Listen to Firebase data changes
-        function setupRealtimeListener() {
-            const groupsRef = ref(database, 'groupName');
-            
-            onValue(groupsRef, (snapshot) => {
-                teamsData = [];
-                
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    
-                    Object.keys(data).forEach(teamName => {
-                        const teamData = data[teamName];
-                        
-                        // Calculate lab score
-                        const labScore = calculateLabScore(teamData);
-                        
-                        // Get final grade data
-                        const finalGrade = teamData.finalGrade;
-                        const judgingScore = finalGrade?.calculations?.judgingScore || 0;
-                        const finalScore = finalGrade?.calculations?.finalScore || 0;
-                        
-                        teamsData.push({
-                            name: teamName,
-                            labScore: labScore,
-                            judgingScore: judgingScore,
-                            finalScore: finalScore,
-                            hasJudging: !!finalGrade
-                        });
+            // school sub-line in header
+            const schoolEl = document.getElementById('panelSchool');
+            if (team.school) {
+                schoolEl.textContent = team.school;
+                schoolEl.style.display = 'block';
+            } else {
+                schoolEl.style.display = 'none';
+            }
+
+            let summary = '';
+            if (hasLab && hasJudging)   summary = `ציון סופי: ${fmt(team.finalScore)}/5  •  מעבדות 30% + שיפוט 70%`;
+            else if (hasJudging)        summary = `ציון שיפוט: ${fmt(team.judgingScore)}/5`;
+            else if (hasLab)            summary = `ציון מעבדות: ${fmt(team.labScore)}/5`;
+            document.getElementById('panelScoreSummary').textContent = summary;
+
+            // ── Lab entries ──
+            let html = `<div class="panel-section">
+                <div class="panel-section-title">🔬 מעבדות <span class="section-badge">30%</span></div>`;
+
+            if (!hasLab) {
+                html += `<div class="no-data-text">אין נתוני מעבדות עדיין</div>`;
+            } else {
+                team.labEntries.forEach(e => {
+                    const entryAvg = avg(e.ratings);
+                    const instrName = e.instructor || (e.instructor1 ? e.instructor1 + (e.instructor2 ? ` ו${e.instructor2}` : '') : '—');
+                    html += `<div class="entry-card">
+                        <div class="entry-card-header">
+                            📋 ${esc(e.workshopName)}
+                            <span class="entry-avg-badge">ממוצע: ${entryAvg.toFixed(2)}/5</span>
+                        </div>
+                        <div class="entry-card-body">
+                            <div class="instructor-line"><strong>מדריכים:</strong> ${esc(instrName)}</div>`;
+
+                    Object.entries(LAB_LABELS).forEach(([key, label]) => {
+                        const val = e.ratings?.[key] || 0;
+                        html += `<div class="mini-rating">
+                            <span class="mini-rating-label">${label}</span>
+                            <div class="mini-rating-track"><div class="mini-rating-fill fill-lab" style="width:${val * 20}%"></div></div>
+                            <span class="mini-rating-value">${val}/5</span>
+                        </div>`;
                     });
-                }
-                
-                // Render the leaderboard
-                renderLeaderboard(teamsData);
-                
-                // Update last updated time
-                lastUpdate.textContent = `עדכון אחרון: ${new Date().toLocaleTimeString('he-IL')}`;
-            }, (error) => {
-                console.error('Error listening to database:', error);
-                loading.style.display = 'none';
-                noData.style.display = 'block';
-                leaderboardContent.style.display = 'none';
-            });
+
+                    const phrases = (e.phrases || []).filter(p => p?.trim());
+                    if (phrases.length) {
+                        html += `<div class="phrases-section">
+                            <div class="phrases-title">💬 משפטים ששמעתי מהתלמידים</div>`;
+                        phrases.forEach(p => { html += `<div class="phrase-quote">${esc(p)}</div>`; });
+                        html += `</div>`;
+                    }
+                    html += `</div></div>`;
+                });
+            }
+            html += `</div>`;
+
+            // ── Judging entries ──
+            html += `<div class="panel-section">
+                <div class="panel-section-title">⚖️ שיפוט <span class="section-badge">70%</span></div>`;
+
+            if (!hasJudging) {
+                html += `<div class="no-data-text">אין נתוני שיפוט עדיין</div>`;
+            } else {
+                team.judgingEntries.forEach(e => {
+                    const entryAvg = avg(e.ratings);
+                    html += `<div class="entry-card">
+                        <div class="entry-card-header">
+                            👥 ${esc(e.judges || '—')}
+                            <span class="entry-avg-badge">ממוצע: ${entryAvg.toFixed(2)}/5</span>
+                        </div>
+                        <div class="entry-card-body">`;
+
+                    Object.entries(JUDGE_LABELS).forEach(([key, label]) => {
+                        const val = e.ratings?.[key] || 0;
+                        html += `<div class="mini-rating">
+                            <span class="mini-rating-label">${label}</span>
+                            <div class="mini-rating-track"><div class="mini-rating-fill fill-judging" style="width:${val * 20}%"></div></div>
+                            <span class="mini-rating-value">${val}/5</span>
+                        </div>`;
+                    });
+
+                    html += `</div></div>`;
+                });
+            }
+            html += `</div>`;
+
+            document.getElementById('panelBody').innerHTML = html;
+            document.getElementById('detailOverlay').classList.add('open');
         }
 
-        // Initialize the leaderboard
-        setupRealtimeListener();
+        function closeDetail() {
+            document.getElementById('detailOverlay').classList.remove('open');
+        }
 
-        // Update the timestamp every minute
+        document.getElementById('panelClose').addEventListener('click', closeDetail);
+        document.getElementById('detailOverlay').addEventListener('click', e => {
+            if (e.target === document.getElementById('detailOverlay')) closeDetail();
+        });
+
+        // ── Real-time listeners ───────────────────────────────────────
+        function tryRender() {
+            if (!ref1Loaded || !ref2Loaded) return;
+            allTeams = processTeams(buildGroups());
+            renderLeaderboard(allTeams);
+            document.getElementById('lastUpdate').textContent = `עדכון אחרון: ${new Date().toLocaleTimeString('he-IL')}`;
+        }
+
+        onValue(ref(database, 'ref1'), snap => { ref1Data = snap.val() || {}; ref1Loaded = true; tryRender(); });
+        onValue(ref(database, 'ref2'), snap => { ref2Data = snap.val() || {}; ref2Loaded = true; tryRender(); });
+
         setInterval(() => {
-            lastUpdate.textContent = `עדכון אחרון: ${new Date().toLocaleTimeString('he-IL')}`;
+            if (ref1Loaded && ref2Loaded)
+                document.getElementById('lastUpdate').textContent = `עדכון אחרון: ${new Date().toLocaleTimeString('he-IL')}`;
         }, 60000);
     </script>
 </body>

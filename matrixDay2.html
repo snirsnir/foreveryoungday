@@ -189,6 +189,36 @@
   }
   .g-collect .end-label { color: #134e4a; }
   .g-present .end-label { color: #7c2d12; }
+
+  /* ===== MENTOR PANEL ===== */
+  .mentor-panel {
+    max-width: 1600px; margin: 0 auto 16px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  }
+  .mentor-card {
+    background: #fff; border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 10px 12px;
+    border-top: 4px solid #ccc;
+  }
+  .mentor-card-title {
+    font-size: 11px; font-weight: 800; color: #1a1a2e;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+  }
+  .mentor-card-title .bd {
+    width: 11px; height: 11px; border-radius: 50%;
+    border: 1.5px solid rgba(0,0,0,0.2); flex-shrink: 0;
+  }
+  .mentor-school-label {
+    font-weight: 800; font-size: 10.5px; color: #6d28d9;
+    margin-top: 4px; display: block;
+  }
+  .mentor-school-label:first-child { margin-top: 0; }
+  .mentor-entry { line-height: 1.7; font-size: 11px; }
+  .mentor-entry .m-team   { font-weight: 700; color: #374151; }
+  .mentor-entry .m-leader { color: #374151; }
+  .mentor-entry .m-name   { font-weight: 700; color: #6d28d9; }
+  .mentor-none { color: #aaa; font-style: italic; font-size: 10.5px; }
 </style>
 </head>
 <body>
@@ -204,31 +234,33 @@
   <div class="legend-item"><div class="legend-dot" style="background:var(--mkt)"></div>📣 שיווק ופרסום</div>
 </div>
 
+<div class="mentor-panel" id="mentorPanel"></div>
+
 <div class="wrapper">
   <table id="tbl"></table>
 </div>
 
 <script>
 const groups = [
-  'שש שנתי – יש"י',
-  'רב תחומי',
+  'אולפנת חריש + אתגרי העתיד חריש',
+  'הרב תחומי + מאיר שפיה',
   'מבשרת',
-  'אתגרי העתיד + מאיר שפיה',
-  'נבון',
-  'אולפנה – מעיין האמונה',
-  'עתידים',
-  'קופטאן',
+  'נבון 1-4',
+  'נבון 5-8',
+  'עתידים אור עקיבא',
+  'קופטאן דליה',
+  'שש שנתי ישי',
 ];
 
 const bracelets = [
-  { name: 'סגול',     color: '#9b59b6' },
-  { name: 'חום',      color: '#8B4513' },
-  { name: 'צהוב',     color: '#f1c40f' },
-  { name: 'ירוק',     color: '#2ecc71' },
-  { name: 'כחול',     color: '#3498db' },
-  { name: 'אדום',     color: '#e74c3c' },
-  { name: 'ירוק כהה', color: '#1a5c38' },
-  { name: 'כתום',     color: '#e67e22' },
+  { name: 'סגול',      color: '#9b59b6' },
+  { name: 'חום',       color: '#8B4513' },
+  { name: 'צהוב',      color: '#f1c40f' },
+  { name: 'ירוק בהיר', color: '#2ecc71' },
+  { name: 'כחול',      color: '#3498db' },
+  { name: 'אדום',      color: '#e74c3c' },
+  { name: 'לבן',       color: '#f0f0f0' },
+  { name: 'כתום',      color: '#e67e22' },
 ];
 
 // כל שורה = קבוצה, כל עמודה = רצועה [א,ב,ג]
@@ -248,14 +280,14 @@ const labs = [
   // ספר פרויקט (P) — indices 0,1,2
   { name:'מעבדה 1',   topic:'P', instructors:['עפרי + ענת',    'עפרי + ענת',     'מנאל + זיינב'] },
   { name:'מעבדה 2',   topic:'P', instructors:'יעל + עזריאל' },
-  { name:'מעבדה 6',   topic:'P', instructors:'מרי + אורטל' },
+  { name:'מעבדה 6',   topic:'P', instructors:['לידור + אורטל', 'מרי + אורטל',   'לידור + אורטל'] },
   // אב-טיפוס (A) — indices 3,4,5
   { name:'מעבדה 3',   topic:'A', instructors:'סיוון + חיה' },
-  { name:'מעבדה 4',   topic:'A', instructors:['איציק + לינוי', 'מנאל + זיינב',   'אראל + אבי'] },
+  { name:'מעבדה 4',   topic:'A', instructors:['איציק + יעלה',  'מנאל + זיינב',   'אראל + אבי'] },
   { name:'מעבדה 5',   topic:'A', instructors:'אראל + אבי' },
   // שיווק ופרסום (M) — indices 6,7,8
-  { name:'מחשבים 1',  topic:'M', instructors:'יעלה + גילי' },
-  { name:'מחשבים 2',  topic:'M', instructors:['מנאל + זיינב',  'לינוי + איציק',  'איציק + ענת'] },
+  { name:'מחשבים 1',  topic:'M', instructors:['מרי + גילי',    'יעלה + גילי',    'יעלה + גילי'] },
+  { name:'מחשבים 2',  topic:'M', instructors:['מנאל + זיינב',  'מרי + איציק',    'איציק + ענת'] },
   { name:'טכנולוגיה', topic:'M', instructors:'רוני + שי' },
 ];
 
@@ -316,7 +348,7 @@ const grid = applyKoptanConstraint(buildGrid());
 
 // מיפוי סוף יום: לאיזה מעבדה כל קבוצה חוזרת
 // ברירת מחדל = מעבדת רצועה א׳, אחרת override
-const endOfDayOverrideByGroup = { 0:0, 1:1, 6:1, 7:0 };
+const endOfDayOverrideByGroup = { 0:0, 1:1, 2:3, 3:4, 4:5, 5:2, 6:3, 7:5 };
 // בנה מערך: לכל מעבדה — אילו קבוצות נמצאות שם בסוף יום
 const endOfDayLabGroups = new Array(9).fill(null).map(() => []);
 groups.forEach((_, gi) => {
@@ -495,6 +527,107 @@ function renderCommonRow(time, badge, title, location) {
 
   tbl.innerHTML = h;
 })();
+
+// === MENTOR PANEL CARDS (titles + placeholders) ===
+(function() {
+  const panel = document.getElementById('mentorPanel');
+  let h = '';
+  groups.forEach((groupName, gi) => {
+    const b = bracelets[gi];
+    h += `<div class="mentor-card" style="border-top-color:${b.color}">
+      <div class="mentor-card-title">
+        <span class="bd" style="background:${b.color}"></span>${groupName}
+      </div>
+      <div id="mentor-card-${gi}"><span class="mentor-none">טוען...</span></div>
+    </div>`;
+  });
+  panel.innerHTML = h;
+})();
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyCQdei2zVCXkYh99pLPzr_ZMyi8ohupVhY",
+  authDomain: "forever-4a04b.firebaseapp.com",
+  databaseURL: "https://forever-4a04b-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "forever-4a04b",
+  storageBucket: "forever-4a04b.firebasestorage.app",
+  messagingSenderId: "250928700713",
+  appId: "1:250928700713:web:25d6979fca637b90d42b38"
+});
+const db = getDatabase(app);
+
+const groupSchoolMapping = [
+  [{ school: 'אולפנת חריש',       teams: null }, { school: 'אתגרי העתיד חריש', teams: null }],
+  [{ school: 'הרב תחומי',         teams: null }, { school: 'מאיר שפיה',          teams: null }],
+  [{ school: 'מבשרת חדרה',        teams: null }],
+  [{ school: 'נבון חדרה',          teams: [1,2,3,4] }],
+  [{ school: 'נבון חדרה',          teams: [5,6,7,8] }],
+  [{ school: 'עתידים אור עקיבא',  teams: null }],
+  [{ school: 'קופטאן דליה',        teams: null }],
+  [{ school: 'שש שנתי ישי',        teams: null }],
+];
+
+async function loadMentors() {
+  try {
+    const snap = await get(ref(db, 'teams'));
+    const teamsData = snap.val() || {};
+
+    groupSchoolMapping.forEach((schoolList, gi) => {
+      const cell = document.getElementById(`mentor-card-${gi}`);
+      if (!cell) return;
+
+      let html = '';
+      schoolList.forEach(({ school, teams }) => {
+        const schoolData = teamsData[school];
+        html += `<span class="mentor-school-label">${school}</span>`;
+        if (!schoolData) { html += `<div class="mentor-none">אין נתונים</div>`; return; }
+
+        const sorted = Object.entries(schoolData)
+          .filter(([teamName]) => {
+            if (!teams) return true;
+            const n = parseInt(teamName.replace(/\D/g, ''));
+            return teams.includes(n);
+          })
+          .sort(([a], [b]) => parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,'')));
+
+        sorted.forEach(([teamName, teamData]) => {
+          if (!teamData || typeof teamData !== 'object') return;
+          const students = Array.isArray(teamData.students)
+            ? teamData.students : Object.values(teamData.students || {});
+          const leader = students.length > 0 ? students[0].split(' ')[0] : '—';
+
+          const assigned = Object.values(teamData.assignedMentors || {});
+          const firstName = name => {
+            const p = name.split(' ');
+            return p[0] === "דר'" ? `דר' ${p[1] || ''}`.trim() : p[0];
+          };
+          const mentorStr = assigned.length
+            ? assigned.map(m => m.mentors.map(x => firstName(x.name)).join(' + ')).join(', ')
+            : '<span class="mentor-none">ללא שיבוץ</span>';
+
+          html += `<div class="mentor-entry">
+            <span class="m-team">${teamName}</span> -
+            <span class="m-leader">${leader}</span> -
+            <span class="m-name">${mentorStr}</span>
+          </div>`;
+        });
+      });
+
+      cell.innerHTML = html || '<span class="mentor-none">אין נתונים</span>';
+    });
+  } catch (err) {
+    console.error('loadMentors error:', err);
+    document.querySelectorAll('[id^="mentor-card-"]').forEach(c => {
+      c.innerHTML = '<span class="mentor-none">שגיאה בטעינה</span>';
+    });
+  }
+}
+
+loadMentors();
 </script>
 </body>
 </html>

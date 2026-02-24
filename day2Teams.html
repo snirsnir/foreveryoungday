@@ -269,6 +269,27 @@
     max-width: 700px; margin: 18px auto 0;
     text-align: center; font-size: 11px; color: #8a8a9a; line-height: 1.7;
   }
+
+  /* ===== MENTOR ROW ===== */
+  .mentor-row td {
+    background: #faf5ff;
+    border: 1px solid #e9d5ff;
+    vertical-align: top;
+    padding: 8px 5px;
+    font-size: 10px;
+  }
+  .mentor-row .time-cell { background: var(--dark); border: none; }
+  .mentor-school-label {
+    font-weight: 800; font-size: 10.5px; color: #6d28d9;
+    display: block; border-bottom: 1px solid #e0c8ff;
+    padding-bottom: 2px; margin-bottom: 3px; margin-top: 5px;
+  }
+  .mentor-school-label:first-child { margin-top: 0; }
+  .mentor-entry { line-height: 1.7; }
+  .mentor-entry .m-team  { font-weight: 700; color: #374151; }
+  .mentor-entry .m-leader { color: #374151; }
+  .mentor-entry .m-name  { font-weight: 700; color: #6d28d9; }
+  .mentor-none { color: #aaa; font-style: italic; }
 </style>
 </head>
 <body>
@@ -291,25 +312,25 @@
 
 <script>
 const groups = [
-  'שש שנתי – יש"י',
-  'רב תחומי',
+  'אולפנת חריש + אתגרי העתיד חריש',
+  'הרב תחומי + מאיר שפיה',
   'מבשרת',
-  'אתגרי העתיד + מאיר שפיה',
-  'נבון',
-  'אולפנה – מעיין האמונה',
-  'עתידים',
-  'קופטאן',
+  'נבון 1-4',
+  'נבון 5-8',
+  'עתידים אור עקיבא',
+  'קופטאן דליה',
+  'שש שנתי ישי',
 ];
 
 const bracelets = [
-  { name: 'סגול', color: '#9b59b6' },
-  { name: 'חום', color: '#8B4513' },
-  { name: 'צהוב', color: '#f1c40f' },
-  { name: 'ירוק', color: '#2ecc71' },
-  { name: 'כחול', color: '#3498db' },
-  { name: 'אדום', color: '#e74c3c' },
-  { name: 'ירוק כהה', color: '#1a5c38' },
-  { name: 'כתום', color: '#e67e22' },
+  { name: 'סגול',      color: '#9b59b6' },
+  { name: 'חום',       color: '#8B4513' },
+  { name: 'צהוב',      color: '#f1c40f' },
+  { name: 'ירוק בהיר', color: '#2ecc71' },
+  { name: 'כחול',      color: '#3498db' },
+  { name: 'אדום',      color: '#e74c3c' },
+  { name: 'לבן',       color: '#f0f0f0' },
+  { name: 'כתום',      color: '#e67e22' },
 ];
 
 // Same rotation logic as Day 1 (L→P, C→A, B→M)
@@ -332,17 +353,17 @@ const labs = [
   //  רצועה ב: זיינב עם קופטאן (A) → ענת מחליפה
   //  רצועה ג: קופטאן כאן → מנאל + זיינב
   { name:'מעבדה 2',   topic:'P', instructors:'יעל + עזריאל' },
-  { name:'מעבדה 6',   topic:'P', instructors:'מרי + אורטל' },
+  { name:'מעבדה 6',   topic:'P', instructors:['לידור + אורטל', 'מרי + אורטל', 'לידור + אורטל'] },
   // אב-טיפוס (A) — indices 3,4,5
   { name:'מעבדה 3',   topic:'A', instructors:'סיוון + חיה' },
-  { name:'מעבדה 4',   topic:'A', instructors:['איציק + לינוי', 'מנאל + זיינב', 'אראל + אבי'] },
-  //  רצועה א: מנאל עם קופטאן (M) → איציק + לינוי מחליפים
+  { name:'מעבדה 4',   topic:'A', instructors:['איציק + יעלה', 'מנאל + זיינב', 'אראל + אבי'] },
+  //  רצועה א: מנאל עם קופטאן (M) → איציק + יעלה מחליפים
   //  רצועה ב: קופטאן כאן → מנאל + זיינב
   //  רצועה ג: מנאל עם קופטאן (P) → ענת + איציק מחליפים
   { name:'מעבדה 5',   topic:'A', instructors:'אראל + אבי' },
   // שיווק ופרסום (M) — indices 6,7,8
-  { name:'מחשבים 1',  topic:'M', instructors:'יעלה + גילי' },
-  { name:'מחשבים 2',  topic:'M', instructors:['מנאל + זיינב', 'לינוי + איציק', 'איציק + ענת'] },
+  { name:'מחשבים 1',  topic:'M', instructors:['מרי + גילי', 'יעלה + גילי', 'יעלה + גילי'] },
+  { name:'מחשבים 2',  topic:'M', instructors:['מנאל + זיינב', 'מרי + איציק', 'איציק + ענת'] },
   //  רצועה א: קופטאן כאן → מנאל + זיינב
   //  רצועה ב: לינוי עוברת לשיווק + איציק (שהתפנה מ-A)
   //  רצועה ג: חזרה לאיציק + ענת
@@ -453,14 +474,23 @@ function renderCommonRow(time, badge, title, location) {
   h += '<th></th>';
   groups.forEach((group, gi) => {
     const bracelet = bracelets[gi];
+    const braceletHTML = `<div class="bracelet-info">
+      <span class="bracelet-dot" style="background:${bracelet.color}"></span>
+      <span class="bracelet-name">${bracelet.name}</span>
+    </div>`;
     h += `<th>
       <span class="group-name">${group}</span>
-      <div class="bracelet-info">
-        <span class="bracelet-dot" style="background:${bracelet.color}"></span>
-        <span class="bracelet-name">${bracelet.name}</span>
-      </div>
+      ${braceletHTML}
     </th>`;
   });
+  h += '</tr>';
+
+  // === MENTOR ROW (filled async from Firebase) ===
+  h += '<tr class="mentor-row">';
+  h += `<td class="time-cell"><span class="t-badge" style="color:#c4b5fd;font-size:10px;">🧑‍🏫 מנטוריות<br>מלוות</span></td>`;
+  for (let gi = 0; gi < groups.length; gi++) {
+    h += `<td id="mentor-cell-${gi}"><span class="mentor-none">טוען...</span></td>`;
+  }
   h += '</tr>';
 
   // === COMMON: הגעה, התאספות ונשנושים ===
@@ -504,10 +534,12 @@ function renderCommonRow(time, badge, title, location) {
 
   // שיוכי מעבדה מיוחדים לאיסוף והצגה (מיזוגים)
   const endOfDayOverrides = {
-    0: { labName: 'מעבדה 1', partner: 'יחד עם קופטאן' },   // שש שנתי
-    1: { labName: 'מעבדה 2', partner: 'יחד עם עתידים' },    // רב תחומי
-    6: { labName: 'מעבדה 2', partner: 'יחד עם רב תחומי' },  // עתידים
-    7: { labName: 'מעבדה 1', partner: 'יחד עם שש שנתי' },   // קופטאן
+    2: { labName: 'מעבדה 3', partner: 'יחד עם קופטאן דליה' },               // מבשרת
+    3: { labName: 'מעבדה 4' },                                                // נבון 1-4
+    4: { labName: 'מעבדה 5', partner: 'יחד עם שש שנתי ישי' },               // נבון 5-8
+    5: { labName: 'מעבדה 6' },                                                // עתידים אור עקיבא
+    6: { labName: 'מעבדה 3', partner: 'יחד עם מבשרת' },                     // קופטאן דליה
+    7: { labName: 'מעבדה 5', partner: 'יחד עם נבון 5-8' },                  // שש שנתי ישי
   };
 
   // === איסוף הפרויקטים — לפי מעבדות רצועה א׳ ===
@@ -555,6 +587,92 @@ function renderCommonRow(time, badge, title, location) {
 
   tbl.innerHTML = h;
 })();
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyCQdei2zVCXkYh99pLPzr_ZMyi8ohupVhY",
+  authDomain: "forever-4a04b.firebaseapp.com",
+  databaseURL: "https://forever-4a04b-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "forever-4a04b",
+  storageBucket: "forever-4a04b.firebasestorage.app",
+  messagingSenderId: "250928700713",
+  appId: "1:250928700713:web:25d6979fca637b90d42b38"
+});
+const db = getDatabase(app);
+
+// מיפוי: לכל עמודה (gi) — אילו בתי ספר + אילו קבוצות (null = כולן)
+const groupSchoolMapping = [
+  [{ school: 'אולפנת חריש',       teams: null }, { school: 'אתגרי העתיד חריש', teams: null }],
+  [{ school: 'הרב תחומי',         teams: null }, { school: 'מאיר שפיה',          teams: null }],
+  [{ school: 'מבשרת חדרה',        teams: null }],
+  [{ school: 'נבון חדרה',          teams: [1,2,3,4] }],
+  [{ school: 'נבון חדרה',          teams: [5,6,7,8] }],
+  [{ school: 'עתידים אור עקיבא',  teams: null }],
+  [{ school: 'קופטאן דליה',        teams: null }],
+  [{ school: 'שש שנתי ישי',        teams: null }],
+];
+
+async function loadMentors() {
+  try {
+    const snap = await get(ref(db, 'teams'));
+    const teamsData = snap.val() || {};
+
+    groupSchoolMapping.forEach((schoolList, gi) => {
+      const cell = document.getElementById(`mentor-cell-${gi}`);
+      if (!cell) return;
+
+      let html = '';
+      schoolList.forEach(({ school, teams }) => {
+        const schoolData = teamsData[school];
+        html += `<span class="mentor-school-label">${school}</span>`;
+        if (!schoolData) { html += `<div class="mentor-none">אין נתונים</div>`; return; }
+
+        const sorted = Object.entries(schoolData)
+          .filter(([teamName]) => {
+            if (!teams) return true;
+            const n = parseInt(teamName.replace(/\D/g, ''));
+            return teams.includes(n);
+          })
+          .sort(([a], [b]) => parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,'')));
+
+        sorted.forEach(([teamName, teamData]) => {
+          if (!teamData || typeof teamData !== 'object') return;
+          const students = Array.isArray(teamData.students)
+            ? teamData.students : Object.values(teamData.students || {});
+          const leader = students.length > 0 ? students[0].split(' ')[0] : '—';
+
+          const assigned = Object.values(teamData.assignedMentors || {});
+          const firstName = name => {
+            const p = name.split(' ');
+            return p[0] === "דר'" ? `דר' ${p[1] || ''}`.trim() : p[0];
+          };
+          const mentorStr = assigned.length
+            ? assigned.map(m => m.mentors.map(x => firstName(x.name)).join(' + ')).join(', ')
+            : '<span class="mentor-none">ללא שיבוץ</span>';
+
+          html += `<div class="mentor-entry">
+            <span class="m-team">${teamName}</span> -
+            <span class="m-leader">${leader}</span> -
+            <span class="m-name">${mentorStr}</span>
+          </div>`;
+        });
+      });
+
+      cell.innerHTML = html || '<span class="mentor-none">אין נתונים</span>';
+    });
+  } catch (err) {
+    console.error('loadMentors error:', err);
+    document.querySelectorAll('[id^="mentor-cell-"]').forEach(c => {
+      c.innerHTML = '<span class="mentor-none">שגיאה בטעינה</span>';
+    });
+  }
+}
+
+loadMentors();
 </script>
 </body>
 </html>
