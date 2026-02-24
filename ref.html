@@ -284,6 +284,72 @@
 
         .error-message { color: #e91e63; font-size: 0.9rem; margin-top: 8px; display: none; }
 
+        /* ===== Expandable hint ===== */
+        .hint-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            background: none;
+            border: 1.5px solid #9B4D9A;
+            color: #7B1E7A;
+            padding: 5px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .hint-toggle:hover { background: #f3e5f3; }
+        .hint-toggle .hint-icon {
+            font-size: 1.1rem;
+            line-height: 1;
+            transition: transform 0.3s;
+        }
+        .hint-toggle.open .hint-icon { transform: rotate(45deg); }
+
+        .hint-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+            margin-top: 0;
+        }
+        .hint-panel.open {
+            max-height: 800px;
+            opacity: 1;
+            margin-top: 14px;
+        }
+        .hint-panel-inner {
+            background: #faf5ff;
+            border: 1.5px solid #e2c9f5;
+            border-radius: 12px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .hint-section { display: flex; flex-direction: column; gap: 5px; }
+        .hint-section h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #7B1E7A;
+            margin: 0;
+        }
+        .hint-section p {
+            font-size: 0.87rem;
+            color: #444;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .hint-section .hint-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #9B4D9A;
+            margin-bottom: 2px;
+        }
+
         .loading { display: none; text-align: center; padding: 20px; }
 
         .spinner {
@@ -479,7 +545,50 @@
                     <label class="form-label">
                         משפטים ששמעתי מהתלמידים במהלך הסדנא
                     </label>
-                    <div class="phrases-list" id="phrases-list"></div>
+
+                    <button type="button" class="hint-toggle" id="hintToggle">
+                        <span class="hint-icon">+</span> על מה כדאי להקשיב?
+                    </button>
+
+                    <div class="hint-panel" id="hintPanel">
+                        <div class="hint-panel-inner">
+
+                            <div class="hint-section">
+                                <h4>1. הלך רוח ואקלים קבוצתי (Mindset &amp; Atmosphere)</h4>
+                                <div class="hint-label">מה מחפשים:</div>
+                                <p>האם השיח מאופיין ביוזמה ("בואו ננסה...") או בהיסוס? האם ישנה חלוקת תפקידים טבעית?</p>
+                                <div class="hint-label">ניסוח לתצפיתן:</div>
+                                <p>תעד את המעבר בין שלבי הסדנאות – האם ניכרת עלייה ברמת הביטחון והתעוזה ככל שהאב-טיפוס מקבל צורה? שים לב לרגעים של "זרימה" (Flow) קבוצתית.</p>
+                            </div>
+
+                            <div class="hint-section">
+                                <h4>2. הקשר עם המנטוריות (The Mentorship Bridge)</h4>
+                                <div class="hint-label">מה מחפשים:</div>
+                                <p>האם המנטורית נתפסת כ"מורה" או כ"שותפה לדרך"? האם התלמידות נעזרות בה כדי לפרוץ מחסומים מחשבתיים?</p>
+                                <div class="hint-label">ניסוח לתצפיתן:</div>
+                                <p>בחן את איכות האינטראקציה: האם התלמידות שואלות שאלות המעידות על סקרנות מקצועית? תעד משפטים שמעידים על המנטורית כדמות מעוררת השראה או מכוונת.</p>
+                            </div>
+
+                            <div class="hint-section">
+                                <h4>3. חשיבה עצמאית ויכולת ניתוח (Critical Thinking)</h4>
+                                <div class="hint-label">מה מחפשים:</div>
+                                <p>איך הנערות מתמודדות עם ה"פידבק" או עם קשיים בבניית הדגם/ספר ההמצאה?</p>
+                                <div class="hint-label">ניסוח לתצפיתן:</div>
+                                <p>זהה רגעים של פתרון בעיות (Problem Solving). האם הן מצליחות לקשר בין הידע הרפואי שרכשו לבין הצורך השיווקי של ההמצאה שלהן?</p>
+                            </div>
+
+                            <div class="hint-section">
+                                <h4>4. משפטי מפתח – "קולן של הנערות" (The Voice of the Participant)</h4>
+                                <div class="hint-label">מה מחפשים:</div>
+                                <p>ציטוטים ישירים שתופסים את המהות.</p>
+                                <div class="hint-label">ניסוח לתצפיתן:</div>
+                                <p>הטה אוזן ל"פנינים" – משפטים המעידים על שינוי בתפיסה העצמית (למשל: "לא האמנתי שנצליח לבנות את זה"), או משפטים המעידים על שבירת סטריאוטיפים.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="phrases-list" id="phrases-list" style="margin-top:14px;"></div>
                     <button type="button" class="phrase-add-btn" id="addPhrase">+ הוסף משפט</button>
                 </div>
 
@@ -812,6 +921,14 @@
             const gSel = document.getElementById('group');
             gSel.innerHTML = '<option value="">בחר בית ספר תחילה</option>';
             gSel.disabled = true;
+        });
+
+        // ── Hint panel toggle ────────────────────────────────────────
+        const hintToggle = document.getElementById('hintToggle');
+        const hintPanel  = document.getElementById('hintPanel');
+        hintToggle.addEventListener('click', () => {
+            const open = hintPanel.classList.toggle('open');
+            hintToggle.classList.toggle('open', open);
         });
 
         // ── Real-time validation on selects ─────────────────────────
