@@ -17,7 +17,7 @@
         .page-header {
             background: linear-gradient(135deg, #5a1058, #7B1E7A, #9B4D9A);
             color: white;
-            padding: 20px 16px 24px;
+            padding: 20px 16px 14px;
             text-align: center;
         }
 
@@ -46,8 +46,32 @@
             font-size: 14px;
             opacity: 0.8;
             letter-spacing: 0.5px;
+            padding-bottom: 4px;
         }
 
+        /* ===== BREADCRUMB ===== */
+        .breadcrumb {
+            background: rgba(0,0,0,0.25);
+            padding: 9px 18px;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            font-size: 13px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+        .breadcrumb.visible { display: flex; }
+
+        .bc-item {
+            color: rgba(255,255,255,0.72);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .bc-item:hover { color: #fff; text-decoration: underline; }
+        .bc-item.active { color: #f9d77e; font-weight: 700; cursor: default; }
+        .bc-sep { color: rgba(255,255,255,0.35); }
+
+        /* ===== GALLERY CONTAINER ===== */
         .gallery-container {
             max-width: 960px;
             margin: 24px auto;
@@ -59,12 +83,62 @@
             text-align: center;
             padding: 70px 20px;
         }
-
         .state-box .state-icon { font-size: 56px; margin-bottom: 16px; }
         .state-box .state-text { font-size: 1.1em; color: #777; }
         .state-box .state-text.error { color: #e74c3c; }
 
-        /* Gallery grid */
+        /* ===== BROWSE GRID ===== */
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #7B1E7A;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8d5e8;
+        }
+
+        .browse-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 14px;
+        }
+
+        .browse-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(123,30,122,0.09);
+            padding: 22px 14px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            border: 2px solid transparent;
+        }
+        .browse-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 28px rgba(123,30,122,0.18);
+            border-color: #9B4D9A;
+        }
+        .browse-card .bc-icon { font-size: 36px; margin-bottom: 10px; display: block; }
+        .browse-card .bc-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            line-height: 1.4;
+        }
+        .browse-card .bc-sub { font-size: 11px; color: #999; margin-top: 5px; }
+        .browse-card .bc-badge {
+            display: inline-block;
+            background: #f3e5f5;
+            color: #7B1E7A;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 9px;
+            border-radius: 10px;
+            margin-top: 8px;
+        }
+        .browse-card .bc-badge.has-files { background: #e8f5e9; color: #2e7d32; }
+
+        /* ===== GALLERY GRID ===== */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -78,13 +152,11 @@
             overflow: hidden;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .file-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 10px 28px rgba(123,30,122,0.18);
         }
 
-        /* Image preview */
         .card-img {
             width: 100%;
             height: 190px;
@@ -93,10 +165,8 @@
             cursor: pointer;
             transition: opacity 0.2s;
         }
-
         .card-img:hover { opacity: 0.88; }
 
-        /* Video */
         .card-video {
             width: 100%;
             height: 190px;
@@ -105,7 +175,6 @@
             background: #000;
         }
 
-        /* Audio */
         .card-audio-wrap {
             height: 190px;
             background: linear-gradient(135deg, #f3e5f5, #e1bee7);
@@ -116,15 +185,9 @@
             padding: 16px;
             gap: 12px;
         }
-
         .card-audio-icon { font-size: 48px; }
+        .card-audio-wrap audio { width: 100%; outline: none; }
 
-        .card-audio-wrap audio {
-            width: 100%;
-            outline: none;
-        }
-
-        /* Other file */
         .card-file-placeholder {
             height: 190px;
             background: linear-gradient(135deg, #f3e5f5, #e8d5e8);
@@ -134,7 +197,6 @@
             justify-content: center;
             gap: 8px;
         }
-
         .card-file-placeholder .file-icon { font-size: 52px; }
         .card-file-placeholder .file-ext {
             font-size: 12px;
@@ -146,12 +208,10 @@
             text-transform: uppercase;
         }
 
-        /* Card footer */
         .card-footer {
             padding: 10px 13px 12px;
             border-top: 1px solid #f0e6f0;
         }
-
         .card-name {
             font-size: 13px;
             font-weight: 600;
@@ -161,7 +221,6 @@
             white-space: nowrap;
             margin-bottom: 8px;
         }
-
         .btn-open {
             display: block;
             text-align: center;
@@ -174,10 +233,9 @@
             font-weight: 600;
             transition: opacity 0.2s, transform 0.15s;
         }
-
         .btn-open:hover { opacity: 0.85; transform: scale(1.02); }
 
-        /* Lightbox */
+        /* ===== LIGHTBOX ===== */
         .lightbox {
             display: none;
             position: fixed;
@@ -188,9 +246,7 @@
             justify-content: center;
             padding: 16px;
         }
-
         .lightbox.open { display: flex; }
-
         .lightbox-inner {
             position: relative;
             max-width: 95vw;
@@ -199,7 +255,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .lightbox-inner img {
             max-width: 95vw;
             max-height: 88vh;
@@ -207,7 +262,6 @@
             object-fit: contain;
             box-shadow: 0 20px 60px rgba(0,0,0,0.6);
         }
-
         .lightbox-close {
             position: fixed;
             top: 14px;
@@ -224,13 +278,13 @@
             transition: background 0.2s;
             z-index: 1001;
         }
-
         .lightbox-close:hover { background: rgba(255,255,255,0.32); }
 
         @media (max-width: 600px) {
             .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
             .card-img, .card-video, .card-audio-wrap, .card-file-placeholder { height: 150px; }
             .page-header h1 { font-size: 1.3em; }
+            .browse-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
         }
     </style>
 </head>
@@ -244,14 +298,36 @@
         </div>
         <h1>🎨 גלריית הקבוצה</h1>
         <div class="header-meta" id="headerMeta">נשים מובילות מדע</div>
+
+        <!-- Breadcrumb (inside header, shown in browse mode) -->
+        <div class="breadcrumb" id="breadcrumb">
+            <span class="bc-item" id="bcHome" onclick="goHome()">🏠 כל בתי הספר</span>
+            <span class="bc-sep" id="bcSep1" style="display:none;">›</span>
+            <span class="bc-item" id="bcSchool" style="display:none;" onclick="goSchool()"></span>
+            <span class="bc-sep" id="bcSep2" style="display:none;">›</span>
+            <span class="bc-item active" id="bcGroup" style="display:none;"></span>
+        </div>
     </div>
 
     <div class="gallery-container">
         <div class="state-box" id="loadingState">
             <div class="state-icon">⏳</div>
-            <div class="state-text">טוען גלריה...</div>
+            <div class="state-text">טוען...</div>
         </div>
 
+        <!-- Browse: Schools -->
+        <div id="browseSchools" style="display:none;">
+            <div class="section-title">🏫 בחרו בית ספר</div>
+            <div class="browse-grid" id="schoolsGrid"></div>
+        </div>
+
+        <!-- Browse: Groups -->
+        <div id="browseGroups" style="display:none;">
+            <div class="section-title" id="groupsTitle">👥 בחרו קבוצה</div>
+            <div class="browse-grid" id="groupsGrid"></div>
+        </div>
+
+        <!-- Gallery -->
         <div class="gallery-grid" id="galleryGrid" style="display:none;"></div>
 
         <div class="state-box" id="emptyState" style="display:none;">
@@ -290,15 +366,274 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const params = new URLSearchParams(window.location.search);
-        const sessionId = params.get('session');
+        // ===== Cache =====
+        let teamsCache = null;
+        let sessionsCache = null;
+        let currentSchoolKey = null;
+
+        // ===== Helpers =====
+        function displayKey(key) {
+            return key.replace(/_/g, ' ').trim();
+        }
+
+        function hideAll() {
+            ['loadingState','browseSchools','browseGroups','galleryGrid','emptyState','errorState']
+                .forEach(id => { document.getElementById(id).style.display = 'none'; });
+        }
+
+        function showLoading() {
+            hideAll();
+            document.getElementById('loadingState').style.display = 'block';
+        }
 
         function showError(msg) {
-            document.getElementById('loadingState').style.display = 'none';
+            hideAll();
             document.getElementById('errorState').style.display = 'block';
             document.getElementById('errorMsg').textContent = msg;
         }
 
+        // ===== Breadcrumb =====
+        function setBreadcrumb(schoolKey, groupKey) {
+            const bc = document.getElementById('breadcrumb');
+            bc.classList.add('visible');
+
+            const bcSchool = document.getElementById('bcSchool');
+            const bcGroup  = document.getElementById('bcGroup');
+
+            if (schoolKey) {
+                document.getElementById('bcSep1').style.display = 'inline';
+                bcSchool.textContent = '🏫 ' + displayKey(schoolKey);
+                bcSchool.style.display = 'inline';
+                bcSchool.classList.toggle('active', !groupKey);
+            } else {
+                document.getElementById('bcSep1').style.display = 'none';
+                bcSchool.style.display = 'none';
+            }
+
+            if (groupKey) {
+                document.getElementById('bcSep2').style.display = 'inline';
+                bcGroup.textContent = '👥 ' + displayKey(groupKey);
+                bcGroup.style.display = 'inline';
+            } else {
+                document.getElementById('bcSep2').style.display = 'none';
+                bcGroup.style.display = 'none';
+            }
+
+            document.getElementById('bcHome').classList.toggle('active', !schoolKey && !groupKey);
+        }
+
+        // ===== Navigation =====
+        window.goHome = function() {
+            history.pushState({}, '', window.location.pathname);
+            showSchoolBrowser();
+        };
+
+        window.goSchool = function() {
+            if (!currentSchoolKey) return;
+            history.pushState({}, '', window.location.pathname + '?school=' + encodeURIComponent(currentSchoolKey));
+            showGroupBrowser(currentSchoolKey);
+        };
+
+        // ===== Load Teams =====
+        async function getTeams() {
+            if (teamsCache) return teamsCache;
+            const snap = await get(ref(db, 'teams'));
+            teamsCache = snap.exists() ? snap.val() : {};
+            return teamsCache;
+        }
+
+        // ===== Load Sessions =====
+        async function getSessions() {
+            if (sessionsCache) return sessionsCache;
+            const snap = await get(ref(db, 'sessions'));
+            sessionsCache = snap.exists() ? snap.val() : {};
+            return sessionsCache;
+        }
+
+        // ===== SCHOOL BROWSER =====
+        async function showSchoolBrowser() {
+            showLoading();
+            document.getElementById('headerMeta').textContent = 'נשים מובילות מדע';
+            setBreadcrumb(null, null);
+            currentSchoolKey = null;
+
+            try {
+                const teams = await getTeams();
+                const schools = Object.keys(teams);
+
+                if (!schools.length) {
+                    showError('לא נמצאו בתי ספר.');
+                    return;
+                }
+
+                // Count sessions per school
+                const sessions = await getSessions();
+                const schoolFileCounts = {};
+                Object.values(sessions).forEach(s => {
+                    if (s.school) {
+                        schoolFileCounts[s.school] = (schoolFileCounts[s.school] || 0) + (s.files ? Object.values(s.files).length : 0);
+                    }
+                });
+
+                const grid = document.getElementById('schoolsGrid');
+                grid.innerHTML = schools.map(key => {
+                    const name = displayKey(key);
+                    const groupCount = Object.keys(teams[key] || {}).length;
+                    const fileCount = schoolFileCounts[key] || 0;
+                    return `
+                        <div class="browse-card" onclick="selectSchool('${key.replace(/'/g,"\\'")}')">
+                            <span class="bc-icon">🏫</span>
+                            <div class="bc-name">${name}</div>
+                            <div class="bc-sub">${groupCount} קבוצות</div>
+                            ${fileCount ? `<span class="bc-badge has-files">📁 ${fileCount} קבצים</span>` : '<span class="bc-badge">אין קבצים עדיין</span>'}
+                        </div>`;
+                }).join('');
+
+                hideAll();
+                document.getElementById('browseSchools').style.display = 'block';
+
+            } catch (err) {
+                showError('שגיאה בטעינת בתי הספר: ' + err.message);
+            }
+        }
+
+        window.selectSchool = function(schoolKey) {
+            history.pushState({}, '', window.location.pathname + '?school=' + encodeURIComponent(schoolKey));
+            showGroupBrowser(schoolKey);
+        };
+
+        // ===== GROUP BROWSER =====
+        async function showGroupBrowser(schoolKey) {
+            showLoading();
+            currentSchoolKey = schoolKey;
+            document.getElementById('headerMeta').textContent = displayKey(schoolKey);
+            setBreadcrumb(schoolKey, null);
+
+            try {
+                const teams = await getTeams();
+                const schoolData = teams[schoolKey] || {};
+                const groups = Object.keys(schoolData);
+
+                if (!groups.length) {
+                    showError('לא נמצאו קבוצות לבית הספר הזה.');
+                    return;
+                }
+
+                // Count sessions per group
+                const sessions = await getSessions();
+                const groupFileCounts = {};
+                Object.values(sessions).forEach(s => {
+                    if (s.school === schoolKey && s.group) {
+                        groupFileCounts[s.group] = (groupFileCounts[s.group] || 0) + (s.files ? Object.values(s.files).length : 0);
+                    }
+                });
+
+                document.getElementById('groupsTitle').textContent = '👥 קבוצות — ' + displayKey(schoolKey);
+
+                const grid = document.getElementById('groupsGrid');
+                grid.innerHTML = groups.map(gKey => {
+                    const name = displayKey(gKey);
+                    const groupData = schoolData[gKey] || {};
+                    const students = Array.isArray(groupData.students)
+                        ? groupData.students
+                        : Object.values(groupData.students || {});
+                    const studentCount = students.filter(s => s && s.trim()).length;
+                    const fileCount = groupFileCounts[gKey] || 0;
+
+                    return `
+                        <div class="browse-card" onclick="selectGroup('${schoolKey.replace(/'/g,"\\'")}', '${gKey.replace(/'/g,"\\'")}')">
+                            <span class="bc-icon">👥</span>
+                            <div class="bc-name">${name}</div>
+                            <div class="bc-sub">${studentCount ? studentCount + ' תלמידות' : ''}</div>
+                            ${fileCount ? `<span class="bc-badge has-files">📁 ${fileCount} קבצים</span>` : '<span class="bc-badge">אין קבצים עדיין</span>'}
+                        </div>`;
+                }).join('');
+
+                hideAll();
+                document.getElementById('browseGroups').style.display = 'block';
+
+            } catch (err) {
+                showError('שגיאה בטעינת קבוצות: ' + err.message);
+            }
+        }
+
+        window.selectGroup = function(schoolKey, groupKey) {
+            history.pushState({}, '', window.location.pathname + '?school=' + encodeURIComponent(schoolKey) + '&group=' + encodeURIComponent(groupKey));
+            showGroupGallery(schoolKey, groupKey);
+        };
+
+        // ===== GROUP GALLERY =====
+        async function showGroupGallery(schoolKey, groupKey) {
+            showLoading();
+            currentSchoolKey = schoolKey;
+            document.getElementById('headerMeta').textContent = displayKey(schoolKey) + ' · ' + displayKey(groupKey);
+            setBreadcrumb(schoolKey, groupKey);
+
+            try {
+                const sessions = await getSessions();
+
+                // Collect all files from all sessions for this school+group
+                const allFiles = [];
+                Object.values(sessions).forEach(s => {
+                    if (s.school === schoolKey && s.group === groupKey && s.files) {
+                        const files = Array.isArray(s.files) ? s.files : Object.values(s.files);
+                        allFiles.push(...files);
+                    }
+                });
+
+                if (!allFiles.length) {
+                    hideAll();
+                    document.getElementById('emptyState').style.display = 'block';
+                    return;
+                }
+
+                const grid = document.getElementById('galleryGrid');
+                grid.innerHTML = allFiles.map(renderFile).join('');
+                hideAll();
+                grid.style.display = 'grid';
+
+            } catch (err) {
+                showError('שגיאה בטעינת גלריה: ' + err.message);
+            }
+        }
+
+        // ===== SESSION GALLERY (existing behavior) =====
+        async function loadSession(sessionId) {
+            showLoading();
+            try {
+                const snap = await get(ref(db, `sessions/${sessionId}`));
+                document.getElementById('loadingState').style.display = 'none';
+
+                if (!snap.exists()) {
+                    showError('הגלריה לא נמצאה. ייתכן שהקישור פג תוקף.');
+                    return;
+                }
+
+                const session = snap.val();
+                const parts = [session.school, session.group].filter(p => p && p !== 'כללי');
+                if (parts.length) {
+                    document.getElementById('headerMeta').textContent =
+                        parts.map(displayKey).join(' · ') + ' | נשים מובילות מדע';
+                }
+
+                const rawFiles = session.files;
+                const files = Array.isArray(rawFiles) ? rawFiles : Object.values(rawFiles || {});
+
+                if (!files.length) {
+                    document.getElementById('emptyState').style.display = 'block';
+                    return;
+                }
+
+                const grid = document.getElementById('galleryGrid');
+                grid.innerHTML = files.map(renderFile).join('');
+                grid.style.display = 'grid';
+
+            } catch (err) {
+                showError('שגיאה בטעינה: ' + err.message);
+            }
+        }
+
+        // ===== File Rendering =====
         function getFileIcon(type) {
             if (!type) return '📎';
             if (type.startsWith('image/')) return '🖼️';
@@ -323,86 +658,34 @@
             const isAudio = type && type.startsWith('audio/');
 
             let previewHtml;
-
             if (isImage) {
-                previewHtml = `
-                    <img class="card-img" src="${safeUrl}" alt="${name}" loading="lazy"
-                         data-url="${safeUrl}" onclick="openLightbox(this.dataset.url)">`;
+                previewHtml = `<img class="card-img" src="${safeUrl}" alt="${name}" loading="lazy"
+                     data-url="${safeUrl}" onclick="openLightbox(this.dataset.url)">`;
             } else if (isVideo) {
-                previewHtml = `
-                    <video class="card-video" src="${safeUrl}" controls preload="metadata"></video>`;
+                previewHtml = `<video class="card-video" src="${safeUrl}" controls preload="metadata"></video>`;
             } else if (isAudio) {
-                previewHtml = `
-                    <div class="card-audio-wrap">
+                previewHtml = `<div class="card-audio-wrap">
                         <div class="card-audio-icon">🎵</div>
                         <audio src="${safeUrl}" controls></audio>
                     </div>`;
             } else {
                 const ext = getFileExt(name);
-                previewHtml = `
-                    <div class="card-file-placeholder">
+                previewHtml = `<div class="card-file-placeholder">
                         <span class="file-icon">${getFileIcon(type)}</span>
                         ${ext ? `<span class="file-ext">${ext}</span>` : ''}
                     </div>`;
             }
 
-            return `
-                <div class="file-card">
+            return `<div class="file-card">
                     ${previewHtml}
                     <div class="card-footer">
                         <div class="card-name" title="${name}">${name}</div>
-                        <a class="btn-open" href="${safeUrl}" target="_blank">
-                            ⬇️ פתח / הורד
-                        </a>
+                        <a class="btn-open" href="${safeUrl}" target="_blank">⬇️ פתח / הורד</a>
                     </div>
                 </div>`;
         }
 
-        async function loadSession() {
-            if (!sessionId) {
-                showError('לא צוין קוד גלריה. סרקו את קוד ה-QR שוב.');
-                return;
-            }
-
-            try {
-                const snap = await get(ref(db, `sessions/${sessionId}`));
-                document.getElementById('loadingState').style.display = 'none';
-
-                if (!snap.exists()) {
-                    showError('הגלריה לא נמצאה. ייתכן שהקישור פג תוקף.');
-                    return;
-                }
-
-                const session = snap.val();
-
-                // Update header meta
-                const parts = [session.school, session.group].filter(p => p && p !== 'כללי');
-                if (parts.length) {
-                    document.getElementById('headerMeta').textContent =
-                        parts.join(' · ') + ' | נשים מובילות מדע';
-                }
-
-                // Normalize files (Firebase may convert array to object)
-                const rawFiles = session.files;
-                const files = Array.isArray(rawFiles)
-                    ? rawFiles
-                    : Object.values(rawFiles || {});
-
-                if (!files.length) {
-                    document.getElementById('emptyState').style.display = 'block';
-                    return;
-                }
-
-                const grid = document.getElementById('galleryGrid');
-                grid.innerHTML = files.map(renderFile).join('');
-                grid.style.display = 'grid';
-
-            } catch (err) {
-                showError('שגיאה בטעינה: ' + err.message);
-            }
-        }
-
-        // Lightbox
+        // ===== Lightbox =====
         window.openLightbox = function(src) {
             document.getElementById('lightboxImg').src = src;
             document.getElementById('lightbox').classList.add('open');
@@ -415,12 +698,32 @@
             document.body.style.overflow = '';
         };
 
-        // Close lightbox with Escape key
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') window.closeLightbox();
         });
 
-        loadSession();
+        // ===== Router =====
+        function route() {
+            const params = new URLSearchParams(window.location.search);
+            const sessionId = params.get('session');
+            const schoolKey = params.get('school');
+            const groupKey  = params.get('group');
+
+            if (sessionId) {
+                loadSession(sessionId);
+            } else if (schoolKey && groupKey) {
+                showGroupGallery(schoolKey, groupKey);
+            } else if (schoolKey) {
+                showGroupBrowser(schoolKey);
+            } else {
+                showSchoolBrowser();
+            }
+        }
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', route);
+
+        route();
     </script>
 </body>
 </html>
