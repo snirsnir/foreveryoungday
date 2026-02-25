@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>נשים מובילות מדע - סוף יום השיא</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #1a1a2e;
+    --dark2: #16162a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: linear-gradient(145deg, #f0f4f8 0%, #e8ecf2 100%);
+    min-height: 100vh;
+    padding: 32px 16px 44px;
+    direction: rtl;
+  }
+
+  .header { text-align: center; margin-bottom: 22px; }
+  .header h1 { font-size: 24px; font-weight: 800; color: var(--dark); }
+  .header .sub { font-size: 12px; color: #7a8899; margin-top: 4px; }
+
+  .wrapper {
+    max-width: 1500px; margin: 0 auto;
+    overflow-x: auto; border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.05);
+    background: #fff;
+  }
+
+  table { width: 100%; border-collapse: collapse; min-width: 900px; }
+
+  /* GROUP HEADER */
+  .group-header-row th {
+    padding: 10px 6px;
+    text-align: center;
+    color: #fff;
+    background: var(--dark);
+    border-left: 2px solid rgba(255,255,255,0.15);
+    vertical-align: middle;
+  }
+  .group-header-row th:first-child {
+    border-radius: 16px 0 0 0;
+    min-width: 108px;
+  }
+  .group-header-row th:last-child {
+    border-radius: 0 16px 0 0;
+  }
+  .group-header-row .group-name {
+    font-size: 11px;
+    font-weight: 700;
+    display: block;
+  }
+  .group-header-row .bracelet-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 3px;
+  }
+  .group-header-row .bracelet-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.5);
+  }
+  .group-header-row .bracelet-name {
+    font-size: 10px;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  /* TIME CELLS */
+  .time-cell {
+    background: var(--dark); color: #cdd6f4;
+    text-align: center; padding: 14px 6px;
+    border-top: 1px solid #2a2a44; vertical-align: middle;
+  }
+  .time-cell .t-time { font-size: 14px; font-weight: 800; display: block; color: #eef2ff; }
+  .time-cell .t-badge { font-size: 9.5px; color: #6b7a9e; display: block; margin-top: 2px; font-weight: 500; }
+
+  /* COLLECT CELL — סבב השלמות */
+  .collect-cell {
+    padding: 0;
+    vertical-align: middle;
+    border: 1px solid rgba(0,0,0,0.07);
+    min-width: 110px;
+    background: #e0f2f1;
+    text-align: center;
+  }
+  .collect-content {
+    font-size: 11px;
+    font-weight: 700;
+    color: #00695c;
+    padding: 8px 6px;
+  }
+  .collect-dest {
+    font-size: 13px;
+    font-weight: 800;
+    color: #004d40;
+    display: block;
+    margin-top: 3px;
+  }
+
+  /* MOTHER LAB CELL — הצגה לפאנל */
+  .mother-lab-cell {
+    padding: 0;
+    vertical-align: middle;
+    border: 1px solid rgba(0,0,0,0.07);
+    min-width: 110px;
+    background: #fff8e1;
+    text-align: center;
+  }
+  .mother-lab-content {
+    font-size: 13px;
+    font-weight: 800;
+    color: #e65100;
+    padding: 10px 6px;
+  }
+  .mother-lab-sub {
+    font-size: 10px;
+    font-weight: 600;
+    color: #bf360c;
+    opacity: 0.8;
+    display: block;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏁 נשים מובילות מדע - סוף יום השיא</h1>
+  <div class="sub">סבב השלמות והצגה לפאנל</div>
+</div>
+
+<div class="wrapper">
+  <table id="tbl"></table>
+</div>
+
+<script>
+const groups = [
+  'אולפנת חריש + אתגרי העתיד חריש',
+  'הרב תחומי + מאיר שפיה',
+  'מבשרת',
+  'נבון 1-4',
+  'נבון 5-8',
+  'עתידים אור עקיבא',
+  'קופטאן דליה',
+  'שש שנתי ישי',
+];
+
+const bracelets = [
+  { name: 'סגול',      color: '#9b59b6' },
+  { name: 'חום',       color: '#8B4513' },
+  { name: 'צהוב',      color: '#f1c40f' },
+  { name: 'ירוק בהיר', color: '#2ecc71' },
+  { name: 'כחול',      color: '#3498db' },
+  { name: 'אדום',      color: '#e74c3c' },
+  { name: 'לבן',       color: '#f0f0f0' },
+  { name: 'כתום',      color: '#e67e22' },
+];
+
+const rotation = [
+  ['P','A','M'],
+  ['P','A','M'],
+  ['P','M','A'],
+  ['A','P','M'],
+  ['A','M','P'],
+  ['A','M','P'],
+  ['M','P','A'],
+  ['M','A','P'],
+];
+
+const labs = [
+  { name:'מעבדה 1',   topic:'P' },
+  { name:'מעבדה 2',   topic:'P' },
+  { name:'מעבדה 6',   topic:'P' },
+  { name:'מעבדה 3',   topic:'A' },
+  { name:'מעבדה 4',   topic:'A' },
+  { name:'מעבדה 5',   topic:'A' },
+  { name:'מחשבים 1',  topic:'M' },
+  { name:'מחשבים 2',  topic:'M' },
+  { name:'טכנולוגיה', topic:'M' },
+];
+
+function buildGroupSchedule() {
+  const schedule = groups.map(() => []);
+  for (let si = 0; si < 3; si++) {
+    const byTopic = { P:[], A:[], M:[] };
+    rotation.forEach((row, gi) => byTopic[row[si]].push(gi));
+    byTopic.P.forEach((gi, i) => { schedule[gi][si] = { labIdx: i, topic: 'P' }; });
+    byTopic.A.forEach((gi, i) => { schedule[gi][si] = { labIdx: 3 + i, topic: 'A' }; });
+    byTopic.M.forEach((gi, i) => { schedule[gi][si] = { labIdx: 6 + i, topic: 'M' }; });
+  }
+  return schedule;
+}
+
+function applyKoptanConstraint(schedule) {
+  const KOPTAN = 7;
+  for (let si = 0; si < 3; si++) {
+    const kInfo = schedule[KOPTAN][si];
+    let targetIdx = null;
+    if (kInfo.topic === 'A') targetIdx = 4;
+    if (kInfo.topic === 'P') targetIdx = 0;
+    if (targetIdx !== null && kInfo.labIdx !== targetIdx) {
+      for (let gi = 0; gi < groups.length; gi++) {
+        if (gi !== KOPTAN && schedule[gi][si].labIdx === targetIdx) {
+          const displaced = schedule[gi][si].labIdx;
+          schedule[gi][si] = { ...schedule[gi][si], labIdx: kInfo.labIdx };
+          schedule[KOPTAN][si] = { ...kInfo, labIdx: displaced };
+          break;
+        }
+      }
+    }
+  }
+  return schedule;
+}
+
+const groupSchedule = applyKoptanConstraint(buildGroupSchedule());
+
+const endOfDayOverrides = {
+  2: { labName: 'מעבדה 4', partner: 'יחד עם שש שנתי ישי' },
+  3: { labName: 'מעבדה 4', partner: 'יחד עם שש שנתי ישי ומבשרת' },
+  4: { labName: 'מעבדה 5' },
+  5: { labName: 'מעבדה 6' },
+  6: { labName: 'מעבדה 3' },
+  7: { labName: 'מעבדה 4', partner: 'יחד עם נבון 1-4 ומבשרת' },
+};
+
+(function render() {
+  const tbl = document.getElementById('tbl');
+  let h = '';
+
+  // Header row with group names
+  h += '<tr class="group-header-row">';
+  h += '<th></th>';
+  groups.forEach((group, gi) => {
+    const bracelet = bracelets[gi];
+    h += `<th>
+      <span class="group-name">${group}</span>
+      <div class="bracelet-info">
+        <span class="bracelet-dot" style="background:${bracelet.color}"></span>
+        <span class="bracelet-name">${bracelet.name}</span>
+      </div>
+    </th>`;
+  });
+  h += '</tr>';
+
+  // === סבב השלמות ודיוקים אחרונים ===
+  h += '<tr>';
+  h += `<td class="time-cell">
+    <span class="t-time" dir="ltr">14:30 – 15:30</span>
+    <span class="t-badge">📦 סבב השלמות</span>
+  </td>`;
+  groups.forEach((_, gi) => {
+    const ov = endOfDayOverrides[gi];
+    const labName = ov ? ov.labName : labs[groupSchedule[gi][0].labIdx].name;
+    const partner = ov ? ov.partner : null;
+    h += `<td class="collect-cell">
+      <div class="collect-content">
+        🎯 סבב השלמות ודיוקים אחרונים
+        <span class="collect-dest">+ איסוף ממוזיאון המדע ל${labName}</span>
+        ${partner ? `<span style="font-size:9px;color:#00695c;display:block;margin-top:2px;">(${partner})</span>` : ''}
+      </div>
+    </td>`;
+  });
+  h += '</tr>';
+
+  // === הצגה לפאנל ===
+  h += '<tr>';
+  h += `<td class="time-cell">
+    <span class="t-time" dir="ltr">15:30 – 17:00</span>
+    <span class="t-badge">⭐ הצגה לפאנל</span>
+  </td>`;
+  groups.forEach((_, gi) => {
+    const ov = endOfDayOverrides[gi];
+    const labName = ov ? ov.labName : labs[groupSchedule[gi][0].labIdx].name;
+    const partner = ov ? ov.partner : null;
+    h += `<td class="mother-lab-cell">
+      <div class="mother-lab-content">
+        ⭐ ${labName}
+        <span class="mother-lab-sub">הצגה לפאנל המומחים</span>
+        ${partner ? `<span style="font-size:9px;color:#bf360c;display:block;margin-top:2px;">(${partner})</span>` : ''}
+      </div>
+    </td>`;
+  });
+  h += '</tr>';
+
+  tbl.innerHTML = h;
+})();
+</script>
+</body>
+</html>
