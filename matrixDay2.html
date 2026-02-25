@@ -348,7 +348,7 @@ const grid = applyKoptanConstraint(buildGrid());
 
 // מיפוי סוף יום: לאיזה מעבדה כל קבוצה חוזרת
 // ברירת מחדל = מעבדת רצועה א׳, אחרת override
-const endOfDayOverrideByGroup = { 0:0, 1:1, 2:3, 3:4, 4:5, 5:2, 6:3, 7:5 };
+const endOfDayOverrideByGroup = { 0:0, 1:1, 2:3, 3:4, 4:5, 5:2, 6:3, 7:4 };
 // בנה מערך: לכל מעבדה — אילו קבוצות נמצאות שם בסוף יום
 const endOfDayLabGroups = new Array(9).fill(null).map(() => []);
 groups.forEach((_, gi) => {

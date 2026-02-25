@@ -607,7 +607,7 @@
         }
 
         const grid = applyKoptanConstraint(buildGrid());
-        const endOfDayOverrideByGroup = { 0:0, 1:1, 2:3, 3:4, 4:5, 5:2, 6:3, 7:5 };
+        const endOfDayOverrideByGroup = { 0:0, 1:1, 2:3, 3:4, 4:5, 5:2, 6:3, 7:4 };
 
         function getGroupLabIdx(gi, si) {
             return grid[si].findIndex(c => c && c.groupIdx === gi);
@@ -956,6 +956,10 @@
 
         var judgeLabs = ['מעבדה 1', 'מעבדה 2', 'מעבדה 3', 'מעבדה 4', 'מעבדה 5', 'מעבדה 6'];
 
+        // קבוצות שמוסתרות אצל שופטים מסוימים (judgeIdx → [gi, ...])
+        // judgeIdx 3 = מעבדה 4 → מסתירים נבון 1-4 (gi=3) — לא מגיעים
+        var judgeGroupExclusions = { 3: [3] };
+
         function getJudgeTeamsList(judgeIdx) {
             if (!window.teamsData) return [];
             var lab = judgeLabs[judgeIdx];
@@ -965,10 +969,12 @@
                 if (labs[i].name === lab) { labIdx = i; break; }
             }
             if (labIdx === -1) return [];
+            var excl = judgeGroupExclusions[judgeIdx] || [];
             // Find which groups present at this lab
             var result = [];
             for (var gi = 0; gi < groups.length; gi++) {
                 if (getEndOfDayLabIdx(gi) !== labIdx) continue;
+                if (excl.indexOf(gi) !== -1) continue;
                 for (var si = 0; si < groupSchoolMapping[gi].length; si++) {
                     var school = groupSchoolMapping[gi][si].school;
                     var teams  = groupSchoolMapping[gi][si].teams;
