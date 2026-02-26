@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>זוכות - נשים מובילות מדע Forever Young</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #f5f0e8;
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background:
+                radial-gradient(circle at 15% 25%, rgba(249,215,126,0.3) 0%, transparent 25%),
+                radial-gradient(circle at 85% 35%, rgba(123,30,122,0.2) 0%, transparent 30%),
+                radial-gradient(circle at 50% 80%, rgba(249,215,126,0.25) 0%, transparent 35%),
+                linear-gradient(180deg, #f5f0e8 0%, #fef9f0 50%, #f5f0e8 100%);
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image:
+                radial-gradient(circle, #f9d77e 1.5px, transparent 1.5px),
+                radial-gradient(circle, #7B1E7A 1px, transparent 1px);
+            background-size: 40px 40px, 60px 60px;
+            background-position: 0 0, 20px 20px;
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .purple-wave {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%; height: 180px;
+            background: linear-gradient(135deg, #7B1E7A 0%, #9B4D9A 100%);
+            clip-path: ellipse(120% 100% at 50% 100%);
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        .decorative-circle {
+            position: fixed;
+            border: 3px dashed #f9d77e;
+            border-radius: 50%;
+            opacity: 0.4;
+            z-index: -1;
+        }
+        .circle-1 { width: 100px; height: 100px; top: 15%; right: 10%; }
+        .circle-2 { width: 60px;  height: 60px;  top: 35%; left: 15%; border-color: #7B1E7A; }
+        .circle-3 { width: 80px;  height: 80px;  bottom: 25%; right: 8%; }
+
+        .star-decoration { position: fixed; color: #f9d77e; opacity: 0.6; z-index: 1; animation: twinkle 3s infinite; pointer-events: none; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+        .star-1 { top: 12%; left: 20%; font-size: 20px; animation-delay: 0s; }
+        .star-2 { top: 28%; right: 25%; font-size: 16px; animation-delay: 1s; }
+        .star-3 { top: 45%; left: 12%; font-size: 18px; animation-delay: 2s; }
+        .star-4 { top: 60%; right: 18%; font-size: 14px; animation-delay: 1.5s; }
+
+        /* ── Logos ── */
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin: 0 auto 30px;
+            max-width: 1100px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+        .logo { height: 70px; object-fit: contain; transition: all 0.3s ease; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.15)); }
+        .logo:hover { transform: scale(1.08) rotate(1deg); }
+
+        /* ── Container ── */
+        .container { max-width: 1100px; margin: 0 auto; position: relative; z-index: 10; }
+
+        /* ── Header ── */
+        .header {
+            background: linear-gradient(135deg, #7B1E7A 0%, #B57FB4 50%, #f9d77e 100%);
+            color: white;
+            padding: 50px 30px 40px;
+            text-align: center;
+            border-radius: 25px 25px 0 0;
+            box-shadow: 0 15px 40px rgba(123,30,122,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.08) 10px, rgba(255,255,255,0.08) 20px);
+            animation: shimmer 4s infinite linear;
+        }
+        @keyframes shimmer { 0% { transform: translateX(-100%) translateY(-100%); } 100% { transform: translateX(100%) translateY(100%); } }
+
+        .main-title  { font-size: 2.6rem; font-weight: 800; margin-bottom: 8px; position: relative; z-index: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .subtitle    { font-size: 1.15rem; opacity: 0.92; position: relative; z-index: 1; }
+        .trophy-animation { display: inline-block; font-size: 3rem; vertical-align: middle; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+
+        /* ── Winners grid ── */
+        .winners-section {
+            background: white;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            padding: 30px 25px 40px;
+        }
+
+        /* ── First place (big card) ── */
+        .first-place-wrapper {
+            margin-bottom: 35px;
+        }
+
+        .first-place-label {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #7B1E7A;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .first-place-label::before,
+        .first-place-label::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #f9d77e, transparent);
+        }
+
+        .card-first {
+            background: linear-gradient(135deg, #fffbea 0%, #fff5cc 100%);
+            border: 3px solid #f9d77e;
+            border-radius: 22px;
+            padding: 30px 28px;
+            box-shadow: 0 10px 35px rgba(249,215,126,0.45), 0 4px 15px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.7s ease-out forwards;
+        }
+        .card-first::before {
+            content: '🏆';
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            filter: drop-shadow(0 4px 10px rgba(255,200,0,0.5));
+            animation: bounce 2s infinite;
+        }
+        .card-first-inner {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding-left: 60px;
+        }
+
+        .place-badge-first {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #7a5c00;
+            font-size: 1.7rem;
+            font-weight: 900;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 6px 20px rgba(255,215,0,0.5);
+            animation: pulse 2s infinite;
+            position: relative;
+        }
+        .place-badge-first::before { content: '👑'; position: absolute; top: -13px; right: -8px; font-size: 1.15rem; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+        .card-info { flex: 1; min-width: 0; }
+        .project-name-first {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #5a1a0a;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+        .project-desc {
+            font-size: 1rem;
+            color: #7a5c00;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .group-line {
+            font-size: 0.9rem;
+            color: #7B1E7A;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .members-list-first {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .member-chip {
+            background: rgba(123,30,122,0.1);
+            color: #5a1a5a;
+            border: 1.5px solid rgba(123,30,122,0.2);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+        .member-chip.gold-chip {
+            background: rgba(255,215,0,0.2);
+            color: #7a5c00;
+            border-color: rgba(255,215,0,0.4);
+        }
+
+        /* ── Project book link ── */
+        .card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .card-link .card-first {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            cursor: pointer;
+        }
+        .card-link:hover .card-first {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 45px rgba(249,215,126,0.6), 0 6px 20px rgba(0,0,0,0.12);
+        }
+        .book-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #7B1E7A;
+            background: rgba(123,30,122,0.08);
+            border: 1px solid rgba(123,30,122,0.2);
+            border-radius: 20px;
+            padding: 4px 12px;
+        }
+        .coming-soon-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #999;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 4px 12px;
+        }
+        .project-subname {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #9B4D9A;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+
+        /* ── Other winners grid ── */
+        .others-label {
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #7B1E7A;
+            letter-spacing: 2px;
+            margin: 10px 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .others-label::before,
+        .others-label::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #c8a0c8, transparent);
+        }
+
+        .winners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .winner-card {
+            background: white;
+            border: 2px solid #e8d5e8;
+            border-radius: 18px;
+            padding: 22px 20px;
+            box-shadow: 0 4px 16px rgba(123,30,122,0.08);
+            transition: all 0.28s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        .winner-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(123,30,122,0.18);
+            border-color: #9B4D9A;
+        }
+        .winner-card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, #7B1E7A, #9B4D9A);
+            border-radius: 0 16px 16px 0;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-place-badge {
+            background: linear-gradient(135deg, #7B1E7A, #9B4D9A);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 800;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(123,30,122,0.35);
+            margin-bottom: 12px;
+        }
+
+        .project-name-card {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #3a0a3a;
+            line-height: 1.3;
+            margin-bottom: 3px;
+        }
+        .project-desc-card {
+            font-size: 0.85rem;
+            color: #888;
+            font-weight: 400;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .group-line-card {
+            font-size: 0.82rem;
+            color: #7B1E7A;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .members-list-card {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .member-chip-card {
+            background: #f5f0f5;
+            color: #5a1a5a;
+            border: 1px solid #e0c8e0;
+            border-radius: 16px;
+            padding: 3px 11px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        /* ── Footer ── */
+        .page-footer {
+            text-align: center;
+            padding: 22px 20px 0;
+            color: #999;
+            font-size: 0.88rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 640px) {
+            .logos-container { gap: 15px; padding: 15px; }
+            .logo { height: 50px; }
+            .decorative-circle, .star-decoration { display: none; }
+            .purple-wave { height: 120px; }
+            .container { margin: 0; }
+            .header { padding: 30px 18px 28px; border-radius: 15px 15px 0 0; }
+            .main-title { font-size: 1.85rem; }
+            .winners-section { padding: 22px 16px 32px; }
+            .card-first { padding: 22px 16px; }
+            .project-name-first { font-size: 1.35rem; }
+            .winners-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="purple-wave"></div>
+    <div class="decorative-circle circle-1"></div>
+    <div class="decorative-circle circle-2"></div>
+    <div class="decorative-circle circle-3"></div>
+    <div class="star-decoration star-1">✨</div>
+    <div class="star-decoration star-2">⭐</div>
+    <div class="star-decoration star-3">✨</div>
+    <div class="star-decoration star-4">⭐</div>
+
+    <div class="logos-container">
+        <img src="logot.png"      alt="טכנולוג"          class="logo">
+        <img src="logoastra.png"  alt="AstraZeneca"       class="logo">
+        <img src="logonashim.png" alt="נשים מובילות מדע" class="logo">
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">
+                <span class="trophy-animation">🏆</span>
+                הזוכות
+                <span class="trophy-animation">🏆</span>
+            </h1>
+            <p class="subtitle">נשים מובילות מדע • Forever Young — פרויקטים מנצחים</p>
+        </div>
+
+        <div class="winners-section">
+
+            <!-- StressRing -->
+            <div class="first-place-wrapper" style="animation-delay: 0s">
+                <div class="card-first">
+                    <div class="card-first-inner">
+                        <div class="place-badge-first">🏆</div>
+                        <div class="card-info">
+                            <div class="project-name-first">StressRing</div>
+                            <div class="project-desc">טבעת המזהה ומפחיתה לחץ</div>
+                            <div class="group-line">🏫 קבוצה 2 — שש שנתי ישי</div>
+                            <div class="members-list-first">
+                                <span class="member-chip gold-chip">עמית מחלבני</span>
+                                <span class="member-chip gold-chip">עמית סלים</span>
+                                <span class="member-chip gold-chip">רונה פיינבלט</span>
+                            </div>
+                            <div class="coming-soon-badge">⏳ ספר הפרויקט בהכנה</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calme Charm -->
+            <div class="first-place-wrapper" style="animation-delay: 0.1s">
+                <a class="card-link" href="https://firebasestorage.googleapis.com/v0/b/gaash-2ea82.firebasestorage.app/o/foreveryoungBooks%2F%D7%94%D7%93%D7%A1%20%D7%98%D7%99%D7%99%D7%91%2C%20%D7%A8%D7%95%D7%A0%D7%99%20%D7%9E%D7%A7%D7%95%D7%A0%D7%9F%20%D7%95%D7%99%D7%95%D7%91%D7%9C%20%D7%A7%D7%95%D7%9C%D7%A8.pdf?alt=media&token=947174cd-ad6a-4022-982f-af51a8884b35" target="_blank" rel="noopener">
+                <div class="card-first">
+                    <div class="card-first-inner">
+                        <div class="place-badge-first">🏆</div>
+                        <div class="card-info">
+                            <div class="project-name-first">Calme Charm</div>
+                            <div class="project-desc">מסייעת לבנות בסטרס</div>
+                            <div class="group-line">🏫 קבוצה 3 — מבשרת</div>
+                            <div class="members-list-first">
+                                <span class="member-chip gold-chip">הדס טייב</span>
+                                <span class="member-chip gold-chip">רוני מקונן</span>
+                                <span class="member-chip gold-chip">יובל קולר</span>
+                            </div>
+                            <div class="book-hint">📖 לחצו לספר הפרויקט</div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+
+            <!-- She Heart -->
+            <div class="first-place-wrapper" style="animation-delay: 0.2s">
+                <a class="card-link" href="https://firebasestorage.googleapis.com/v0/b/gaash-2ea82.firebasestorage.app/o/foreveryoungBooks%2F%D7%90%D7%99%D7%9C%D7%AA%20%D7%90%D7%91%D7%95%D7%A7%D7%A1%D7%99%D7%A1%20%D7%90%D7%9C%D7%99%D7%9F%20%D7%A6%D7%93%D7%A7%D7%94%20%D7%9E%D7%99%D7%94%20%D7%A9%D7%A8%D7%9E%D7%9F.pdf?alt=media&token=f3084d22-7b39-4691-8f33-05080e7f134b" target="_blank" rel="noopener">
+                <div class="card-first">
+                    <div class="card-first-inner">
+                        <div class="place-badge-first">🏆</div>
+                        <div class="card-info">
+                            <div class="project-name-first">She Heart</div>
+                            <div class="project-desc">אבחון מוקדם של תסמיני התקף לב לנשים</div>
+                            <div class="group-line">🏫 קבוצה 5 — עתידים אור עקיבא</div>
+                            <div class="members-list-first">
+                                <span class="member-chip gold-chip">מיה שרמן</span>
+                                <span class="member-chip gold-chip">אלין צדקה</span>
+                                <span class="member-chip gold-chip">אילת אבוקסיס</span>
+                            </div>
+                            <div class="book-hint">📖 לחצו לספר הפרויקט</div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+
+            <!-- Pink Support -->
+            <div class="first-place-wrapper" style="animation-delay: 0.3s">
+                <a class="card-link" href="https://firebasestorage.googleapis.com/v0/b/gaash-2ea82.firebasestorage.app/o/foreveryoungBooks%2F%D7%99%D7%94%D7%91%2C%20%D7%9C%D7%99%D7%A0%D7%95%D7%99%2C%20%D7%90%D7%91%D7%99%D7%92%D7%99%D7%9C%2C%20%D7%90%D7%9C%D7%99%D7%9F%2C%20%D7%90%D7%91%D7%99%D7%98%D7%9C.pdf?alt=media&token=818cf78e-d98f-4991-ac87-15e80e5c5591" target="_blank" rel="noopener">
+                <div class="card-first">
+                    <div class="card-first-inner">
+                        <div class="place-badge-first">🏆</div>
+                        <div class="card-info">
+                            <div class="project-name-first">קופסת הגיינה זמינה למתבגרות</div>
+                            <div class="project-subname">Pink Support</div>
+                            <div class="group-line">🏫 קבוצה 1 — נבון</div>
+                            <div class="members-list-first">
+                                <span class="member-chip gold-chip">אביטל רשקובן</span>
+                                <span class="member-chip gold-chip">אביגיל אשבל</span>
+                                <span class="member-chip gold-chip">לינוי רוימי</span>
+                                <span class="member-chip gold-chip">יהב וולד</span>
+                                <span class="member-chip gold-chip">אלין ג'רבי</span>
+                            </div>
+                            <div class="book-hint">📖 לחצו לספר הפרויקט</div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+
+            <!-- Zakira -->
+            <div class="first-place-wrapper" style="animation-delay: 0.4s; margin-bottom: 0">
+                <a class="card-link" href="https://firebasestorage.googleapis.com/v0/b/gaash-2ea82.firebasestorage.app/o/foreveryoungBooks%2F%D7%9C%D7%99%D7%90%D7%9F%20%D7%A2%D7%99%D7%A1%D7%9E%D7%99%2C%20%D7%90%D7%9C%D7%99%D7%9F%20%D7%97%D7%A1%D7%99%D7%99%D7%A1%D7%99%2C%20%D7%9E%D7%A1%D7%90%D7%9C%20%D7%A2%D7%99%D7%A1%D7%9E%D7%99.pdf?alt=media&token=cb033ad4-9859-4956-8324-55271bc1b962" target="_blank" rel="noopener">
+                <div class="card-first">
+                    <div class="card-first-inner">
+                        <div class="place-badge-first">🏆</div>
+                        <div class="card-info">
+                            <div class="project-name-first">אפליקציה לחולי אלצהיימר</div>
+                            <div class="project-subname">Zakira</div>
+                            <div class="group-line">🏫 קבוצה 5 — קופטאן</div>
+                            <div class="members-list-first">
+                                <span class="member-chip gold-chip">מסאל עיסמי</span>
+                                <span class="member-chip gold-chip">ליאן עיסמי</span>
+                                <span class="member-chip gold-chip">אלין חסיסי</span>
+                            </div>
+                            <div class="book-hint">📖 לחצו לספר הפרויקט</div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="page-footer">
+        <p>נשים מובילות מדע • Forever Young © 2025</p>
+    </div>
+</body>
+</html>
