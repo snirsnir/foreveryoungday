@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פגישת סיכום — נשים מובילות מדע</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple:       #7B1E7A;
+    --purple-dark:  #5a1058;
+    --purple-mid:   #9B4D9A;
+    --purple-light: #f3e5f5;
+    --purple-pale:  #faf4fa;
+    --green:        #2e7d32;
+    --green-light:  #e8f5e9;
+    --orange:       #e65100;
+    --orange-light: #fff3e0;
+    --blue:         #1565c0;
+    --blue-light:   #e3f2fd;
+    --dark:         #1a1a2e;
+    --gray:         #666;
+    --border:       #e8d5e8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--purple-pale);
+    color: var(--dark);
+    direction: rtl;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .page-header {
+    background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple) 55%, var(--purple-mid) 100%);
+    color: white;
+    padding: 28px 20px 26px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .header-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+  .header-logos img {
+    height: 42px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+
+  .page-header h1 {
+    font-size: clamp(1.4em, 4vw, 2em);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .page-header .sub {
+    font-size: 14px;
+    opacity: 0.75;
+    font-weight: 400;
+  }
+
+  /* ── Container ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 16px 60px;
+  }
+
+  /* ── Section card ── */
+  .section-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(123,30,122,0.08);
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .section-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    flex: 1;
+  }
+  .section-title h2 {
+    font-size: clamp(14px, 3vw, 16px);
+    font-weight: 800;
+    color: var(--dark);
+    line-height: 1.3;
+  }
+  .section-title .section-num {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray);
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  .section-body {
+    padding: 20px 22px 22px;
+  }
+
+  /* ── Bullet groups ── */
+  .bullet-group {
+    margin-bottom: 18px;
+  }
+  .bullet-group:last-child { margin-bottom: 0; }
+
+  .bullet-group-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--purple);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .bullet-group-title::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 14px;
+    background: var(--purple);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .bullet-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  /* ── Highlight tags ── */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 1px 7px;
+    margin-right: 4px;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .tag-problem  { background: var(--orange-light); color: var(--orange); }
+  .tag-solution { background: var(--green-light);  color: var(--green);  }
+  .tag-insight  { background: var(--blue-light);   color: var(--blue);   }
+  .tag-action   { background: var(--purple-light); color: var(--purple); }
+
+  /* ── Color schemes per section ── */
+  .s1 .section-icon { background: #fce4ec; }
+  .s2 .section-icon { background: #e8eaf6; }
+  .s3 .section-icon { background: #e0f2f1; }
+  .s4 .section-icon { background: #fff8e1; }
+  .s5 .section-icon { background: #f3e5f5; }
+  .s6 .section-icon { background: #e1f5fe; }
+
+  .s1 .bullet-dot { background: #e91e63; }
+  .s2 .bullet-dot { background: #3f51b5; }
+  .s3 .bullet-dot { background: #009688; }
+  .s4 .bullet-dot { background: #ff9800; }
+  .s5 .bullet-dot { background: var(--purple); }
+  .s6 .bullet-dot { background: #0288d1; }
+
+  .s1 .bullet-group-title { color: #c2185b; }
+  .s1 .bullet-group-title::before { background: #c2185b; }
+  .s2 .bullet-group-title { color: #303f9f; }
+  .s2 .bullet-group-title::before { background: #303f9f; }
+  .s3 .bullet-group-title { color: #00796b; }
+  .s3 .bullet-group-title::before { background: #00796b; }
+  .s4 .bullet-group-title { color: #e65100; }
+  .s4 .bullet-group-title::before { background: #e65100; }
+  .s5 .bullet-group-title { color: var(--purple); }
+  .s6 .bullet-group-title { color: #0277bd; }
+  .s6 .bullet-group-title::before { background: #0277bd; }
+
+  /* ── Divider between bullet groups ── */
+  .group-divider {
+    border: none;
+    border-top: 1px dashed #eee;
+    margin: 14px 0;
+  }
+
+  /* ── Action box ── */
+  .action-box {
+    background: var(--purple-light);
+    border-right: 4px solid var(--purple);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--purple-dark);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+  .action-box .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── Stat pills ── */
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .stat-pill {
+    background: var(--purple-light);
+    border-radius: 20px;
+    padding: 5px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--purple-dark);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* ── Warning box ── */
+  .warning-box {
+    background: var(--orange-light);
+    border-right: 4px solid #ffa726;
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #bf360c;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  /* ── Success box ── */
+  .success-box {
+    background: var(--green-light);
+    border-right: 4px solid #66bb6a;
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  /* ── Footer ── */
+  .page-footer {
+    text-align: center;
+    padding: 24px 16px 40px;
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .container { padding: 20px 12px 50px; }
+    .section-header { padding: 14px 16px 12px; }
+    .section-body { padding: 16px 16px 18px; }
+    .section-icon { width: 38px; height: 38px; font-size: 18px; border-radius: 10px; }
+    .stat-row { gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="header-logos">
+    <img src="logot.png"       alt="טכנודע"           onerror="this.style.display='none'">
+    <img src="logoastra.png"   alt="AstraZeneca"       onerror="this.style.display='none'">
+    <img src="logonashim.png"  alt="נשים מובילות מדע" onerror="this.style.display='none'">
+  </div>
+  <div class="header-badge">📋 פגישת סיכום</div>
+  <h1>נשים מובילות מדע</h1>
+  <div class="sub">לקחים, תובנות והחלטות לקראת השנה הבאה</div>
+</div>
+
+<div class="container">
+
+  <!-- ── 1. גיוס ומחויבות ── -->
+  <div class="section-card s1">
+    <div class="section-header">
+      <div class="section-icon">🎯</div>
+      <div class="section-title">
+        <span class="section-num">סעיף 1</span>
+        <h2>אסטרטגיית גיוס ומחויבות — המעבר מכמות לאיכות</h2>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">הפער שהתגלה</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>התוכנית חוותה נשירה של כשליש מהמשתתפות — מכ-150–160 בנות ביום הראשון לכ-100 ביום השני ובזומים</li>
+          <li><span class="bullet-dot"></span>חלק מבתי הספר והמורות לא הבינו את גודל המחויבות הנדרשת</li>
+          <li><span class="bullet-dot"></span>חלק מהתלמידות התייחסו לתוכנית כאל "יום כיף" או בחרו באירועי פורים במקום להגיע</li>
+        </ul>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">השינוי התפיסתי לשנה הבאה</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span><strong>מי שמתחילה את התהליך — מסיימת אותו.</strong> זהו העיקרון המנחה החדש</li>
+        </ul>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">פתרון מערכתי</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>הקדמת הגיוס לחודש <strong>מאי</strong> — במקום ספטמבר תחת לחץ תחילת שנה</li>
+          <li><span class="bullet-dot"></span>שיחות זום מול מנהלים ומורות לדרישת תהליך מיון רציני בתוך כל בית ספר</li>
+          <li><span class="bullet-dot"></span>הסבר מהות התחרות מראש כדי שהפעילות תוכנס <strong>לתוכנית השנתית הרשמית</strong> של בית הספר</li>
+          <li><span class="bullet-dot"></span>ניקוד התחרות יתחיל להיספר כבר ממפגשי הזום — ליצירת מחויבות מוקדמת</li>
+        </ul>
+      </div>
+
+      <div class="action-box">
+        <span class="icon">✅</span>
+        <span>פעולה נדרשת: קביעת לוח זמנים לגיוס בתי ספר החל ממאי, כולל מצגת הסבר לצוותי הוראה</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 2. זהות קבוצתית ── -->
+  <div class="section-card s2">
+    <div class="section-header">
+      <div class="section-icon">👥</div>
+      <div class="section-title">
+        <span class="section-num">סעיף 2</span>
+        <h2>זהות ודינמיקה קבוצתית — "בעיית טותי-שמותי"</h2>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">האתגר</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>תלמידות הגיעו ליום הראשון ללא קבוצות מוגדרות מראש</li>
+          <li><span class="bullet-dot"></span>בקשות לשינוי קבוצות ביום עצמו כדי להיות עם חברות — יצרו כאוס לוגיסטי ובזבוז זמן בסדנאות ובזומים</li>
+        </ul>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">הלקח והפתרון</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>משלב קבלת התגים ביום הראשון — הבנות מחולקות ל<strong>קבוצות סגורות שלא ניתן לשנות</strong></li>
+          <li><span class="bullet-dot"></span>מסר ברור: "עם זה צועדים הלאה"</li>
+          <li><span class="bullet-dot"></span>בתי הספר יונחו לשלוח <strong>רשימות קבוצות מגובשות מראש</strong> — ולא רשימה שמית אקראית</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 3. תפקידים ── -->
+  <div class="section-card s3">
+    <div class="section-header">
+      <div class="section-icon">🧑‍🏫</div>
+      <div class="section-title">
+        <span class="section-num">סעיף 3</span>
+        <h2>הגדרת תפקידים: מנטוריות מול מדריכי הטכנודע</h2>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="stat-row">
+        <div class="stat-pill">⭐ 45 מנטוריות</div>
+        <div class="stat-pill">✅ הכנה פנומנלית</div>
+        <div class="stat-pill">📋 דפי עבודה ממוקדים</div>
+      </div>
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">הצלחת המנטוריות</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>הרגישו משמעותיות, שלטו בחומר ותרמו רבות — במיוחד כשעבדו בזוגות</li>
+          <li><span class="bullet-dot"></span>דפי עבודה ממוקדים לבוקר סייעו מאוד להנחייה</li>
+        </ul>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">פערי ההדרכה של צוות הטכנודע</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>יום ראשון — מקצועיות אדירה, החזיקו את האירוע מעולה</li>
+          <li><span class="bullet-dot"></span>יום שני — נתק בין המדריכים לקונטקסט העסקי-תחרותי (בניית מפת דרכים למוצר, הצגה לשופטים)</li>
+          <li><span class="bullet-dot"></span>המדריכים עזבו ב-15:00 — בדיוק בשלב הלחוץ ביותר של הכנת הכיתות לשיפוט</li>
+          <li><span class="bullet-dot"></span>צוות הניהול המצומצם נותר לסחוב כיסאות בעצמו בלחץ אדיר</li>
+        </ul>
+      </div>
+
+      <div class="warning-box">
+        <span class="icon">⚠️</span>
+        <span>חובה להגדיר מראש: צוות המדריכים נשאר עד לסיום הכנת החדרים לשיפוט ולא עוזב ב-15:00</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 4. תוכן ולוגיסטיקה ── -->
+  <div class="section-card s4">
+    <div class="section-header">
+      <div class="section-icon">⏱️</div>
+      <div class="section-title">
+        <span class="section-num">סעיף 4</span>
+        <h2>דיוק התוכן והלוגיסטיקה</h2>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">ספר המוצר / המותג</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>למרות ההשקעה הרבה, הבנות והמנטוריות כמעט לא השתמשו בו מול השופטים בשל קוצר זמן (סדנאות של 45 דקות)</li>
+          <li><span class="bullet-dot"></span>נדרש: לדייק, לנווט מחדש ואולי לקצר את הספר כדי שייתן ערך אמיתי בפועל</li>
+        </ul>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">ניהול זמני שיפוט וטקס</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>המעבר המיידי מסיום השיפוט ב-16:00 ישירות לטקס — לא הותיר זמן לארגן תעודות ומצגת זוכים</li>
+          <li><span class="bullet-dot"></span>חובה להוסיף <strong>"באפר" של 15–30 דקות</strong> בין שלב השיפוט לטקס הסיום</li>
+        </ul>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">תשתיות טכניות</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>מערכת הכריזה בחוץ לא התמודדה עם כמות האנשים ולא נשמעה היטב — טעון פתרון לשנה הבאה</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 5. הכללה וגיוון ── -->
+  <div class="section-card s5">
+    <div class="section-header">
+      <div class="section-icon">🌍</div>
+      <div class="section-title">
+        <span class="section-num">סעיף 5</span>
+        <h2>הכללה (Inclusion) וגיוון אוכלוסיות</h2>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="success-box">
+        <span class="icon">🌟</span>
+        <span>התוכנית הצליחה לשלב אוכלוסיות מגוונות בצורה מרשימה — הישג שחשוב לשמר ולחזק</span>
+      </div>
+
+      <div class="bullet-group" style="margin-top:16px">
+        <div class="bullet-group-title">הצלחות גיוון</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>בנות חרדיות — הפגינו רמה אישית ומדעית גבוהה מאוד</li>
+          <li><span class="bullet-dot"></span>בנות מהחברה הערבית / דרוזית — מילאו <strong>חמש קבוצות שלמות</strong></li>
+        </ul>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">נקודה קריטית לתכנון</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>מועד יום השיא השנה חפף את חודש <strong>הרמדאן</strong> — הדבר הקשה על גיוס מנטוריות ושופטים דוברי ערבית ועל התלמידות עצמן</li>
+        </ul>
+      </div>
+
+      <div class="warning-box">
+        <span class="icon">📅</span>
+        <span>מסקנה חד-משמעית: לתכנן את לוח הזמנים העתידי <strong>מחוץ לחודש הרמדאן</strong> לאפשר שוויון הזדמנויות מלא</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 6. יחסי ציבור ומבט קדימה ── -->
+  <div class="section-card s6">
+    <div class="section-header">
+      <div class="section-icon">🚀</div>
+      <div class="section-title">
+        <span class="section-num">סעיף 6</span>
+        <h2>מבט קדימה ויחסי ציבור</h2>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">מגבלות ולקחים — יחסי ציבור</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>תחום השיווק ויח"צ נפגע אנושות בעקבות המלחמה — כל תשומת הלב התקשורתית הוסטה ומנעה סיקור רחב (כולל הופעה בערוץ 12)</li>
+          <li><span class="bullet-dot"></span>לשנה הבאה: שילוב כוחות עם <strong>מערך יח"צ הטכנודע</strong> מוקדם ככל האפשר</li>
+        </ul>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">הזדמנויות חדשות</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>רעיון לחיבור המשתתפות למוזיאון הרפואה של הטכנודע</li>
+          <li><span class="bullet-dot"></span>פרויקט אינטראקטיבי סביב <strong>קיר החיסונים</strong> שבמוזיאון — כהרחבה אפשרית של התוכנית</li>
+        </ul>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="bullet-group">
+        <div class="bullet-group-title">פעולות מיידיות שסוכמו</div>
+        <ul class="bullets">
+          <li><span class="bullet-dot"></span>פגישת צהריים לצוות המצומצם — "הערכה ומדידה"</li>
+          <li><span class="bullet-dot"></span>לאחר מכן: פגישת <strong>צוות מלאה</strong> להתנעת שנת הפעילות הבאה</li>
+        </ul>
+      </div>
+
+      <div class="action-box">
+        <span class="icon">📌</span>
+        <span>לקבוע תאריכים לשתי הפגישות ולהפיץ לכלל הצוות בהקדם</span>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<div class="page-footer">
+  נשים מובילות מדע · פגישת סיכום שנתי · הופק על ידי צוות הטכנודע
+</div>
+
+</body>
+</html>
